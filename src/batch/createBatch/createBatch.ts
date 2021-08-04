@@ -21,10 +21,10 @@ export interface createBatches {
 export default async function createBatch(event: createBatches) {
 
     await client.connect();
-    let whatever = [event.body.batchSize, event.body.curriculumId, event.body.endDate, event.body.startDate,
+    let batch = [event.body.batchSize, event.body.curriculumId, event.body.endDate, event.body.startDate,
     event.body.trainerId, event.body.clientId];
 
-    const res = await client.query(text, whatever)
+    const res = await client.query(text, batch)
     await client.end()
     console.log(res.rows);
     return new HTTPResponse(201, 'Batch Created')
