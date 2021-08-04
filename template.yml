@@ -9,39 +9,36 @@ Resources:
 
   # Cognito
 
-  # Lambda Template
-  LambdaName:
+  # Client lambdas
+  getAllClients:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: FunctionName
+      FunctionName: p3-getAllClients
       PackageType: Image
       ImageConfig:
         Command:
-          - ImageCommand
-      Description: Function Description
+          - /p3/handler/getAllClientsFn/getAllClients.handler
+      Description: Get all clients
       Events:
         ApiEvent:
           Type: Api
           Properties:
-            Path: API path
-            Method: HTTP Method
-            RequestParameters:
-              - Path or Query parameter
-      Policies: IAM policy
+            Path: /client
+            Method: get
+      Policies: ###
     Metadata:
       Dockerfile: Dockerfile
-      DockerContext: ./
-      DockerTag: Latest
-
-  # Client lambdas
+      DockerContext: ./dist/client/
+      DockerTag: client
+  
   addClient:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: addClient
+      FunctionName: p3-addClient
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/getAllClientsFn/getAllClients.handler
+          - /p3/handler/addClientFn/addClient.handler
       Description: Add a client
       Events:
         ApiEvent:
@@ -52,7 +49,709 @@ Resources:
       Policies: ###
     Metadata:
       Dockerfile: Dockerfile
-      DockerContext: ./client/
+      DockerContext: ./dist/client/
       DockerTag: client
 
-  getClient
+  getClient:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getClient
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getClientFn/getClient.handler
+      Description: Get a client
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /client/id/{clientId}
+            Method: post
+            RequestParameters:
+              - method.request.path.clientId
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/client/
+      DockerTag: client
+
+  getClientByName:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getClientByName
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getClientByNameFn/getClientNyName.handler
+      Description: Get a client by client name
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /client/name/{clientName}
+            Method: post
+            RequestParameters:
+              - method.request.path.clientName
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/client/
+      DockerTag: client
+
+  # Demand lambdas
+  getAllDemands:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getAllDemands
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getAllDemandsFn/getAllDemands.handler
+      Description: Get all demands
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /demand
+            Method: get
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/demand/
+      DockerTag: demand
+
+  createDemand:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-createDemand
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/createDemandFn/createDemand.handler
+      Description: Create a demand
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /demand
+            Method: post
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/demand/
+      DockerTag: demand
+
+  getDemandById:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getDemandById
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getDemandByIdFn/getDemandById.handler
+      Description: Get a demand by id
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /demand/id/{demandId}
+            Method: get
+            RequestParameters:
+              - method.request.path.demandId
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/demand/
+      DockerTag: demand
+
+  getDemandByDate:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getDemandByDate
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getDemandByDateFn/getDemandByDate.handler
+      Description: Get a demand by date range
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /demand/date/{start}/{end}
+            Method: get
+            RequestParameters:
+              - method.request.path.start
+              - method.request.path.end
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/demand/
+      DockerTag: demand
+
+  getDemandsByClient:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getDemandsByClient
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getDemandsByClientFn/getDemandsByClient.handler
+      Description: Get all demands for a client
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /demand/client/{clientId}
+            Method: get
+            RequestParameters:
+              - method.request.path.clientId
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/demand/
+      DockerTag: demand
+
+  getDemandByCurriculum:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getDemandByCurriculum
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getDemandByCurriculumFn/getDemandByCurriculum.handler
+      Description: Get total demand for a curriculum with optional date range
+      Events:
+        ApiEvent1:
+          Type: Api
+          Properties:
+            Path: /demand/curriculum/{curriculumId}
+            Method: get
+            RequestParameters:
+              - method.request.path.curriculumId
+        ApiEvent2:
+          Type: Api
+          Properties:
+            Path: /demand/curriculum/{curriculumId}/{start}/{end}
+            Method: get
+            RequestParameters:
+              - method.request.path.curriculumId
+              - method.request.path.start
+              - method.request.path.end
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/demand/
+      DockerTag: demand
+
+  # Batch lambdas
+  getAllBatches:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getAllBatches
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getAllBatchesFn/getAllBatches.handler
+      Description: Get all batches
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch
+            Method: get
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/batch/
+      DockerTag: batch
+
+  createBatch:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-createBatch
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/createBatchFn/createBatch.handler
+      Description: Create a batch
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch
+            Method: post
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/batch/
+      DockerTag: batch
+
+  updateBatch:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-updateBatch
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/updateBatchFn/updateBatch.handler
+      Description: Update a batch
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch
+            Method: put
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/batch/
+      DockerTag: batch
+
+  getBatchesByCurriculum:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getBatchesByCurriculum
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getBatchesByCurriculumFn/getBatchesByCurriculum.handler
+      Description: Get all batches using a given curriculum
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch/curriculum/{curriculumId}
+            Method: get
+            RequestParameters:
+              - method.request.path.curriculumId
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/batch/
+      DockerTag: batch
+
+  getBatchesByTrainer:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getBatchesByTrainer
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getBatchesByTrainerFn/getBatchesByTrainer.handler
+      Description: Get all batches using a given trainer
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch/trainer/{trainerId}
+            Method: get
+            RequestParameters:
+              - method.request.path.trainerId
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/batch/
+      DockerTag: batch
+
+  getBatchById:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getBatchById
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getBatchByIdFn/getBatchById.handler
+      Description: Get batch by id
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch/id/{batchId}
+            Method: get
+            RequestParameters:
+              - method.request.path.batchId
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/batch/
+      DockerTag: batch
+
+  removeBatch:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-removeBatch
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/removeBatchFn/removeBatch.handler
+      Description: Delete a batch by id
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch/id/{batchId}
+            Method: delete
+            RequestParameters:
+              - method.request.path.batchId
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/batch/
+      DockerTag: batch
+
+  # Curriculum lambdas
+  getAllCurricula:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getAllCurricula
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getAllCurriculaFn/getAllCurricula.handler
+      Description: Get all curricula
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /curriculum
+            Method: get
+      Policies: ###
+    Metadata: 
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/curriculum/
+      DockerTag: curriculum
+
+  insertCurriculum:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-insertCurriculum
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/insertCurriculumFn/insertCurriculum.handler
+      Description: Add a curriculum
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /curriculum
+            Method: post
+      Policies: ###
+    Metadata: 
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/curriculum/
+      DockerTag: curriculum
+
+  getCurriculum:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getCurriculum
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getCurriculumFn/getCurriculum.handler
+      Description: Get a curriculum by id
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /curriculum/id/{curriculumId}
+            Method: get
+            RequestParameters:
+              - method.request.path.curriculumId
+      Policies: ###
+    Metadata: 
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/curriculum/
+      DockerTag: curriculum
+
+  deleteCurriculum:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-deleteCurriculum
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/deleteCurriculumFn/deleteCurriculum.handler
+      Description: Delete a curriculum by id
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /curriculum/id/{curriculumId}
+            Method: get
+            RequestParameters:
+              - method.request.path.curriculumId
+      Policies: ###
+    Metadata: 
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/curriculum/
+      DockerTag: curriculum
+
+  # Skill lambdas
+  getAllSkills:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getAllSkills
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getAllSkillsFn/getAllSkills.handler
+      Description: Get all skills
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /skill
+            Method: get
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/skill/
+      DockerTag: skill
+
+  createSkill:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-createSkill
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/createSkillFn/createSkill.handler
+      Description: Create a skill
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /skill
+            Method: post
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/skill/
+      DockerTag: skill
+
+  getSkillById:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getSkillById
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getSkillByIdFn/getSkillById.handler
+      Description: Get a skill
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /skill/id/{skillId}
+            Method: get
+            RequestParameters:
+              - method.request.path.skillId
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/skill/
+      DockerTag: skill
+
+  deleteSkill:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-deleteSkill
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/deleteSkillFn/deleteSkill.handler
+      Description: Delete a skill
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /skill/id/{skillId}
+            Method: delete
+            RequestParameters:
+              - method.request.path.skillId
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/skill/
+      DockerTag: skill
+
+  getSkillByName:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getSkillByName
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getSkillByNameFn/getSkillByName.handler
+      Description: Get a skill by name
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /skill/name/{skillName}
+            Method: delete
+            RequestParameters:
+              - method.request.path.skillName
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/skill/
+      DockerTag: skill
+
+  # Trainer lambdas
+  getAllTrainers:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getAllTrainers
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getAllTrainersFn/getAllTrainers.handler
+      Description: Get all trainers
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer
+            Method: get
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/trainer/
+      DockerTag: trainer
+
+  createTrainer:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-createTrainer
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/createTrainerFn/createTrainer.handler
+      Description: Create a trainer
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer
+            Method: post
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/trainer/
+      DockerTag: trainer
+
+  updateTrainer:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-updateTrainer
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/updateTrainerFn/udpateTrainer.handler
+      Description: Update a trainer
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer
+            Method: put
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/trainer/
+      DockerTag: trainer
+
+  getTrainerById:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getTrainerById
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getTrainerByIdFn/getTrainerById.handler
+      Description: Get a trainer
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer/id/{trainerId}
+            Method: get
+            RequestParameters:
+              - method.request.path.trainerId
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/trainer/
+      DockerTag: trainer
+
+  deleteTrainer:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-deleteTrainer
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/deleteTrainerFn/deleteTrainer.handler
+      Description: Delete a trainer
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer/id/{trainerId}
+            Method: get
+            RequestParameters:
+              - method.request.path.trainerId
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/trainer/
+      DockerTag: trainer
+
+  getTrainersByFirstName:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getTrainersByFirstName
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getTrainersByFirstNameFn/getTrainersByFirstName.handler
+      Description: Get all trainers with a given first name
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer/firstname/{trainerFN}
+            Method: get
+            RequestParameters:
+              - method.request.path.trainerFN
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/trainer/
+      DockerTag: trainer
+
+  getTrainersByLastName:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getTrainersByLastName
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getTrainersByLastNameFn/getTrainersByLastName.handler
+      Description: Get all trainers with a given last name
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer/firstname/{trainerLN}
+            Method: get
+            RequestParameters:
+              - method.request.path.trainerLN
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./dist/trainer/
+      DockerTag: trainer
