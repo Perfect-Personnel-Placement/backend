@@ -8,6 +8,8 @@ Globals:
           Fn::GetAtt: [ PGRDS, Endpoint.Address ]
         RDS_PORT:
           Fn::GetAtt: [ PGRDS, Endpoint.Port ]
+        RDS_USER: postgres
+        RDS_PASSWORD: Password123!
 
 Description: Serverless backend for Revature Perfect Personnel Placement.
 
