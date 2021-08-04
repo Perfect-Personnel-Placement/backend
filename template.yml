@@ -1,0 +1,58 @@
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+
+Description: Serverless backend for Revature Perfect Personnel Placement.
+
+Resources:
+  # RDS
+
+  # Cognito
+
+  # Lambda Template
+  LambdaName:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: FunctionName
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - ImageCommand
+      Description: Function Description
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: API path
+            Method: HTTP Method
+            RequestParameters:
+              - Path or Query parameter
+      Policies: IAM policy
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./
+      DockerTag: Latest
+
+  # Client lambdas
+  addClient:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: addClient
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/getAllClientsFn/getAllClients.handler
+      Description: Add a client
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /client
+            Method: post
+      Policies: ###
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./client/
+      DockerTag: client
+
+  getClient
