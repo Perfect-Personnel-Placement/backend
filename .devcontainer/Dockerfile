@@ -13,5 +13,5 @@ FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:0-${VARIANT}
 # RUN su node -c "source /usr/local/share/nvm/nvm.sh && nvm install ${EXTRA_NODE_VERSION}"
 
 # [Optional] Uncomment if you want to install more global node packages
-# RUN su node -c "npm install -g npm@latest expo-cli@latest"
+RUN su node -c "npm install -g npm@latest sam-cli@latest"
 
