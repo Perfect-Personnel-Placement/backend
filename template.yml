@@ -1,11 +1,33 @@
 Transform: AWS::Serverless-2016-10-31
 
 Globals:
+  Function:
+    Environment:
+      Variables:
+        RDS_URL: 
+          Fn::GetAtt: [ PGRDS, Endpoint.Address ]
+        RDS_PORT:
+          Fn::GetAtt: [ PGRDS, Endpoint.Port ]
 
 Description: Serverless backend for Revature Perfect Personnel Placement.
 
 Resources:
   # RDS
+  PGRDS:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: 20
+      DBInstanceClass: db.t2.micro
+      DBInstanceIdentifier: P3-Postgres
+      DBName: P3_Database
+      EnableCloudwatchLogsExports: 
+        - postgresql
+      Engine: postgres
+      EngineVersion: 12.7
+      MasterUsername: postgres
+      MasterUserPassword: Password123!
+      PublicallyAccessible: false
+      UseDefaultProcessorFeatures: true
 
   # Cognito
 
