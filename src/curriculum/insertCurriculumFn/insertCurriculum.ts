@@ -2,49 +2,45 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text =
-  'INSERT INTO batch' +
-  ' (batchsize, curriculumid, enddate, startdate, trainerid, clientid)' +
-  ' VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+  'INSERT INTO curriculum' +
+  ' (createdby, createdon, lastmodified, lastmodifiedby, curriculumname)' +
+  ' VALUES ($1, $2, $3, $4, $5) RETURNING *';
 
-export interface createBatches {
-  batchSize: number;
-  curriculumId: number;
-  endDate: string;
-  startDate: string;
-  trainerId: number | null;
-  clientId: number | null;
+export interface createCurr {
+  createdby: string;
+  createdon: string;
+  curriculumname: string;
 }
 
-// Written by backend as group
+// Written by MJS
 export default async function handler(event: APIGatewayProxyEvent) {
   // Check that data was provided, then assign the data to a variable
   if (!event.body) {
     return new HTTPResponse(400, 'No body is given');
   }
-  const batch: createBatches = JSON.parse(event.body);
+  const curr: createCurr = JSON.parse(event.body);
 
   // Attempt to connect to the database
   try {
     await client.connect();
   } catch (err) {
     console.log(err);
-    return new HTTPResponse(500, 'Unable to Connect to the DataBase');
+    return new HTTPResponse(500, 'Unable to Connect to the Database');
   }
 
   // Set up query values into an array as required by postgres
-  const batchData = [
-    batch.batchSize,
-    batch.curriculumId,
-    batch.endDate,
-    batch.startDate,
-    batch.trainerId,
-    batch.clientId
+  const currData = [
+    curr.createdby,
+    curr.createdon,
+    curr.createdon,
+    curr.createdby,
+    curr.curriculumname
   ];
+  let res;
 
   // Assign data or return error provided by the database
-  let res;
   try {
-    res = await client.query(text, batchData);
+    res = await client.query(text, currData);
   } catch (err) {
     console.log(err);
     await client.end();
