@@ -1,13 +1,19 @@
-import handler from './getAllClients';
+import handler from './getClientByName';
 jest.mock('../../global/postgres')
 
 import client from '../../global/postgres'
 import { APIGatewayProxyEvent } from 'aws-lambda';
+const input: unknown = { pathParameters: { clientName: "jeff" } }
 
-describe('getAllClients handler', () => {
+describe('getClientByName handler', () => {
+    it('should fail with 400, from an invalid path parameter', async () => {
+        const res = await handler({} as APIGatewayProxyEvent);
+        expect(res.statusCode).toEqual(400);
+    })
+
     it('should succeed with 200, from a valid input', async () => {
         (client.query as jest.Mock).mockResolvedValueOnce({ rows: {} })
-        const res = await handler({} as APIGatewayProxyEvent);
+        const res = await handler(input as APIGatewayProxyEvent);
         expect(res.statusCode).toEqual(200);
     })
 
@@ -15,7 +21,7 @@ describe('getAllClients handler', () => {
         (client.connect as jest.Mock).mockImplementationOnce(() => {
             throw "error"
         })
-        const res = await handler({} as APIGatewayProxyEvent)
+        const res = await handler(input as APIGatewayProxyEvent)
         expect(res.statusCode).toEqual(500);
     })
 
@@ -23,7 +29,7 @@ describe('getAllClients handler', () => {
         (client.query as jest.Mock).mockImplementationOnce(() => {
             throw "error"
         })
-        const res = await handler({} as APIGatewayProxyEvent)
+        const res = await handler(input as APIGatewayProxyEvent)
         expect(res.statusCode).toEqual(400)
     })
 })
