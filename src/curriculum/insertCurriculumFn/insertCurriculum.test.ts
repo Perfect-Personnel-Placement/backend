@@ -1,17 +1,17 @@
-import handler from './createBatch';
+import handler from './insertCurriculum';
 jest.mock('../../global/postgres');
 
 import client from '../../global/postgres';
-import { batch } from '../../global/mockTable';
+import { curriculum } from '../../global/mockTable';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
-describe('Create the Batch Handler', () => {
+describe('Insert Curriculum Handler', () => {
   it('should succeed with 201, from a valid input', async () => {
     (client.query as jest.Mock).mockImplementationOnce(() => {
-      return { rows: batch }; // look into mockReturn
+      return { rows: curriculum }; // look into mockReturn
     });
     const res = await handler({
-      body: JSON.stringify(batch)
+      body: JSON.stringify(curriculum)
     } as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(201);
   });
@@ -26,7 +26,7 @@ describe('Create the Batch Handler', () => {
       throw 'error';
     });
     const res = await handler({
-      body: JSON.stringify(batch)
+      body: JSON.stringify(curriculum)
     } as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(500);
   });
@@ -36,7 +36,7 @@ describe('Create the Batch Handler', () => {
       throw 'error';
     });
     const res = await handler({
-      body: JSON.stringify(batch)
+      body: JSON.stringify(curriculum)
     } as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(400);
   });

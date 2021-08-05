@@ -1,14 +1,18 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import pgClient from '../../global/postgres';
-const text = 'SELECT * FROM client';
+const text = 'SELECT * FROM client WHERE clientname = $1';
 
 export interface createClient {
     clientName: string;
 }
 
-// written by JB
+// written by jb
 export default async function handler(event: APIGatewayProxyEvent) {
+    // Return error if no path parameters provided
+    if (!event.pathParameters || !event.pathParameters.clientName) return new HTTPResponse(400, "Invalid input");
+    const data = [event.pathParameters.clientName]
+    
     // Connect to the db
     try {
         await pgClient.connect();
@@ -20,7 +24,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     // Get the data from the db
     let res;
     try {
-        res = await pgClient.query(text)
+        res = await pgClient.query(text, data)
     } catch (err) {
         console.log(err);
         await pgClient.end()

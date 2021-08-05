@@ -1,21 +1,23 @@
-import handler from './getSkillById';
+import handler from './deleteSkill';
 jest.mock('../../global/postgres')
 
 import client from '../../global/postgres'
+import { skill } from '../../global/mockTable'
 import { APIGatewayProxyEvent } from 'aws-lambda';
-const input: unknown = { pathParameters: { skillId: 1 } }
+const input: unknown = { pathParameters: skill }
 
-// Written by BWK
-describe('Get Skill by ID Handler', () => {
-    it('should fail with 400, from an invalid path parameter', async () => {
-        const res = await handler({} as APIGatewayProxyEvent);
-        expect(res.statusCode).toEqual(400);
-    })
-
+describe('Delete a Skill Handler', () => {
     it('should succeed with 200, from a valid input', async () => {
-        (client.query as jest.Mock).mockResolvedValueOnce({ rows: {} })
+        (client.query as jest.Mock).mockImplementationOnce(() => {
+            return { rows: skill } // look into mockReturn
+        })
         const res = await handler(input as APIGatewayProxyEvent);
         expect(res.statusCode).toEqual(200);
+    })
+
+    it('should fail with 400, from a null body', async () => {
+        const res = await handler({} as APIGatewayProxyEvent)
+        expect(res.statusCode).toEqual(400);
     })
 
     it('should fail with 500, from a database connection error', async () => {
@@ -33,4 +35,5 @@ describe('Get Skill by ID Handler', () => {
         const res = await handler(input as APIGatewayProxyEvent)
         expect(res.statusCode).toEqual(400)
     })
+
 })

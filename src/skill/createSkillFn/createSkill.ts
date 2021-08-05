@@ -1,40 +1,44 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
-const text = 'SELECT * FROM skill WHERE (skillid = $1)';
+const text = 'INSERT INTO skill (skillname) VALUES ($1) RETURNING *';
 
-// written by BWK
+//  written by: JAK
+export interface createSkills {
+    // skillid: number;
+    skillName: string;
+}
+
 export default async function handler(event: APIGatewayProxyEvent) {
-    // Double-checks that neither pathParameters nor skillId are undefined
-    //  If undefined, reject with code 400
-    if (!event.pathParameters || !event.pathParameters.skillId) {
-        return new HTTPResponse(400, "Invalid path parameters")
+    //checks if there is a body in the request 
+    if (!event.body) {
+        return new HTTPResponse(400, "No body is given")
     }
-    const skill = (event.pathParameters.skillId)
+    // parses the information from the body
+    const skill: createSkills = JSON.parse(event.body)
 
-    // Attempt to establish a connection; in the case of a failure, give
-    //  error code 500
+    // try block so that we can check if there is a connection error 
     try {
         await client.connect();
+
     } catch (err) {
         console.log(err)
         return new HTTPResponse(500, "Unable to Connect to the Database")
     }
-
-    const skillData = [skill];
+    // Assign the data or return an error if it doesnt work
+    const skillData = [skill.skillName];
     let res;
 
-    // Attempts to retrieve rows using skillId.
     try {
         res = await client.query(text, skillData)
+
     } catch (err) {
         console.log(err);
         await client.end()
         return new HTTPResponse(400, "Unable to Query the information")
     }
-
-    // If all went well, returns everything that the query retrieved
+    // closes the query and then returns a code
     await client.end()
     console.log(res.rows);
-    return new HTTPResponse(200, res.rows)
+    return new HTTPResponse(201, res.rows)
 };
