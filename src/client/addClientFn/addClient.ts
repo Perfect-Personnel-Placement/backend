@@ -1,14 +1,22 @@
+
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import pgClient from '../../global/postgres';
-const text = 'SELECT * FROM client';
+const text = 'INSERT INTO client (clientname)' +
+    ' VALUES ($1) RETURNING *';
 
 export interface createClient {
     clientName: string;
 }
 
-// written by JB
+// Written by JB
 export default async function handler(event: APIGatewayProxyEvent) {
+    // Return an error if no body provided
+    if (!event.body) {
+        return new HTTPResponse(400, "No body is given")
+    }
+    const client: createClient = JSON.parse(event.body)
+
     // Connect to the db
     try {
         await pgClient.connect();
@@ -16,11 +24,13 @@ export default async function handler(event: APIGatewayProxyEvent) {
         console.log(err)
         return new HTTPResponse(500, "Unable to Connect to the Database")
     }
-    
-    // Get the data from the db
+
+    // Send the data to the db
+    const clientData = [client.clientName];
     let res;
     try {
-        res = await pgClient.query(text)
+        res = await pgClient.query(text, clientData)
+
     } catch (err) {
         console.log(err);
         await pgClient.end()
@@ -29,5 +39,5 @@ export default async function handler(event: APIGatewayProxyEvent) {
 
     // Return success
     await pgClient.end()
-    return new HTTPResponse(200, res.rows)
+    return new HTTPResponse(201, res.rows)
 };

@@ -17,3 +17,8 @@ export const sampleCurr = {
   id: '9001',
   name: 'now you see me'
 };
+
+export const skill = {
+    skillname: "whatever",
+    skillId: 10
+}

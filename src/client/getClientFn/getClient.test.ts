@@ -1,12 +1,11 @@
-import handler from './getSkillById';
+import handler from './getClient';
 jest.mock('../../global/postgres')
 
 import client from '../../global/postgres'
 import { APIGatewayProxyEvent } from 'aws-lambda';
-const input: unknown = { pathParameters: { skillId: 1 } }
+const input: unknown = { pathParameters: { clientId: 1 } }
 
-// Written by BWK
-describe('Get Skill by ID Handler', () => {
+describe('getClient handler', () => {
     it('should fail with 400, from an invalid path parameter', async () => {
         const res = await handler({} as APIGatewayProxyEvent);
         expect(res.statusCode).toEqual(400);
