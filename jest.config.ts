@@ -20,7 +20,8 @@ export default {
   collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ["src/**/*.ts"],
+  // collectCoverageFrom: ["src/**/*.ts"],
+  collectCoverageFrom: ["<rootDir>/src/batch/createBatch/createBatch.ts"],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "coverage",
@@ -91,7 +92,7 @@ export default {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  preset: "jest-dynalite",
+  // preset: "jest-dynalite",
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -123,7 +124,7 @@ export default {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  setupFiles: ['dotenv/config']
+  // setupFiles: ['dotenv/config']
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],

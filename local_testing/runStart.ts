@@ -1,7 +1,6 @@
-import createBatch from './createBatch';
-jest.mock('../../global/postgres')
+import createBatch from '../src/batch/createBatch/createBatch'
 
-const batch = {
+const meh = {
     body: {
         batchSize: 1,
         curriculumId: 1, //we provide, perhaps may change this, like name
@@ -12,9 +11,4 @@ const batch = {
     }
 }
 
-
-it('create a batch', async () => {
-    const res = await createBatch(batch);
-    console.log(res);
-    expect(res.statusCode).toEqual(201);
-})
+createBatch(meh)
