@@ -21,4 +21,12 @@ export const sampleCurr = {
 export const skill = {
     skillname: "whatever",
     skillId: 10
-}
+};
+
+export const trainer = {
+    trainerId: 123,
+    email: "test@gmail.com",
+    trainerfirst: "Robert",
+    trainerlast: "Connell"
+};
+
