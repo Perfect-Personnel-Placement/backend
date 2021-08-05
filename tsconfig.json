@@ -72,6 +72,7 @@
   "exclude": [
     "jest.config.ts",
     "**/*.test.ts",
-    "**/TestS3Fn/*"
+    "**/TestS3Fn/*",
+    "local_testing/*"
   ]
 }

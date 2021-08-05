@@ -5,11 +5,18 @@ FROM public.ecr.aws/lambda/nodejs:14
 WORKDIR /p3/
 
 # Copy production files to container
-COPY ../global ./global
+COPY dist/global ./global
 
-COPY ../package*.json ./
-
-COPY  * ./handler
+COPY package*.json ./
 
 # Install the required packages
-RUN npm install
+RUN npm install --only=prod
+
+
+FROM public.ecr.aws/lambda/nodejs:14
+
+WORKDIR /p3/
+
+COPY --from=0 /p3 /p3
+
+COPY dist/batch ./handler
