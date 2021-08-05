@@ -7,7 +7,7 @@ const text = 'DELETE FROM skill WHERE (skillid = $1) RETURNING *';
 export default async function handler(event: APIGatewayProxyEvent) {
     // checks if there is a body
     if (!event.pathParameters || !event.pathParameters.skillId) {
-        return new HTTPResponse(400, "No body is given")
+        return new HTTPResponse(400, "Invalid Path Parameters")
     }
     const skill = (event.pathParameters.skillId)
     // checks if there is an issue connecting to the database

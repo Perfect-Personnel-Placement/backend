@@ -6,7 +6,7 @@ const text = 'INSERT INTO skill (skillname) VALUES ($1) RETURNING *';
 //  written by: JAK
 export interface createSkills {
     // skillid: number;
-    skillname: string;
+    skillName: string;
 }
 
 export default async function handler(event: APIGatewayProxyEvent) {
@@ -26,7 +26,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
         return new HTTPResponse(500, "Unable to Connect to the Database")
     }
     // Assign the data or return an error if it doesnt work
-    const skillData = [skill.skillname];
+    const skillData = [skill.skillName];
     let res;
 
     try {
