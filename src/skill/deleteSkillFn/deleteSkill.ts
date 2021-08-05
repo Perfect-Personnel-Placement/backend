@@ -2,13 +2,15 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'DELETE FROM skill WHERE (skillid = $1) RETURNING *';
+// written by: JAK
 
 export default async function handler(event: APIGatewayProxyEvent) {
+    // checks if there is a body
     if (!event.pathParameters || !event.pathParameters.skillId) {
         return new HTTPResponse(400, "No body is given")
     }
     const skill = (event.pathParameters.skillId)
-
+    // checks if there is an issue connecting to the database
     try {
         await client.connect();
 
@@ -19,7 +21,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
 
     const skillData = [skill];
     let res;
-
+    // assigns the data or throws and error
     try {
         res = await client.query(text, skillData)
 
