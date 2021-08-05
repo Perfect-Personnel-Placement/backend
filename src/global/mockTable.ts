@@ -6,3 +6,8 @@ export const batch = {
     trainerId: null, //we provide, perhaps may change this, like name
     clientId: null, //we provide, perhaps may change this, like name
 }
+
+export const skill = {
+    skillname: "whatever",
+    skillId: 10
+}
