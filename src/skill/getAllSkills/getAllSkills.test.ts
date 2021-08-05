@@ -4,7 +4,8 @@ jest.mock('../../global/postgres')
 import client from '../../global/postgres'
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
-describe('Create the Skill Delete Handler', () => {
+// Written by BWK
+describe('Get All Skills Handler', () => {
     it('should succeed with 200, from a valid input', async () => {
         (client.query as jest.Mock).mockResolvedValueOnce({ rows: {} });
         const res = await handler({} as APIGatewayProxyEvent);
