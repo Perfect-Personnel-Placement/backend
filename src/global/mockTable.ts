@@ -6,3 +6,10 @@ export const batch = {
     trainerId: null, //we provide, perhaps may change this, like name
     clientId: null, //we provide, perhaps may change this, like name
 }
+
+export const trainer = {
+    trainerId: 123,
+    email: "test@gmail.com",
+    trainerfirst: "Robert",
+    trainerlast: "Connell"
+}

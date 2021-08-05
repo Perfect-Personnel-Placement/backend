@@ -2,6 +2,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
+
 const text = 'INSERT INTO batch (batchsize, curriculumid, enddate, startdate, trainerid, clientid)' +
     ' VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
 
