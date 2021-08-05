@@ -4,7 +4,7 @@ import { trainer } from '../../global/mockTable'
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import handler from './createTrainer';
 
-describe('Testing Create Trainer  Handler', () => {
+describe('Testing CreateTrainer  Handler', () => {
     it('should succeed with 201, from a valid input', async () => {
         (client.query as jest.Mock).mockImplementationOnce(() => {
             return { rows: trainer } // look into mockReturn

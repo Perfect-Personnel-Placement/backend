@@ -5,7 +5,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import handler from './deleteTrainer';
 const input: unknown = { pathParameters: trainer }
 
-describe('Testing Delete Trainer  Handler', () => {
+describe('Testing DeleteTrainer  Handler', () => {
     it('should succeed with status code 200', async () => {
         (client.query as jest.Mock).mockImplementationOnce(() => {
             return { rows: trainer } // look into mockReturn
