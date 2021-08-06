@@ -21,7 +21,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
   } catch (err) {
     console.log(err);
     await client.end();
-    return new HTTPResponse(400, 'Unable to Query the information');
+    return new HTTPResponse(400, 'Unable to Query the informatio');
   }
 
   // Close the database connection and return the data

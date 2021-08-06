@@ -4,7 +4,7 @@ jest.mock('../../global/postgres')
 import client from '../../global/postgres'
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
-// Written by BWK
+// Written by DF
 describe('Get All Demands Handler', () => {
     it('should succeed with 200, from a valid input', async () => {
         (client.query as jest.Mock).mockResolvedValueOnce({ rows: {} });
