@@ -1,12 +1,12 @@
-import handler from './getSkillById';
+import handler from './getSkillByName';
 jest.mock('../../global/postgres')
 
 import client from '../../global/postgres'
 import { APIGatewayProxyEvent } from 'aws-lambda';
-const input: unknown = { pathParameters: { skillId: 1 } }
+const input: unknown = { pathParameters: { skillName: "Tennis" } }
 
 // Written by BWK
-describe('Get Skill by ID Handler', () => {
+describe('Get Skill by Name Handler', () => {
     it('should fail with 400, from an invalid path parameter', async () => {
         const res = await handler({} as APIGatewayProxyEvent);
         expect(res.statusCode).toEqual(400);
@@ -16,14 +16,6 @@ describe('Get Skill by ID Handler', () => {
         (client.query as jest.Mock).mockResolvedValueOnce({ rows: {} })
         const res = await handler(input as APIGatewayProxyEvent);
         expect(res.statusCode).toEqual(200);
-    })
-
-    it('should fail with 500, from a database connection error', async () => {
-        (client.connect as jest.Mock).mockImplementationOnce(() => {
-            throw "error"
-        })
-        const res = await handler(input as APIGatewayProxyEvent)
-        expect(res.statusCode).toEqual(500);
     })
 
     it('should fail with 400, from a database query error', async () => {
