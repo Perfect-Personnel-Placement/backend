@@ -15,7 +15,7 @@ export const curriculum = {
 export const demand = {
   clientid: 1,
   curriculumid: 1,
-  needby: new Date('8/6/2021').toJSON(),
+  needby: new Date('8/6/2021').toISOString().substring(0, 10),
   quantitydemanded: 69
 };
 export const sampleCurr = {
