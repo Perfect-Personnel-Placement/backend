@@ -7,22 +7,11 @@ const text = 'SELECT * FROM demand WHERE needby BETWEEN $1 AND $2 RETURNING *';
 //Written by Nick Wang
 export default async function handler(event: APIGatewayProxyEvent) {
     //Check if the path parameters were null
-    console.log(event.pathParameters);
     if (!event.pathParameters || !event.pathParameters.start || !event.pathParameters.end) {
         return new HTTPResponse(400, "No path parameters")
     }
     const start = event.pathParameters.start;
     const end = event.pathParameters.end;
-    
-    if((event.pathParameters.start && event.pathParameters.end))
-    //Try connecting to the Databse
-    try {
-        await client.connect();
-
-    } catch (err) {
-        console.log(err)
-        return new HTTPResponse(500, "Unable to Connect to the DataBase")
-    }
     const demandData = [start,end];
     let res;
     //Try querying the DataBase
@@ -31,10 +20,8 @@ export default async function handler(event: APIGatewayProxyEvent) {
 
     } catch (err) {
         console.log(err);
-        await client.end()
         return new HTTPResponse(400, "Unable to Query the information")
     }
     //Return the row deleted
-    await client.end()
     return new HTTPResponse(200, res.rows)
 };
