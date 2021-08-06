@@ -10,16 +10,7 @@ describe('Get All Curriculua Handler', () => {
       return { rows: sampleCurr }; // look into mockReturn
     });
     const res = await handler();
-    console.log('Get Data Retreived: ', res);
     expect(res.statusCode).toEqual(200);
-  });
-
-  it('should fail with 500, from a database connection error', async () => {
-    (client.connect as jest.Mock).mockImplementationOnce(() => {
-      throw 'error';
-    });
-    const res = await handler();
-    expect(res.statusCode).toEqual(500);
   });
 
   it('should fail with 400, from a database query error', async () => {
