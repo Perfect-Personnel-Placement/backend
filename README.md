@@ -10,6 +10,17 @@ The interface used can be found at
 
 ## Project Description
 
+The Serverless Training planner is a serverless mobile app that Revature
+managers can use to look at important information regarding clientele demands
+and batch output for the company. This service will visualize all current
+batches that are planned along with any associated information, as well as
+visualize that batch output alongside the client demand for associates. Managers
+will be able to input information for clients, and their demands, as well as
+input Batches which consist of a curriculum composed of skills, a number of
+associates, a trainer, and the duration of when the batch is planned. This
+service will help ease the management of supply and demand for the company and
+will be an organizational aid.
+
 ## Technologies Used
 
 - AWS SAM
@@ -21,13 +32,17 @@ The interface used can be found at
 - AWS RDS
 - PostgreSQL
 - NodeJS
-- Jest (w/ Dynalite)
-
-## Features
+- Jest
 
 ## Getting Started
 
-## Usage
+See STARTUP.md (in the current folder) for instructions on how to get the
+application up and running.
+Once running, use according to the instructions below.
+
+Potential improvements have been noted in IMPROVE.md (in the current folder).
+
+## Features & Usage
 
 The following API calls can be made. The list below applies to ALL endpoints:
 
@@ -40,6 +55,40 @@ The following API calls can be made. The list below applies to ALL endpoints:
   For example, Friday 6 August 2021 would be sent as `'2021-08-06'`.
 
 ### Batch
+
+- `GET` to `/batch` will get all batches
+- `POST` to `/batch` will create a new batch (will be unconfirmed);
+  requires the following body:
+  ```JSON
+  {
+    "batchSize": number,
+    "curriculumId": number,
+    "endDate": string,
+    "startDate": string,
+    "trainerId": number | null,
+    "clientId": number | null,
+  }
+  ```
+- `PUT` to `/batch` will update an existing batch;
+  requires the following body:
+  ```JSON
+  {
+    "batchSize": number,
+    "batchId": number,
+    "curriculumId": number,
+    "endDate": string,
+    "startDate": string,
+    "trainerId": number | null,
+    "clientId": number | null,
+    "confirmed": boolean
+  }
+  ```
+- `GET` to `/batch/curriculum/:curriculumId` will get all batches
+  with the specified curriculum
+- `GET` to `/batch/id/:batchId` will get the batch with the specified ID
+- `DELETE` to `/batch/id/:batchId` will delete the specified batch
+- `GET` to `/batch/trainer/:trainerId` will get all the batches assigned
+  to a specified trainer
 
 ### Client
 
@@ -69,7 +118,27 @@ The following API calls can be made. The list below applies to ALL endpoints:
 - `GET` to `/curriculum/id/:curriculumId` will get a specific curriculum
 - `DELETE` to `/curriculum/id/:curriculumId` will delete a specific curriculum
 
-### Demand
+### Demand (number of associates requested per curriculum)
+
+- `GET` to `/demand` will get all demands
+- `POST` to `/demand` will create a new demand;
+  requires the following body:
+  ```JSON
+  {
+    "clientid": number,
+    "curriculumid": number,
+    "needby": string,
+    "quantitydemanded": number
+  }
+  ```
+- `GET` to `/demand/client/:clientId` will get all demand from a specific client
+- `GET` to `/demand/curriculum/:curriculumId` will get all demand for a specific
+  curriculum
+- `GET` to `/demand/curriculum/:curriculumId/:startDate/:endDate` will get all
+  demand for a specific curriculum within the specified date range
+- `GET` to `/demand/date/:startDate/:endDate` will get all demand within the
+  specified date range
+- `GET` to `/demand/id/:demandId` will get a specific demand
 
 ### Skill
 
