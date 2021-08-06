@@ -4,7 +4,7 @@ import client from '../../global/postgres';
 const text = 'INSERT INTO demand (clientid, curriculumid, needby, quantitydemanded)' +
     ' VALUES ($1, $2, $3, $4) RETURNING *';
 
-//All comments Written by Samuel Smetzer
+//Written by Nick Wang
 export interface createDemand {
     clientid: number,
     curriculumid: number,

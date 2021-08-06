@@ -1,9 +1,10 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
+import { Events } from 'pg';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'SELECT * FROM demand WHERE needby BETWEEN $1 AND $2 RETURNING *';
 
-//Comments written by Samuel Smetzer
+//Written by Nick Wang
 export default async function handler(event: APIGatewayProxyEvent) {
     //Check if the path parameters were null
     console.log(event.pathParameters);
@@ -13,7 +14,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     const start = event.pathParameters.start;
     const end = event.pathParameters.end;
     
-
+    if((event.pathParameters.start && event.pathParameters.end))
     //Try connecting to the Databse
     try {
         await client.connect();
