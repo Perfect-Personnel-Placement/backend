@@ -1,49 +1,58 @@
-
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
-const text = 'INSERT INTO batch (batchsize, curriculumid, enddate, startdate, trainerid, clientid)' +
-    ' VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+
+const text =
+  'INSERT INTO batch' +
+  ' (batchsize, curriculumid, enddate, startdate, trainerid, clientid)' +
+  ' VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
 
 export interface createBatches {
-    batchSize: number;
-    // batchId: number; will be done through the database, user does not provide
-    curriculumId: number; //we provide, perhaps may change this, like name
-    endDate: string;
-    startDate: string;
-    trainerId: number | null; //we provide, perhaps may change this, like name
-    clientId: number | null; //we provide, perhaps may change this, like name
+  batchSize: number;
+  curriculumId: number;
+  endDate: string;
+  startDate: string;
+  trainerId: number | null;
+  clientId: number | null;
 }
 
-
-
+// Written by backend as group
 export default async function handler(event: APIGatewayProxyEvent) {
-    if (!event.body) {
-        return new HTTPResponse(400, "No body is given")
-    }
-    const batch: createBatches = JSON.parse(event.body).batch
+  // Check that data was provided, then assign the data to a variable
+  if (!event.body) {
+    return new HTTPResponse(400, 'No body is given');
+  }
+  const batch: createBatches = JSON.parse(event.body);
 
-    try {
-        await client.connect();
+  // Attempt to connect to the database
+  try {
+    await client.connect();
+  } catch (err) {
+    console.log(err);
+    return new HTTPResponse(500, 'Unable to Connect to the DataBase');
+  }
 
-    } catch (err) {
-        console.log(err)
-        return new HTTPResponse(500, "Unable to Connect to the DataBase")
-    }
+  // Set up query values into an array as required by postgres
+  const batchData = [
+    batch.batchSize,
+    batch.curriculumId,
+    batch.endDate,
+    batch.startDate,
+    batch.trainerId,
+    batch.clientId
+  ];
 
-    const batchData = [batch.batchSize, batch.curriculumId, batch.endDate, batch.startDate,
-    batch.trainerId, batch.clientId];
-    let res;
+  // Assign data or return error provided by the database
+  let res;
+  try {
+    res = await client.query(text, batchData);
+  } catch (err) {
+    console.log(err);
+    await client.end();
+    return new HTTPResponse(400, 'Unable to Query the information');
+  }
 
-    try {
-        res = await client.query(text, batchData)
-
-    } catch (err) {
-        console.log(err);
-        await client.end()
-        return new HTTPResponse(400, "Unable to Query the information")
-    }
-
-    await client.end()
-    return new HTTPResponse(201, res.rows)
-};
+  // Close the databse connection and return the data
+  await client.end();
+  return new HTTPResponse(201, res.rows);
+}
