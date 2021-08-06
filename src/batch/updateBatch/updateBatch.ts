@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import pgClient from '../../global/postgres';
-const text = 'UPDATE batch' + 'SET batchSize = $1, curriculumId = $2, endDate = $3, ' + 
-    'startDate = $4, trainerId = $5, clientId = $6, confirmed = $7 WHERE batchId =  $8 RETURNING *';
+const text = 'UPDATE batch' + 'SET batchsize = $1, curriculumid = $2, enddate = $3, ' + 
+    'startdate = $4, trainerid = $5, clientid = $6, confirmed = $7 WHERE batchId =  $8 RETURNING *';
 
 export interface setBatch {
     batchSize : number,
