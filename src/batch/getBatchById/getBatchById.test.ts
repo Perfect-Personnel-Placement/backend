@@ -1,19 +1,20 @@
 jest.mock('../../global/postgres')
 import client from '../../global/postgres'
-import { demand } from '../../global/mockTable'
+import { batch } from '../../global/mockTable'
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import handler from './createDemand';
+import handler from './getBatchById';
 
-describe('Testing CreateDemand  Handler', () => {
-    it('should succeed with 201, from a valid input', async () => {
+const input: unknown = { pathParameters: batch }
+describe('Testing getBatchById Handler', () => {
+    it('should succeed with status code 200', async () => {
         (client.query as jest.Mock).mockImplementationOnce(() => {
-            return { rows: demand } // look into mockReturn
+            return { rows: batch }
         })
-        const res = await handler({ body: JSON.stringify(demand) } as APIGatewayProxyEvent);
-        expect(res.statusCode).toEqual(201);
+        const res = await handler(input as APIGatewayProxyEvent);
+        expect(res.statusCode).toEqual(200);
     })
 
-    it('should fail with 400, from a null body', async () => {
+    it('should fail with 400, from a pathparamaters is null', async () => {
         const res = await handler({} as APIGatewayProxyEvent)
         expect(res.statusCode).toEqual(400);
     })
@@ -22,7 +23,7 @@ describe('Testing CreateDemand  Handler', () => {
         (client.connect as jest.Mock).mockImplementationOnce(() => {
             throw "error"
         })
-        const res = await handler({ body: JSON.stringify(demand) } as APIGatewayProxyEvent)
+        const res = await handler(input as APIGatewayProxyEvent)
         expect(res.statusCode).toEqual(500);
     })
 
@@ -30,7 +31,7 @@ describe('Testing CreateDemand  Handler', () => {
         (client.query as jest.Mock).mockImplementationOnce(() => {
             throw "error"
         })
-        const res = await handler({ body: JSON.stringify(demand) } as APIGatewayProxyEvent)
+        const res = await handler(input as APIGatewayProxyEvent)
         expect(res.statusCode).toEqual(400)
     })
 
