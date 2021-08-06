@@ -28,7 +28,7 @@ Resources:
       EngineVersion: 12.7
       MasterUsername: postgres
       MasterUserPassword: Password123!
-      PublicallyAccessible: false
+      PubliclyAccessible: false
       UseDefaultProcessorFeatures: true
 
   # Cognito
@@ -51,8 +51,8 @@ Resources:
             Method: get
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/client/
+      Dockerfile: Dockerfile.client
+      DockerContext: ./
       DockerTag: client
   
   addClient:
@@ -72,8 +72,8 @@ Resources:
             Method: post
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/client/
+      Dockerfile: Dockerfile.client
+      DockerContext: ./
       DockerTag: client
 
   getClient:
@@ -95,8 +95,8 @@ Resources:
               - method.request.path.clientId
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/client/
+      Dockerfile: Dockerfile.client
+      DockerContext: ./
       DockerTag: client
 
   getClientByName:
@@ -118,8 +118,8 @@ Resources:
               - method.request.path.clientName
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/client/
+      Dockerfile: Dockerfile.client
+      DockerContext: ./
       DockerTag: client
 
   # Demand lambdas
@@ -140,8 +140,8 @@ Resources:
             Method: get
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/demand/
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
       DockerTag: demand
 
   createDemand:
@@ -161,8 +161,8 @@ Resources:
             Method: post
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/demand/
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
       DockerTag: demand
 
   getDemandById:
@@ -184,8 +184,8 @@ Resources:
               - method.request.path.demandId
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/demand/
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
       DockerTag: demand
 
   getDemandByDate:
@@ -208,8 +208,8 @@ Resources:
               - method.request.path.end
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/demand/
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
       DockerTag: demand
 
   getDemandsByClient:
@@ -231,8 +231,8 @@ Resources:
               - method.request.path.clientId
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/demand/
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
       DockerTag: demand
 
   getDemandByCurriculum:
@@ -263,8 +263,8 @@ Resources:
               - method.request.path.end
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/demand/
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
       DockerTag: demand
 
   # Batch lambdas
@@ -285,8 +285,8 @@ Resources:
             Method: get
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/batch/
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
       DockerTag: batch
 
   createBatch:
@@ -306,8 +306,8 @@ Resources:
             Method: post
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/batch/
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
       DockerTag: batch
 
   updateBatch:
@@ -327,8 +327,8 @@ Resources:
             Method: put
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/batch/
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
       DockerTag: batch
 
   getBatchesByCurriculum:
@@ -350,8 +350,8 @@ Resources:
               - method.request.path.curriculumId
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/batch/
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
       DockerTag: batch
 
   getBatchesByTrainer:
@@ -373,8 +373,8 @@ Resources:
               - method.request.path.trainerId
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/batch/
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
       DockerTag: batch
 
   getBatchById:
@@ -396,8 +396,8 @@ Resources:
               - method.request.path.batchId
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/batch/
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
       DockerTag: batch
 
   removeBatch:
@@ -419,8 +419,8 @@ Resources:
               - method.request.path.batchId
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/batch/
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
       DockerTag: batch
 
   # Curriculum lambdas
@@ -441,8 +441,8 @@ Resources:
             Method: get
       Policies: ###
     Metadata: 
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/curriculum/
+      Dockerfile: Dockerfile.curriculum
+      DockerContext: ./
       DockerTag: curriculum
 
   insertCurriculum:
@@ -462,8 +462,8 @@ Resources:
             Method: post
       Policies: ###
     Metadata: 
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/curriculum/
+      Dockerfile: Dockerfile.curriculum
+      DockerContext: ./
       DockerTag: curriculum
 
   getCurriculum:
@@ -485,8 +485,8 @@ Resources:
               - method.request.path.curriculumId
       Policies: ###
     Metadata: 
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/curriculum/
+      Dockerfile: Dockerfile.curriculum
+      DockerContext: ./
       DockerTag: curriculum
 
   deleteCurriculum:
@@ -503,13 +503,13 @@ Resources:
           Type: Api
           Properties:
             Path: /curriculum/id/{curriculumId}
-            Method: get
+            Method: delete
             RequestParameters:
               - method.request.path.curriculumId
       Policies: ###
     Metadata: 
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/curriculum/
+      Dockerfile: Dockerfile.curriculum
+      DockerContext: ./
       DockerTag: curriculum
 
   # Skill lambdas
@@ -530,8 +530,8 @@ Resources:
             Method: get
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/skill/
+      Dockerfile: Dockerfile.skill
+      DockerContext: ./
       DockerTag: skill
 
   createSkill:
@@ -551,8 +551,8 @@ Resources:
             Method: post
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/skill/
+      Dockerfile: Dockerfile.skill
+      DockerContext: ./
       DockerTag: skill
 
   getSkillById:
@@ -574,8 +574,8 @@ Resources:
               - method.request.path.skillId
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/skill/
+      Dockerfile: Dockerfile.skill
+      DockerContext: ./
       DockerTag: skill
 
   deleteSkill:
@@ -597,8 +597,8 @@ Resources:
               - method.request.path.skillId
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/skill/
+      Dockerfile: Dockerfile.skill
+      DockerContext: ./
       DockerTag: skill
 
   getSkillByName:
@@ -620,8 +620,8 @@ Resources:
               - method.request.path.skillName
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/skill/
+      Dockerfile: Dockerfile.skill
+      DockerContext: ./
       DockerTag: skill
 
   # Trainer lambdas
@@ -642,8 +642,8 @@ Resources:
             Method: get
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/trainer/
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
       DockerTag: trainer
 
   createTrainer:
@@ -663,8 +663,8 @@ Resources:
             Method: post
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/trainer/
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
       DockerTag: trainer
 
   updateTrainer:
@@ -684,8 +684,8 @@ Resources:
             Method: put
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/trainer/
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
       DockerTag: trainer
 
   getTrainerById:
@@ -707,8 +707,8 @@ Resources:
               - method.request.path.trainerId
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/trainer/
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
       DockerTag: trainer
 
   deleteTrainer:
@@ -725,13 +725,13 @@ Resources:
           Type: Api
           Properties:
             Path: /trainer/id/{trainerId}
-            Method: get
+            Method: delete
             RequestParameters:
               - method.request.path.trainerId
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/trainer/
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
       DockerTag: trainer
 
   getTrainersByFirstName:
@@ -753,8 +753,8 @@ Resources:
               - method.request.path.trainerFN
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/trainer/
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
       DockerTag: trainer
 
   getTrainersByLastName:
@@ -770,12 +770,12 @@ Resources:
         ApiEvent:
           Type: Api
           Properties:
-            Path: /trainer/firstname/{trainerLN}
+            Path: /trainer/lastname/{trainerLN}
             Method: get
             RequestParameters:
               - method.request.path.trainerLN
       Policies: ###
     Metadata:
-      Dockerfile: Dockerfile
-      DockerContext: ./dist/trainer/
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
       DockerTag: trainer
