@@ -3,8 +3,8 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'SELECT * FROM batch WHERE (batchid = $1)';
 
+//YTyler
 export default async function handler(event: APIGatewayProxyEvent) {
-    
     if (!event.pathParameters || !event.pathParameters.batchId) { //Check if the path parameters were null
         return new HTTPResponse(400, "No path parameters");
     }
