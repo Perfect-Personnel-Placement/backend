@@ -3,7 +3,7 @@ jest.mock('../../global/postgres')
 
 import client from '../../global/postgres'
 import { APIGatewayProxyEvent } from 'aws-lambda';
-const input: unknown = { pathParameters: { clientDemandId: 1 } }
+const input: unknown = { pathParameters: { clientId: 1 } }
 
 // Written by BWK
 describe('Get Demand by ID Handler', () => {

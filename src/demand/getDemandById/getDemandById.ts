@@ -5,12 +5,12 @@ const text = 'SELECT * FROM clientdemand WHERE (clientdemandid = $1)';
 
 // written by BWK
 export default async function handler(event: APIGatewayProxyEvent) {
-    // Double-checks that neither pathParameters nor clientDemandId are undefined
+    // Double-checks that neither pathParameters nor clientId are undefined
     //  If undefined, reject with code 400
-    if (!event.pathParameters || !event.pathParameters.clientDemandId) {
+    if (!event.pathParameters || !event.pathParameters.clientId) {
         return new HTTPResponse(400, "Invalid path parameters")
     }
-    const demand = (event.pathParameters.clientDemandId)
+    const demand = (event.pathParameters.clientId)
 
     // Attempt to establish a connection; in the case of a failure, give
     //  error code 500
