@@ -10,8 +10,8 @@ export interface setBatch {
     curriculumId : number,
     endDate : string,
     startDate : string,
-    trainerId : number,
-    clientId : number,
+    trainerId : number | null,
+    clientId : number | null,
     confirmed : boolean
 
 }
