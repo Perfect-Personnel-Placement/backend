@@ -30,3 +30,14 @@ export const trainer = {
     trainerlast: "Connell"
 };
 
+export const updateBatchData = {
+  batchSize : 25,
+  batchId: 11210034,
+  curriculumId : 11211,
+  endDate: '11/3/27',
+  startDate: '9/3/27',
+  trainerId: 299110,
+  clientId: 54330,
+  confirmed: true,
+
+}

@@ -5,7 +5,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 const input: unknown = { pathParameters: { curriculumId : 1 } }
 
 // Written by BWK
-describe('Get Curriculum by ID Handler', () => {
+describe('Get Batch by ID Handler', () => {
     it('should fail with 400, from an invalid path parameter', async () => {
         const res = await handler({} as APIGatewayProxyEvent);
         expect(res.statusCode).toEqual(400);

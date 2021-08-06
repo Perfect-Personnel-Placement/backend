@@ -1,4 +1,3 @@
-
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import pgClient from '../../global/postgres';

@@ -3,7 +3,7 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'SELECT * FROM batch WHERE (trainerId = $1)';
 
-// written by BWK
+// written by MH
 export default async function handler(event: APIGatewayProxyEvent) {
     // Double-checks that neither pathParameters nor trainerId are undefined
     //  If undefined, reject with code 400

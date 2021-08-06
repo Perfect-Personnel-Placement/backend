@@ -3,7 +3,7 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'DELETE FROM batch WHERE (batchId = $1) RETURNING *';
 
-//Comments written by Samuel Smetzer
+//Comments written by MH 
 export default async function handler(event: APIGatewayProxyEvent) {
     //Check if the path parameters are null
     if (!event.pathParameters || !event.pathParameters.batchId) {
