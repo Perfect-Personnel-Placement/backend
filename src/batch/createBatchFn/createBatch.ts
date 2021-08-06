@@ -24,13 +24,6 @@ export default async function handler(event: APIGatewayProxyEvent) {
   }
   const batch: createBatches = JSON.parse(event.body);
 
-  // Attempt to connect to the database
-  try {
-    await client.connect();
-  } catch (err) {
-    console.log(err);
-    return new HTTPResponse(500, 'Unable to Connect to the DataBase');
-  }
 
   // Set up query values into an array as required by postgres
   const batchData = [
@@ -48,11 +41,9 @@ export default async function handler(event: APIGatewayProxyEvent) {
     res = await client.query(text, batchData);
   } catch (err) {
     console.log(err);
-    await client.end();
     return new HTTPResponse(400, 'Unable to Query the information');
   }
 
   // Close the databse connection and return the data
-  await client.end();
   return new HTTPResponse(201, res.rows);
 }

@@ -16,12 +16,6 @@ export interface setBatch {
 
 }
 
-//Utility function
-// const dateString2Date = (dateString: string) => {
-//     var dt  = dateString.split(/\-|\s/);
-//     return new Date(dt.slice(0,3).reverse().join('-') + ' ' + dt[3]);
-//   }
-
 // Written by MH
 export default async function handler(event: APIGatewayProxyEvent) {
     // Return an error if no body provided
@@ -30,14 +24,6 @@ export default async function handler(event: APIGatewayProxyEvent) {
     }
     const batch: setBatch = JSON.parse(event.body);
 
-
-    // Connect to the db
-    try {
-        await pgClient.connect();
-    } catch (err) {
-        console.log(err)
-        return new HTTPResponse(500, "Unable to Connect to the Database")
-    }
 
     // Set up query values into an array as required by postgres
     const batchData = [
@@ -57,11 +43,9 @@ export default async function handler(event: APIGatewayProxyEvent) {
         res = await pgClient.query(text, batchData);
     } catch (err) {
          console.log(err);
-         await pgClient.end();
          return new HTTPResponse(400, 'Unable to Query the information');
     }
 
     //Return the the udated row
-    await pgClient.end()
     return new HTTPResponse(200, res.rows)
 }
