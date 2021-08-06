@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
-const text = 'SELECT * FROM batch WHERE (curriculumId = $1)';
+const text = 'SELECT * FROM batch WHERE (curriculumid = $1)';
 
 // written by MH
 export default async function handler(event: APIGatewayProxyEvent) {

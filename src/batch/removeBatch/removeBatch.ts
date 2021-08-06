@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
-const text = 'DELETE FROM batch WHERE (batchId = $1) RETURNING *';
+const text = 'DELETE FROM batch WHERE (batchid = $1) RETURNING *';
 
 //Comments written by MH 
 export default async function handler(event: APIGatewayProxyEvent) {
