@@ -17,14 +17,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
         return new HTTPResponse(400, "No body is given")
     }
     const trainer: createTrainer = JSON.parse(event.body)
-    //Try to connenct to the Database
-    try {
-        await client.connect();
 
-    } catch (err) {
-        console.log(err)
-        return new HTTPResponse(500, "Unable to Connect to the Database")
-    }
     //Data to be inserted into the INSERT query
     const trainerData = [trainer.email, trainer.trainerfirst, trainer.trainerlast];
     let res;
@@ -34,10 +27,8 @@ export default async function handler(event: APIGatewayProxyEvent) {
 
     } catch (err) {
         console.log(err);
-        await client.end()
         return new HTTPResponse(400, "Unable to Query the information")
     }
     //Return created user
-    await client.end()
     return new HTTPResponse(201, res.rows)
 };
