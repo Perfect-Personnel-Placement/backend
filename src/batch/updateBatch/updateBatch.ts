@@ -1,3 +1,4 @@
+
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import pgClient from '../../global/postgres';
@@ -10,8 +11,8 @@ export interface setBatch {
     curriculumId : number,
     endDate : string,
     startDate : string,
-    trainerId : number,
-    clientId : number,
+    trainerId : number | null,
+    clientId : number | null,
     confirmed : boolean
 
 }
@@ -22,7 +23,7 @@ export interface setBatch {
 //     return new Date(dt.slice(0,3).reverse().join('-') + ' ' + dt[3]);
 //   }
 
-// Written by JB
+// Written by MH
 export default async function handler(event: APIGatewayProxyEvent) {
     // Return an error if no body provided
     if (!event.body) {
