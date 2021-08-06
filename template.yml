@@ -14,6 +14,57 @@ Globals:
 Description: Serverless backend for Revature Perfect Personnel Placement.
 
 Resources:
+  # VPC
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.192.0.0/16
+
+  # Security group
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: p3-main-group
+      GroupDescription: The security group for accessing RDS
+      VpcId: 
+        Ref: VPC
+
+  SecurityGroupInboundRule:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: All traffic originating within the VPC security group
+      FromPort: 5432
+      ToPort: 5432
+      IpProtocol: -1
+      GroupId:
+        Ref: SecurityGroup
+      SourceSecurityGroupId: 
+        Ref: SecurityGroup
+
+  # Subnets
+  Subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: 
+        Ref: VPC
+      CidrBlock: 10.192.10.0/24
+
+  Subnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: VPC
+      CidrBlock: 10.192.11.0/24
+  
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupName: RDS Access subnet group
+      DBSubnetGroupDescription: The subnet group for allowing access to RDS
+      SubnetIds:
+        - Ref: Subnet1
+        - Ref: Subnet2
+  
   # RDS
   PGRDS:
     Type: AWS::RDS::DBInstance
@@ -30,6 +81,10 @@ Resources:
       MasterUserPassword: Password123!
       PubliclyAccessible: false
       UseDefaultProcessorFeatures: true
+      DBSubnetGroupName:
+        Ref: DBSubnetGroup
+      VPCSecurityGroups:
+        - Ref: SecurityGroup
 
   # Cognito
 
@@ -41,7 +96,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getAllClientsFn/getAllClients.handler
+          - /p3/handler/getAllClientsFn/getAllClients.default
       Description: Get all clients
       Events:
         ApiEvent:
@@ -49,7 +104,12 @@ Resources:
           Properties:
             Path: /client
             Method: get
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.client
       DockerContext: ./
@@ -62,7 +122,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/addClientFn/addClient.handler
+          - /p3/handler/addClientFn/addClient.default
       Description: Add a client
       Events:
         ApiEvent:
@@ -70,7 +130,12 @@ Resources:
           Properties:
             Path: /client
             Method: post
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.client
       DockerContext: ./
@@ -83,7 +148,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getClientFn/getClient.handler
+          - /p3/handler/getClientFn/getClient.default
       Description: Get a client
       Events:
         ApiEvent:
@@ -93,7 +158,12 @@ Resources:
             Method: post
             RequestParameters:
               - method.request.path.clientId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.client
       DockerContext: ./
@@ -106,7 +176,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getClientByNameFn/getClientNyName.handler
+          - /p3/handler/getClientByNameFn/getClientNyName.default
       Description: Get a client by client name
       Events:
         ApiEvent:
@@ -116,7 +186,12 @@ Resources:
             Method: post
             RequestParameters:
               - method.request.path.clientName
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.client
       DockerContext: ./
@@ -130,7 +205,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getAllDemandsFn/getAllDemands.handler
+          - /p3/handler/getAllDemandsFn/getAllDemands.default
       Description: Get all demands
       Events:
         ApiEvent:
@@ -138,7 +213,12 @@ Resources:
           Properties:
             Path: /demand
             Method: get
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.demand
       DockerContext: ./
@@ -151,7 +231,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/createDemandFn/createDemand.handler
+          - /p3/handler/createDemandFn/createDemand.default
       Description: Create a demand
       Events:
         ApiEvent:
@@ -159,7 +239,12 @@ Resources:
           Properties:
             Path: /demand
             Method: post
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.demand
       DockerContext: ./
@@ -172,7 +257,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getDemandByIdFn/getDemandById.handler
+          - /p3/handler/getDemandByIdFn/getDemandById.default
       Description: Get a demand by id
       Events:
         ApiEvent:
@@ -182,7 +267,12 @@ Resources:
             Method: get
             RequestParameters:
               - method.request.path.demandId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.demand
       DockerContext: ./
@@ -195,7 +285,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getDemandByDateFn/getDemandByDate.handler
+          - /p3/handler/getDemandByDateFn/getDemandByDate.default
       Description: Get a demand by date range
       Events:
         ApiEvent:
@@ -206,7 +296,12 @@ Resources:
             RequestParameters:
               - method.request.path.start
               - method.request.path.end
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.demand
       DockerContext: ./
@@ -219,7 +314,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getDemandsByClientFn/getDemandsByClient.handler
+          - /p3/handler/getDemandsByClientFn/getDemandsByClient.default
       Description: Get all demands for a client
       Events:
         ApiEvent:
@@ -229,7 +324,12 @@ Resources:
             Method: get
             RequestParameters:
               - method.request.path.clientId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.demand
       DockerContext: ./
@@ -242,7 +342,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getDemandByCurriculumFn/getDemandByCurriculum.handler
+          - /p3/handler/getDemandByCurriculumFn/getDemandByCurriculum.default
       Description: Get total demand for a curriculum with optional date range
       Events:
         ApiEvent1:
@@ -261,7 +361,12 @@ Resources:
               - method.request.path.curriculumId
               - method.request.path.start
               - method.request.path.end
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.demand
       DockerContext: ./
@@ -275,7 +380,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getAllBatchesFn/getAllBatches.handler
+          - /p3/handler/getAllBatchesFn/getAllBatches.default
       Description: Get all batches
       Events:
         ApiEvent:
@@ -283,7 +388,12 @@ Resources:
           Properties:
             Path: /batch
             Method: get
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.batch
       DockerContext: ./
@@ -296,7 +406,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/createBatchFn/createBatch.handler
+          - /p3/handler/createBatchFn/createBatch.default
       Description: Create a batch
       Events:
         ApiEvent:
@@ -304,7 +414,12 @@ Resources:
           Properties:
             Path: /batch
             Method: post
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.batch
       DockerContext: ./
@@ -317,7 +432,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/updateBatchFn/updateBatch.handler
+          - /p3/handler/updateBatchFn/updateBatch.default
       Description: Update a batch
       Events:
         ApiEvent:
@@ -325,7 +440,12 @@ Resources:
           Properties:
             Path: /batch
             Method: put
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.batch
       DockerContext: ./
@@ -338,7 +458,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getBatchesByCurriculumFn/getBatchesByCurriculum.handler
+          - /p3/handler/getBatchesByCurriculumFn/getBatchesByCurriculum.default
       Description: Get all batches using a given curriculum
       Events:
         ApiEvent:
@@ -348,7 +468,12 @@ Resources:
             Method: get
             RequestParameters:
               - method.request.path.curriculumId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.batch
       DockerContext: ./
@@ -361,7 +486,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getBatchesByTrainerFn/getBatchesByTrainer.handler
+          - /p3/handler/getBatchesByTrainerFn/getBatchesByTrainer.default
       Description: Get all batches using a given trainer
       Events:
         ApiEvent:
@@ -371,7 +496,12 @@ Resources:
             Method: get
             RequestParameters:
               - method.request.path.trainerId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.batch
       DockerContext: ./
@@ -384,7 +514,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getBatchByIdFn/getBatchById.handler
+          - /p3/handler/getBatchByIdFn/getBatchById.default
       Description: Get batch by id
       Events:
         ApiEvent:
@@ -394,7 +524,12 @@ Resources:
             Method: get
             RequestParameters:
               - method.request.path.batchId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.batch
       DockerContext: ./
@@ -407,7 +542,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/removeBatchFn/removeBatch.handler
+          - /p3/handler/removeBatchFn/removeBatch.default
       Description: Delete a batch by id
       Events:
         ApiEvent:
@@ -417,7 +552,12 @@ Resources:
             Method: delete
             RequestParameters:
               - method.request.path.batchId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.batch
       DockerContext: ./
@@ -431,7 +571,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getAllCurriculaFn/getAllCurricula.handler
+          - /p3/handler/getAllCurriculaFn/getAllCurricula.default
       Description: Get all curricula
       Events:
         ApiEvent:
@@ -439,7 +579,12 @@ Resources:
           Properties:
             Path: /curriculum
             Method: get
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata: 
       Dockerfile: Dockerfile.curriculum
       DockerContext: ./
@@ -452,7 +597,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/insertCurriculumFn/insertCurriculum.handler
+          - /p3/handler/insertCurriculumFn/insertCurriculum.default
       Description: Add a curriculum
       Events:
         ApiEvent:
@@ -460,7 +605,12 @@ Resources:
           Properties:
             Path: /curriculum
             Method: post
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata: 
       Dockerfile: Dockerfile.curriculum
       DockerContext: ./
@@ -473,7 +623,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getCurriculumFn/getCurriculum.handler
+          - /p3/handler/getCurriculumFn/getCurriculum.default
       Description: Get a curriculum by id
       Events:
         ApiEvent:
@@ -483,7 +633,12 @@ Resources:
             Method: get
             RequestParameters:
               - method.request.path.curriculumId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata: 
       Dockerfile: Dockerfile.curriculum
       DockerContext: ./
@@ -496,7 +651,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/deleteCurriculumFn/deleteCurriculum.handler
+          - /p3/handler/deleteCurriculumFn/deleteCurriculum.default
       Description: Delete a curriculum by id
       Events:
         ApiEvent:
@@ -506,7 +661,12 @@ Resources:
             Method: delete
             RequestParameters:
               - method.request.path.curriculumId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata: 
       Dockerfile: Dockerfile.curriculum
       DockerContext: ./
@@ -520,7 +680,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getAllSkillsFn/getAllSkills.handler
+          - /p3/handler/getAllSkillsFn/getAllSkills.default
       Description: Get all skills
       Events:
         ApiEvent:
@@ -528,7 +688,12 @@ Resources:
           Properties:
             Path: /skill
             Method: get
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.skill
       DockerContext: ./
@@ -541,7 +706,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/createSkillFn/createSkill.handler
+          - /p3/handler/createSkillFn/createSkill.default
       Description: Create a skill
       Events:
         ApiEvent:
@@ -549,7 +714,12 @@ Resources:
           Properties:
             Path: /skill
             Method: post
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.skill
       DockerContext: ./
@@ -562,7 +732,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getSkillByIdFn/getSkillById.handler
+          - /p3/handler/getSkillByIdFn/getSkillById.default
       Description: Get a skill
       Events:
         ApiEvent:
@@ -572,7 +742,12 @@ Resources:
             Method: get
             RequestParameters:
               - method.request.path.skillId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.skill
       DockerContext: ./
@@ -585,7 +760,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/deleteSkillFn/deleteSkill.handler
+          - /p3/handler/deleteSkillFn/deleteSkill.default
       Description: Delete a skill
       Events:
         ApiEvent:
@@ -595,7 +770,12 @@ Resources:
             Method: delete
             RequestParameters:
               - method.request.path.skillId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.skill
       DockerContext: ./
@@ -608,7 +788,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getSkillByNameFn/getSkillByName.handler
+          - /p3/handler/getSkillByNameFn/getSkillByName.default
       Description: Get a skill by name
       Events:
         ApiEvent:
@@ -618,7 +798,12 @@ Resources:
             Method: delete
             RequestParameters:
               - method.request.path.skillName
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.skill
       DockerContext: ./
@@ -632,7 +817,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getAllTrainersFn/getAllTrainers.handler
+          - /p3/handler/getAllTrainersFn/getAllTrainers.default
       Description: Get all trainers
       Events:
         ApiEvent:
@@ -640,7 +825,12 @@ Resources:
           Properties:
             Path: /trainer
             Method: get
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.trainer
       DockerContext: ./
@@ -653,7 +843,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/createTrainerFn/createTrainer.handler
+          - /p3/handler/createTrainerFn/createTrainer.default
       Description: Create a trainer
       Events:
         ApiEvent:
@@ -661,7 +851,12 @@ Resources:
           Properties:
             Path: /trainer
             Method: post
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.trainer
       DockerContext: ./
@@ -674,7 +869,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/updateTrainerFn/udpateTrainer.handler
+          - /p3/handler/updateTrainerFn/udpateTrainer.default
       Description: Update a trainer
       Events:
         ApiEvent:
@@ -682,7 +877,12 @@ Resources:
           Properties:
             Path: /trainer
             Method: put
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.trainer
       DockerContext: ./
@@ -695,7 +895,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getTrainerByIdFn/getTrainerById.handler
+          - /p3/handler/getTrainerByIdFn/getTrainerById.default
       Description: Get a trainer
       Events:
         ApiEvent:
@@ -705,7 +905,12 @@ Resources:
             Method: get
             RequestParameters:
               - method.request.path.trainerId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.trainer
       DockerContext: ./
@@ -718,7 +923,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/deleteTrainerFn/deleteTrainer.handler
+          - /p3/handler/deleteTrainerFn/deleteTrainer.default
       Description: Delete a trainer
       Events:
         ApiEvent:
@@ -728,7 +933,12 @@ Resources:
             Method: delete
             RequestParameters:
               - method.request.path.trainerId
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.trainer
       DockerContext: ./
@@ -741,7 +951,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getTrainersByFirstNameFn/getTrainersByFirstName.handler
+          - /p3/handler/getTrainersByFirstNameFn/getTrainersByFirstName.default
       Description: Get all trainers with a given first name
       Events:
         ApiEvent:
@@ -751,7 +961,12 @@ Resources:
             Method: get
             RequestParameters:
               - method.request.path.trainerFN
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.trainer
       DockerContext: ./
@@ -764,7 +979,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getTrainersByLastNameFn/getTrainersByLastName.handler
+          - /p3/handler/getTrainersByLastNameFn/getTrainersByLastName.default
       Description: Get all trainers with a given last name
       Events:
         ApiEvent:
@@ -774,7 +989,12 @@ Resources:
             Method: get
             RequestParameters:
               - method.request.path.trainerLN
-      Policies: ###
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
     Metadata:
       Dockerfile: Dockerfile.trainer
       DockerContext: ./
