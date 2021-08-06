@@ -54,6 +54,17 @@ The following API calls can be made. The list below applies to ALL endpoints:
   [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
   For example, Friday 6 August 2021 would be sent as `'2021-08-06'`.
 
+### HTTP Codes to Expect
+
+| Code | Meaning               | Usage                                                                                                                                                                                           |
+| ---- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 200  | OK                    | Should be returned on everything but `POST` requests                                                                                                                                            |
+| 201  | Created               | Should only be returned on `POST` requests)                                                                                                                                                     |
+| 400  | Bad Request           | Will be returned if there is an error with your syntax, an error in the types you used in the body of the message, or if you violated a databse constraint (such as a foreign key relationship) |
+| 500  | Internal Server Error | Will be returned if the database is unreachable                                                                                                                                                 |
+
+_Any code returned not in this list indicates that something has gone wrong._
+
 ### Batch
 
 - `GET` to `/batch` will get all batches

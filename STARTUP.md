@@ -2,9 +2,8 @@
 
 ## Setup CodePipline
 
-**_TO BE ADDED LATER_**
-
-IF YOU SEE THIS IN MAIN, YELL AT MARC.
+- **_!!! TO BE ADDED LATER !!!_**
+- IF YOU SEE THIS IN MAIN, YELL AT MARC.
 
 ## Deploy SAM script
 
@@ -18,9 +17,12 @@ This will create the database, API Gateway, and Lambda functions.
 - Run the following commands:
   ```bash
   sam build
-  sam deploy
+  sam deploy --guided
   ```
-  NOTE: Once pipeline is setup, this will no longer be necessary.
+
+**_!!! WILL NEED REVISION WITH FINAL SAM SETUP !!!_**
+
+NOTE: Once pipeline is setup, this will no longer be necessary.
 
 ## Setup the Database
 
@@ -28,6 +30,7 @@ This will create the database, API Gateway, and Lambda functions.
 - Using a PostgreSQL client (such as DBeaver), connect to the created RDS.
 - Run `Project 3 Backend Tables.sql` to create tables.
 - Optionally run `Project 3 Backend Data.sql` put in dummy data for development.
+- Database should end up looking like the SQL Diagram in the SQL Scripts folder.
 
 NOTE: There is also a `Project 3 Backend Drop Tables.sql` if you need to reset
 the database. **_Use with caution._**
