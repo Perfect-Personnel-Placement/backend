@@ -2,8 +2,28 @@
 
 ## Setup CodePipline
 
-- **_!!! TO BE ADDED LATER !!!_**
-- IF YOU SEE THIS IN MAIN, YELL AT MARC.
+- Create a new pipeline in AWS. Accept defaults except what's indicated below.
+  Side Note: Configure as it makes sense for YOU. This is just what we did.
+
+### Choose Pipeline Settings
+
+- Setup service role with necessary permissions.
+
+### Add Source Stage
+
+- Source provider is GitHub v2, connect to your PERSONAL GitHub and
+  manually type the account/repo-name. It will NOT autocomplete.
+- Select main branch.
+
+### Add Build Stage
+
+- Build provider: AWS CodeBuild
+- Region: we used US East (N. Virginia) - may vary
+- Click "Create Project" and follow the prompts.
+
+### Add Deploy Stage
+
+- Skip
 
 ## Deploy SAM script
 
