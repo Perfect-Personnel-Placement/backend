@@ -29,4 +29,3 @@ export const trainer = {
     trainerfirst: "Robert",
     trainerlast: "Connell"
 };
-
