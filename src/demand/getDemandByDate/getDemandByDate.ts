@@ -12,6 +12,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     }
     const start = event.pathParameters.start;
     const end = event.pathParameters.end;
+    
 
     //Try connecting to the Databse
     try {

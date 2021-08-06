@@ -13,10 +13,9 @@ export const curriculum = {
   curriculumname: 'fortestingonly'
 };
 export const demand = {
-  clientdemandid: '1',
-  clientid: null,
-  curriculumid: null,
-  needBy: new Date('8/6/2021').toJSON(),
+  clientid: 1,
+  curriculumid: 1,
+  needby: new Date('8/6/2021').toJSON(),
   quantitydemanded: 69
 };
 export const sampleCurr = {
