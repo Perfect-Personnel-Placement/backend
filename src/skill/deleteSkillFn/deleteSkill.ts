@@ -10,14 +10,6 @@ export default async function handler(event: APIGatewayProxyEvent) {
         return new HTTPResponse(400, "Invalid Path Parameters")
     }
     const skill = (event.pathParameters.skillId)
-    // checks if there is an issue connecting to the database
-    try {
-        await client.connect();
-
-    } catch (err) {
-        console.log(err)
-        return new HTTPResponse(500, "Unable to Connect to the Database")
-    }
 
     const skillData = [skill];
     let res;
@@ -27,11 +19,9 @@ export default async function handler(event: APIGatewayProxyEvent) {
 
     } catch (err) {
         console.log(err);
-        await client.end()
         return new HTTPResponse(400, "Unable to Query the information")
     }
 
-    await client.end()
     console.log(res.rows);
     return new HTTPResponse(200, res.rows)
 };
