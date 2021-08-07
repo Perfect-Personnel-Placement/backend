@@ -17,14 +17,6 @@ export default async function handler(event: APIGatewayProxyEvent) {
     // parses the information from the body
     const skill: createSkills = JSON.parse(event.body)
 
-    // try block so that we can check if there is a connection error 
-    try {
-        await client.connect();
-
-    } catch (err) {
-        console.log(err)
-        return new HTTPResponse(500, "Unable to Connect to the Database")
-    }
     // Assign the data or return an error if it doesnt work
     const skillData = [skill.skillName];
     let res;
@@ -34,11 +26,9 @@ export default async function handler(event: APIGatewayProxyEvent) {
 
     } catch (err) {
         console.log(err);
-        await client.end()
         return new HTTPResponse(400, "Unable to Query the information")
     }
     // closes the query and then returns a code
-    await client.end()
     console.log(res.rows);
     return new HTTPResponse(201, res.rows)
 };

@@ -11,25 +11,14 @@ export default async function handler(event: APIGatewayProxyEvent) {
   }
   const currId = event.pathParameters.curriculumId;
 
-  // Attempt to connect to database
+  // Return data or error from database
   try {
-    await client.connect();
+    const res = await client.query(text, [currId]);
+    return new HTTPResponse(200, res.rows);
   } catch (err) {
-    console.log(err);
-    return new HTTPResponse(500, 'Unable to connect to the database');
+    return new HTTPResponse(400, {
+      Message: 'Unable to Query the information',
+      err
+    });
   }
-
-  // Set data to variable or return error from database
-  let res;
-  try {
-    res = await client.query(text, [currId]);
-  } catch (err) {
-    console.log(err);
-    await client.end();
-    return new HTTPResponse(400, 'Unable to Query the information');
-  }
-
-  // Close database connection and return data
-  await client.end();
-  return new HTTPResponse(200, res.rows);
 }

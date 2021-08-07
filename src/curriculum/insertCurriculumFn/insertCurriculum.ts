@@ -20,14 +20,6 @@ export default async function handler(event: APIGatewayProxyEvent) {
   }
   const curr: createCurr = JSON.parse(event.body);
 
-  // Attempt to connect to the database
-  try {
-    await client.connect();
-  } catch (err) {
-    console.log(err);
-    return new HTTPResponse(500, 'Unable to Connect to the Database');
-  }
-
   // Set up query values into an array as required by postgres
   const currData = [
     curr.createdby,
@@ -36,18 +28,15 @@ export default async function handler(event: APIGatewayProxyEvent) {
     curr.createdby,
     curr.curriculumname
   ];
-  let res;
 
-  // Assign data or return error provided by the database
+  // Return data or error provided by the database
   try {
-    res = await client.query(text, currData);
+    const res = await client.query(text, currData);
+    return new HTTPResponse(201, res.rows);
   } catch (err) {
-    console.log(err);
-    await client.end();
-    return new HTTPResponse(400, 'Unable to Query the information');
+    return new HTTPResponse(400, {
+      Message: 'Unable to Query the information',
+      err
+    });
   }
-
-  // Close the databse connection and return the data
-  await client.end();
-  return new HTTPResponse(201, res.rows);
 }
