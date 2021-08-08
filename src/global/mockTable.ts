@@ -47,5 +47,3 @@ export const updateBatchData = {
   confirmed: true,
 
 }
-
-

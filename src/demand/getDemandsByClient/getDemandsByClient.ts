@@ -12,15 +12,6 @@ export default async function handler(event: APIGatewayProxyEvent) {
     }
     const demandClient = (event.pathParameters.clientId)
 
-    // Attempt to establish a connection; in the case of a failure, give
-    //  error code 500
-    try {
-        await client.connect();
-    } catch (err) {
-        console.log(err)
-        return new HTTPResponse(500, "Unable to Connect to the Database")
-    }
-
     const demandData = [demandClient];
     let res;
 
@@ -29,12 +20,10 @@ export default async function handler(event: APIGatewayProxyEvent) {
         res = await client.query(text, demandData)
     } catch (err) {
         console.log(err);
-        await client.end()
         return new HTTPResponse(400, "Unable to Query the information")
     }
 
     // If all went well, returns everything that the query retrieved
-    await client.end()
     console.log(res.rows);
     return new HTTPResponse(200, res.rows)
 };
