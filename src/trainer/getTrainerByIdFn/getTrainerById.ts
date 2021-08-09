@@ -2,6 +2,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'SELECT * FROM trainer WHERE (trainerid = $1) RETURNING *';
+const curriculumQuery = 'SELECT * FROM trainer-curriculum WHERE trainerid = $1'
 
 //Comments written by Samuel Smetzer
 export default async function handler(event: APIGatewayProxyEvent) {
@@ -16,11 +17,12 @@ export default async function handler(event: APIGatewayProxyEvent) {
     //Try querying the DataBase
     try {
         res = await client.query(text, trainerData)
-
+        const curriculumArray = await client.query(curriculumQuery, [trainer])
+        res.rows[0].curricula = curriculumArray.rows
     } catch (err) {
         console.log(err);
         return new HTTPResponse(400, "Unable to Query the information")
     }
-    //Return the row deleted
+    //Return the row
     return new HTTPResponse(200, res.rows)
 };
