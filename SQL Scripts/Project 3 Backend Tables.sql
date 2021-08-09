@@ -72,7 +72,7 @@ CREATE Table clientdemand (
 CREATE Table curriculum_skill (
 	skillid int NOT NULL,
 	curriculumid int NOT NULL,
-	CONSTRAINT skill_fk FOREIGN KEY (skillid) REFERENCES skills(skillid),
+	CONSTRAINT skill_fk FOREIGN KEY (skillid) REFERENCES skill(skillid),
 	CONSTRAINT curriculum_fk FOREIGN KEY (curriculumid) REFERENCES curriculum(curriculumid)
 );
 
@@ -81,7 +81,7 @@ CREATE Table trainer_skill (
 	trainerid int not null,
 	skillid int not null,
 	CONSTRAINT trainer_fk FOREIGN KEY (trainerid) REFERENCES trainer(trainerid),
-	CONSTRAINT skills_fk FOREIGN KEY (skillid) REFERENCES skills(skillid)
+	CONSTRAINT skill_fk FOREIGN KEY (skillid) REFERENCES skill(skillid)
 );
 
 -- creating a table for trainer_curriculum
