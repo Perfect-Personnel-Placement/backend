@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
-const text = 'SELECT * FROM batches';
+const text = 'SELECT * FROM batch';
 //YTyler
 export default async function handler(event: APIGatewayProxyEvent) {
 

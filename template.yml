@@ -75,7 +75,7 @@ Resources:
     Properties:
       AllocatedStorage: 20
       DBInstanceClass: db.t2.micro
-      DBInstanceIdentifier: P3-Postgres
+      DBInstanceIdentifier: P3-Postgres-DB
       DBName: P3_Database
       EnableCloudwatchLogsExports: 
         - postgresql
@@ -159,7 +159,7 @@ Resources:
           Type: Api
           Properties:
             Path: /client/id/{clientId}
-            Method: post
+            Method: get
             RequestParameters:
               - method.request.path.clientId
       VpcConfig:
@@ -180,14 +180,14 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/getClientByNameFn/getClientNyName.default
+          - /p3/handler/getClientByNameFn/getClientByName.default
       Description: Get a client by client name
       Events:
         ApiEvent:
           Type: Api
           Properties:
             Path: /client/name/{clientName}
-            Method: post
+            Method: get
             RequestParameters:
               - method.request.path.clientName
       VpcConfig:
@@ -799,7 +799,7 @@ Resources:
           Type: Api
           Properties:
             Path: /skill/name/{skillName}
-            Method: delete
+            Method: get
             RequestParameters:
               - method.request.path.skillName
       VpcConfig:
@@ -1011,6 +1011,7 @@ Resources:
       FunctionName: p3-initDatabase
       Description: Initialize the database using the SQL create script.
       PackageType: Image
+      Timeout: 30
       ImageConfig:
         Command:
           - /p3/handler/init.default
