@@ -1,7 +1,7 @@
-name: Test Report
-description: File a bug report
-title: "[Bug]: "
-labels: [bug, triage]
+name: General Issue
+description: File a general issue
+title: "[Issue]: "
+labels: [BackEnd, Code Review]
 assignees:
     - monalisa
     - nat
