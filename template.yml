@@ -48,6 +48,8 @@ Resources:
       VpcId: 
         Ref: VPC
       CidrBlock: 10.192.10.0/24
+      MapPublicIpOnLaunch: false
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
 
   Subnet2:
     Type: AWS::EC2::Subnet
@@ -55,6 +57,8 @@ Resources:
       VpcId:
         Ref: VPC
       CidrBlock: 10.192.11.0/24
+      MapPublicIpOnLaunch: false
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
   
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
@@ -999,3 +1003,30 @@ Resources:
       Dockerfile: Dockerfile.trainer
       DockerContext: ./
       DockerTag: trainer
+
+  # SQL initialization lambda
+  initDatabaseFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-initDatabase
+      Description: Initialize the database using the SQL create script.
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/init.default
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /database/init
+            Method: post
+    Metadata:
+      Dockerfile: Dockerfile.init
+      DockerContext: ./
+      DockerTag: init
