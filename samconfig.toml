@@ -1,10 +1,11 @@
+# This file is for reference only.
 version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
 stack_name = "PerfectPersonnelPlacement"
-s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-cevoddeymacb"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-ne3m52l0xxab"
 s3_prefix = "PerfectPersonnelPlacement"
-region = "us-east-2"
+region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
-image_repository = "319115845002.dkr.ecr.us-east-2.amazonaws.com/perfect-personnel-placement"
+image_repository = "625432597367.dkr.ecr.us-east-1.amazonaws.com/perfect-personnel-placement"

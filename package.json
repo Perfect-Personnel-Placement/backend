@@ -4,7 +4,8 @@
   "description": "Serverless backend for Perfect Personnel Placement.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
