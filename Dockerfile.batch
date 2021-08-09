@@ -1,0 +1,22 @@
+# AWS Lambda image for node.js 14
+FROM public.ecr.aws/lambda/nodejs:14
+
+# Where to store all of the data
+WORKDIR /p3/
+
+# Copy production files to container
+COPY dist/global ./global
+
+COPY package*.json ./
+
+# Install the required packages
+RUN npm install --only=prod
+
+
+FROM public.ecr.aws/lambda/nodejs:14
+
+WORKDIR /p3/
+
+COPY --from=0 /p3 /p3
+
+COPY dist/batch ./handler
