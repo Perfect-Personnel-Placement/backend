@@ -3,12 +3,18 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'UPDATE trainer SET email=$1, trainerfirst=$2, trainerlast=$3 WHERE trainerid = $4 RETURNING *';
 
+const curriculaQuery = 
+  'INSERT INTO trainer-curriculum' + 
+  ' (trainerid, curriculumid)' + 
+  ' Values ($1, $2) RETURNING *';
+
 //Comments written by Samuel Smetzer
 export interface updateTrainer {
     trainerid: number,
     email: string;
     trainerfirst: string;
     trainerlast: string;
+    curriculaIdArr: number[];
 }
 export default async function handler(event: APIGatewayProxyEvent) {
     // Check if body is null
@@ -22,6 +28,13 @@ export default async function handler(event: APIGatewayProxyEvent) {
     let res;
     try {
         res = await client.query(text, trainerData)
+        if(trainer.curriculaIdArr){
+          // added the logic for the skill-curriculum join table
+              for(let elem of trainer.curriculaIdArr){
+                const skillData = [trainer.trainerid, elem];
+                await client.query(curriculaQuery, skillData);
+              }
+          }
     } catch (err) {
         console.log(err);
         return new HTTPResponse(400, "Unable to Query the information")
