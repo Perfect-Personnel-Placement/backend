@@ -54,14 +54,14 @@ CREATE Table batch (
  );
 
 -- creating a table for client demand
-CREATE Table clientdemand (
-	clientdemandid serial not null primary key,
+CREATE Table demand (
+	demandid serial not null primary key,
 	clientid int not null,
 	curriculumid int not null,
 	needby date not null,
 	quantitydemanded int not null,
-	constraint clientdemand_client_fk1 foreign key (clientid) references client(clientid),
-	constraint clientdemand_curriculum_fk1 foreign key (curriculumid) references curriculum(curriculumid)
+	constraint demand_client_fk1 foreign key (clientid) references client(clientid),
+	constraint demand_curriculum_fk1 foreign key (curriculumid) references curriculum(curriculumid)
 	);
 
 --//////////////////////////////////////////////////////////////////////////

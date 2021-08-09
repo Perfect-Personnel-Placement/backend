@@ -9,20 +9,20 @@
 -- creating regular tables
 --//////////////////////////////////////////////////////////////////////////
 
-DROP TABLE skill CASCADE;
+DROP TABLE IF EXISTS skill CASCADE;
 
-DROP TABLE curriculum CASCADE;
+DROP TABLE IF EXISTS curriculum CASCADE;
 
-DROP TABLE trainer CASCADE;
+DROP TABLE IF EXISTS trainer CASCADE;
 
-DROP TABLE client CASCADE;
+DROP TABLE IF EXISTS client CASCADE;
 
-DROP TABLE batch CASCADE;
+DROP TABLE IF EXISTS batch CASCADE;
 
-DROP TABLE clientdemand CASCADE;
+DROP TABLE IF EXISTS demand CASCADE;
 
-DROP TABLE curriculum_skill CASCADE;
+DROP TABLE IF EXISTS curriculum_skill CASCADE;
 
-DROP TABLE trainer_skill CASCADE;
+DROP TABLE IF EXISTS trainer_skill CASCADE;
 
-DROP TABLE trainer_curriculum CASCADE;
+DROP TABLE IF EXISTS trainer_curriculum CASCADE;

@@ -55,12 +55,12 @@ INSERT INTO batch (batchid, batchsize, curriculumid, enddate, startdate, trainer
 
 
 -- creating a table for client demand
-INSERT INTO clientdemand (clientid, clientdemandid, curriculumid, needby, quantitydemanded) VALUES (1234, 1111, 1, '7/1/21', 10);
-INSERT INTO clientdemand (clientid, clientdemandid, curriculumid, needby, quantitydemanded) VALUES (1235, 1121, 2, '9/1/21', 18);
-INSERT INTO clientdemand (clientid, clientdemandid, curriculumid, needby, quantitydemanded) VALUES (1236, 1113, 3, '4/1/21', 23);
-INSERT INTO clientdemand (clientid, clientdemandid, curriculumid, needby, quantitydemanded) VALUES (1234, 1131, 4, '5/1/21', 25);
-INSERT INTO clientdemand (clientid, clientdemandid, curriculumid, needby, quantitydemanded) VALUES (1237, 1114, 5, '6/1/21', 30);
-INSERT INTO clientdemand (clientid, clientdemandid, curriculumid, needby, quantitydemanded) VALUES (1236, 1141, 6, '7/1/21', 12);
+INSERT INTO demand (clientid, demandid, curriculumid, needby, quantitydemanded) VALUES (1234, 1111, 1, '7/1/21', 10);
+INSERT INTO demand (clientid, demandid, curriculumid, needby, quantitydemanded) VALUES (1235, 1121, 2, '9/1/21', 18);
+INSERT INTO demand (clientid, demandid, curriculumid, needby, quantitydemanded) VALUES (1236, 1113, 3, '4/1/21', 23);
+INSERT INTO demand (clientid, demandid, curriculumid, needby, quantitydemanded) VALUES (1234, 1131, 4, '5/1/21', 25);
+INSERT INTO demand (clientid, demandid, curriculumid, needby, quantitydemanded) VALUES (1237, 1114, 5, '6/1/21', 30);
+INSERT INTO demand (clientid, demandid, curriculumid, needby, quantitydemanded) VALUES (1236, 1141, 6, '7/1/21', 12);
 
 
 --//////////////////////////////////////////////////////////////////////////
