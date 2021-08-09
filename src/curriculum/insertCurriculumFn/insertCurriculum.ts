@@ -6,10 +6,16 @@ const text =
   ' (createdby, createdon, lastmodified, lastmodifiedby, curriculumname)' +
   ' VALUES ($1, $2, $3, $4, $5) RETURNING *';
 
+const skillQuery = 
+  'INSERT INTO curriculum-skills' + 
+  ' (skillid, curriculumid)' + 
+  ' Values ($1, $2) RETURNING *';
+
 export interface createCurr {
   createdby: string;
   createdon: string;
   curriculumname: string;
+  skillIdArr: number[];
 }
 
 // Written by MJS
@@ -32,6 +38,14 @@ export default async function handler(event: APIGatewayProxyEvent) {
   // Return data or error provided by the database
   try {
     const res = await client.query(text, currData);
+    if(curr.skillIdArr){
+    const curriculumid = res.rows[0].curriculumid ;
+  // added the logic for the skill-curriculum join table
+      for(let elem of curr.skillIdArr){
+        const skillData = [elem, curriculumid];
+        await client.query(skillQuery, skillData);
+      }
+  }
     return new HTTPResponse(201, res.rows);
   } catch (err) {
     return new HTTPResponse(400, {
