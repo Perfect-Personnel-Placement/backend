@@ -12,14 +12,13 @@ The interface used can be found at
 
 The Serverless Training planner is a serverless mobile app that Revature
 managers can use to look at important information regarding clientele demands
-and batch output for the company. This service will visualize all current
-batches that are planned along with any associated information, as well as
-visualize that batch output alongside the client demand for associates. Managers
-will be able to input information for clients, and their demands, as well as
-input Batches which consist of a curriculum composed of skills, a number of
-associates, a trainer, and the duration of when the batch is planned. This
-service will help ease the management of supply and demand for the company and
-will be an organizational aid.
+and batch output for the company. This service visualizes all current
+batches planned along with any associated information. It also visualizes that
+batch output alongside the client demand for associates. Managers may input
+information for clients, their demands, and batches which consist of a
+curriculum composed of skills, the number of associates, a trainer, and the
+dates for the batch. This service helps ease the management of supply and demand
+for the company and is an organizational aid.
 
 ## Technologies Used
 
@@ -56,12 +55,12 @@ The following API calls can be made. The list below applies to ALL endpoints:
 
 ### HTTP Codes to Expect
 
-| Code | Meaning               | Usage                                                                                                                                                                                           |
-| ---- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 200  | OK                    | Should be returned on everything but `POST` requests                                                                                                                                            |
-| 201  | Created               | Should only be returned on `POST` requests)                                                                                                                                                     |
-| 400  | Bad Request           | Will be returned if there is an error with your syntax, an error in the types you used in the body of the message, or if you violated a databse constraint (such as a foreign key relationship) |
-| 500  | Internal Server Error | Will be returned if the database is unreachable                                                                                                                                                 |
+| Code | Meaning               | Usage                                                                                                                                                                                            |
+| ---- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 200  | OK                    | Should be returned on everything but `POST` requests                                                                                                                                             |
+| 201  | Created               | Should only be returned on `POST` requests)                                                                                                                                                      |
+| 400  | Bad Request           | Will be returned if there is an error with your syntax, an error in the types you used in the body of the message, or if you violated a database constraint (such as a foreign key relationship) |
+| 500  | Internal Server Error | Will be returned if the database is unreachable                                                                                                                                                  |
 
 _Any code returned not in this list indicates that something has gone wrong._
 
@@ -108,7 +107,7 @@ _Any code returned not in this list indicates that something has gone wrong._
   requires the following body:
   ```JSON
   {
-    "clientname": string
+    "clientName": string
   }
   ```
 - `GET` to `/client/id/:clientId` will get a specific client by id
@@ -124,6 +123,7 @@ _Any code returned not in this list indicates that something has gone wrong._
     "createdby": string,
     "createdon": string (in ISO 8601 format -- see above),
     "curriculumname": string,
+    "skillIdArr": number[]
   }
   ```
 - `GET` to `/curriculum/id/:curriculumId` will get a specific curriculum
@@ -184,7 +184,8 @@ _Any code returned not in this list indicates that something has gone wrong._
     "trainerid": number,
     "email": string,
     "trainerfirst": string,
-    "trainerlast": string
+    "trainerlast": string,
+    "curriculaIdArr": number[]
   }
   ```
 - `GET` to `/trainer/id/:trainerId` will get the information about
