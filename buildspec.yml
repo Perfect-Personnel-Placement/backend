@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing node packages...
+      - npm install
+  pre_build:
+    commands:
+      - echo Logging in to ECR...
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 319115845002.dkr.ecr.us-east-2.amazonaws.com
+  build:
+    commands:
+      - echo Compiling TypeScript...
+      - npx tsc
+      - echo Building SAM template...
+      - sam build
+  post_build:
+    commands:
+      - echo Build complete. Deploying SAM template.
+      - sam deploy

@@ -7,7 +7,7 @@ const text =
   ' VALUES ($1, $2, $3, $4, $5) RETURNING *';
 
 const skillQuery = 
-  'INSERT INTO curriculum_skills' + 
+  'INSERT INTO curriculum_skill' + 
   ' (skillid, curriculumid)' + 
   ' Values ($1, $2) RETURNING *';
 
