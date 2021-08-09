@@ -9,7 +9,7 @@
 -- creating regular tables
 --//////////////////////////////////////////////////////////////////////////
 
-DROP TABLE skills CASCADE;
+DROP TABLE skill CASCADE;
 
 DROP TABLE curriculum CASCADE;
 
@@ -21,8 +21,8 @@ DROP TABLE batch CASCADE;
 
 DROP TABLE clientdemand CASCADE;
 
-DROP TABLE curriculum_skills CASCADE;
+DROP TABLE curriculum_skill CASCADE;
 
-DROP TABLE trainer_skills CASCADE;
+DROP TABLE trainer_skill CASCADE;
 
 DROP TABLE trainer_curriculum CASCADE;
