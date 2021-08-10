@@ -76,7 +76,7 @@ _Any code returned not in this list indicates that something has gone wrong._
     "endDate": string,
     "startDate": string,
     "trainerId": number | null,
-    "clientId": number | null,
+    "clientId": number | null
   }
   ```
 - `PUT` to `/batch` will update an existing batch;
@@ -89,13 +89,15 @@ _Any code returned not in this list indicates that something has gone wrong._
     "endDate": string,
     "startDate": string,
     "trainerId": number | null,
-    "clientId": number | null,
-    "confirmed": boolean
+    "clientId": number | null
   }
   ```
 - `GET` to `/batch/curriculum/:curriculumId` will get all batches
   with the specified curriculum
 - `GET` to `/batch/id/:batchId` will get the batch with the specified ID
+- `PATCH` to `/batch/id/:batchId` will confirm a batch.
+  (Note: Make sure a trainer has been assigned to a batch first.
+  The `PUT` to `/batch` request can be used for this if necessary.)
 - `DELETE` to `/batch/id/:batchId` will delete the specified batch
 - `GET` to `/batch/trainer/:trainerId` will get all the batches assigned
   to a specified trainer
@@ -211,4 +213,4 @@ _Any code returned not in this list indicates that something has gone wrong._
 
 ## License
 
-[![MIT](https://img.shields.io/github/license/RevatureRobert/2106Jun07RNCN-2-p2-be?style=for-the-badge)](https://github.com/RevatureRobert/2106Jun07RNCN-2-p2-be/blob/417cce5cafa0f36f638b138d9709e1a17a31215a/LICENSE)
+[![MIT](https://img.shields.io/github/license/RevatureRobert/2106Jun07RNCN-2-p2-be?style=for-the-badge)](https://github.com/Perfect-Personnel-Placement/backend/blob/cce792fb7b2227d101d330f048cc7a3d8ff762ec/LICENSE)
