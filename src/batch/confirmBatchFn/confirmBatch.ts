@@ -6,7 +6,7 @@ import {CreateTopicCommand, PublishCommand, SubscribeCommand } from "@aws-sdk/cl
 import {snsClient } from "../../global/snsClient";
 
 let updateBatchQuery = 'UPDATE batch SET confirmed = true WHERE batchid = $1';
-let checkTrainerQuery = 'SELECT trainerid, curriculumid, startdate FROM batch WHERE batchid = $1 RETURNING *';
+let checkTrainerQuery = 'SELECT confirmed, trainerid, curriculumid, startdate FROM batch WHERE batchid = $1';
 let getTrainerEmailQuery = 'SELECT email FROM trainer WHERE trainerid = $1';
 const getCurricNameQuery = 'SELECT curriculumname FROM curriculum WHERE curriculumid = $1';
 
@@ -19,12 +19,14 @@ export default async function handler(event: APIGatewayProxyEvent) {
         
         //Make initial query to see if trainer exists
         const res = await pgClient.query(checkTrainerQuery, [batchId]);
+        console.log(res.rows); //Returns undefined if trainer DNE
+
         const trainerId = res.rows[0].trainerid;
         const curriculumId = res.rows[0].curriculumid;
         const startDate = res.rows[0].startdate;
+        const confirmed = res.rows[0].confirmed;
 
-        console.log(res.rows); //Returns undefined if trainer DNE
-        if(res.rows) {
+        if(res.rows && !confirmed) {
             //Update batch status to confirmed on postgres table batch
             await pgClient.query(updateBatchQuery, [batchId]);
 
@@ -74,3 +76,4 @@ export default async function handler(event: APIGatewayProxyEvent) {
     return new HTTPResponse(400, "Invalid path parameters");
 }
 }
+
