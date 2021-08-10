@@ -4,4 +4,5 @@ import { trainer } from 'src/global/mockTable'
 
 const input: unknown = { pathParameters: trainer }
 
+
 getTrainersById(input as APIGatewayProxyEvent).then(res => console.log(res))

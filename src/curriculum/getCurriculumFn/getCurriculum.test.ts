@@ -12,8 +12,14 @@ describe('Get Curriculum handler', () => {
   });
 
   it('should succeed with 200, from a valid input', async () => {
-    (client.query as jest.Mock).mockResolvedValueOnce({ rows: {} });
+    (client.query as jest.Mock).mockImplementationOnce(() => {
+      return { rows: [{ skillIdArr: [1, 2] }] }; // look into mockReturn
+    });
+    (client.query as jest.Mock).mockImplementationOnce(() => {
+      return { rows: {} }; // look into mockReturn
+    });
     const res = await handler(input as APIGatewayProxyEvent);
+    console.log(res.body)
     expect(res.statusCode).toEqual(200);
   });
 
