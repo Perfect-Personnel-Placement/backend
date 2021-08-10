@@ -16,6 +16,13 @@ export interface setBatch {
 }
 
 // Written by MH
+
+/**
+ * 
+ * @param event 
+ * @returns 
+ * 
+ */
 export default async function handler(event: APIGatewayProxyEvent) {
     // Return an error if no body provided
     if (!event.body) {
