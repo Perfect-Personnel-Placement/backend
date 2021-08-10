@@ -6,9 +6,9 @@ const text =
   ' (createdby, createdon, lastmodified, lastmodifiedby, curriculumname)' +
   ' VALUES ($1, $2, $3, $4, $5) RETURNING *';
 
-const skillQuery =
-  'INSERT INTO curriculum-skills' +
-  ' (skillid, curriculumid)' +
+const skillQuery = 
+  'INSERT INTO curriculum_skill' + 
+  ' (skillid, curriculumid)' + 
   ' Values ($1, $2) RETURNING *';
 
 export interface createCurr {

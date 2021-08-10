@@ -3,10 +3,10 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'UPDATE trainer SET email=$1, trainerfirst=$2, trainerlast=$3 WHERE trainerid = $4 RETURNING *';
 
-const curriculaQuery =
-    'INSERT INTO trainer-curriculum' +
-    ' (trainerid, curriculumid)' +
-    ' Values ($1, $2) RETURNING *';
+const curriculaQuery = 
+  'INSERT INTO trainer_curriculum' + 
+  ' (trainerid, curriculumid)' + 
+  ' Values ($1, $2) RETURNING *';
 
 //Comments written by Samuel Smetzer
 export interface updateTrainer {

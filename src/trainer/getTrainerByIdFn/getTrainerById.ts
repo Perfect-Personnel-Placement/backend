@@ -2,7 +2,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'SELECT * FROM trainer WHERE (trainerid = $1) RETURNING *';
-const curriculumQuery = 'SELECT * FROM trainer-curriculum WHERE trainerid = $1'
+const curriculumQuery = 'SELECT * FROM trainer_curriculum WHERE trainerid = $1'
 
 //Comments written by Samuel Smetzer
 export default async function handler(event: APIGatewayProxyEvent) {
