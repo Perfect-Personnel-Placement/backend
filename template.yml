@@ -1,0 +1,1033 @@
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Environment:
+      Variables:
+        RDS_URL: 
+          Fn::GetAtt: [ PGRDS, Endpoint.Address ]
+        RDS_PORT:
+          Fn::GetAtt: [ PGRDS, Endpoint.Port ]
+        RDS_USER: postgres
+        RDS_PASSWORD: Password123!
+
+Description: Serverless backend for Revature Perfect Personnel Placement.
+
+Resources:
+  # VPC
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.192.0.0/16
+
+  # Security group
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: p3-main-group
+      GroupDescription: The security group for accessing RDS
+      VpcId: 
+        Ref: VPC
+
+  SecurityGroupInboundRule:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: All traffic originating within the VPC security group
+      FromPort: 5432
+      ToPort: 5432
+      IpProtocol: -1
+      GroupId:
+        Ref: SecurityGroup
+      SourceSecurityGroupId: 
+        Ref: SecurityGroup
+
+  # Subnets
+  Subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: 
+        Ref: VPC
+      CidrBlock: 10.192.10.0/24
+      MapPublicIpOnLaunch: false
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+
+  Subnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: VPC
+      CidrBlock: 10.192.11.0/24
+      MapPublicIpOnLaunch: false
+      AvailabilityZone: !Select [ 1, !GetAZs '' ]
+  
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupName: RDS Access subnet group
+      DBSubnetGroupDescription: The subnet group for allowing access to RDS
+      SubnetIds:
+        - Ref: Subnet1
+        - Ref: Subnet2
+  
+  # RDS
+  PGRDS:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: 20
+      DBInstanceClass: db.t2.micro
+      DBInstanceIdentifier: P3-Postgres-DB
+      DBName: P3_Database
+      EnableCloudwatchLogsExports: 
+        - postgresql
+      Engine: postgres
+      EngineVersion: 12.7
+      MasterUsername: postgres
+      MasterUserPassword: Password123!
+      PubliclyAccessible: false
+      UseDefaultProcessorFeatures: true
+      DBSubnetGroupName:
+        Ref: DBSubnetGroup
+      VPCSecurityGroups:
+        - Ref: SecurityGroup
+
+  # Cognito
+
+  # Client lambdas
+  getAllClients:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getAllClients
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getAllClientsFn/getAllClients.default
+      Description: Get all clients
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /client
+            Method: get
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.client
+      DockerContext: ./
+      DockerTag: client
+  
+  addClient:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-addClient
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/addClientFn/addClient.default
+      Description: Add a client
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /client
+            Method: post
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.client
+      DockerContext: ./
+      DockerTag: client
+
+  getClient:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getClient
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getClientFn/getClient.default
+      Description: Get a client
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /client/id/{clientId}
+            Method: get
+            RequestParameters:
+              - method.request.path.clientId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.client
+      DockerContext: ./
+      DockerTag: client
+
+  getClientByName:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getClientByName
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getClientByNameFn/getClientByName.default
+      Description: Get a client by client name
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /client/name/{clientName}
+            Method: get
+            RequestParameters:
+              - method.request.path.clientName
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.client
+      DockerContext: ./
+      DockerTag: client
+
+  # Demand lambdas
+  getAllDemands:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getAllDemands
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getAllDemandsFn/getAllDemands.default
+      Description: Get all demands
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /demand
+            Method: get
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
+      DockerTag: demand
+
+  createDemand:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-createDemand
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/createDemandFn/createDemand.default
+      Description: Create a demand
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /demand
+            Method: post
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
+      DockerTag: demand
+
+  getDemandById:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getDemandById
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getDemandByIdFn/getDemandById.default
+      Description: Get a demand by id
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /demand/id/{demandId}
+            Method: get
+            RequestParameters:
+              - method.request.path.demandId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
+      DockerTag: demand
+
+  getDemandByDate:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getDemandByDate
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getDemandByDateFn/getDemandByDate.default
+      Description: Get a demand by date range
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /demand/date/{start}/{end}
+            Method: get
+            RequestParameters:
+              - method.request.path.start
+              - method.request.path.end
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
+      DockerTag: demand
+
+  getDemandsByClient:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getDemandsByClient
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getDemandsByClientFn/getDemandsByClient.default
+      Description: Get all demands for a client
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /demand/client/{clientId}
+            Method: get
+            RequestParameters:
+              - method.request.path.clientId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
+      DockerTag: demand
+
+  getDemandByCurriculum:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getDemandByCurriculum
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getDemandByCurriculumFn/getDemandByCurriculum.default
+      Description: Get total demand for a curriculum with optional date range
+      Events:
+        ApiEvent1:
+          Type: Api
+          Properties:
+            Path: /demand/curriculum/{curriculumId}
+            Method: get
+            RequestParameters:
+              - method.request.path.curriculumId
+        ApiEvent2:
+          Type: Api
+          Properties:
+            Path: /demand/curriculum/{curriculumId}/{start}/{end}
+            Method: get
+            RequestParameters:
+              - method.request.path.curriculumId
+              - method.request.path.start
+              - method.request.path.end
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.demand
+      DockerContext: ./
+      DockerTag: demand
+
+  # Batch lambdas
+  getAllBatches:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getAllBatches
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getAllBatchesFn/getAllBatches.default
+      Description: Get all batches
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch
+            Method: get
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
+      DockerTag: batch
+
+  createBatch:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-createBatch
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/createBatchFn/createBatch.default
+      Description: Create a batch
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch
+            Method: post
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
+      DockerTag: batch
+
+  updateBatch:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-updateBatch
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/updateBatchFn/updateBatch.default
+      Description: Update a batch
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch
+            Method: put
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
+      DockerTag: batch
+
+  getBatchesByCurriculum:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getBatchesByCurriculum
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getBatchesByCurriculumFn/getBatchesByCurriculum.default
+      Description: Get all batches using a given curriculum
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch/curriculum/{curriculumId}
+            Method: get
+            RequestParameters:
+              - method.request.path.curriculumId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
+      DockerTag: batch
+
+  getBatchesByTrainer:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getBatchesByTrainer
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getBatchesByTrainerFn/getBatchesByTrainer.default
+      Description: Get all batches using a given trainer
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch/trainer/{trainerId}
+            Method: get
+            RequestParameters:
+              - method.request.path.trainerId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
+      DockerTag: batch
+
+  getBatchById:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getBatchById
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getBatchByIdFn/getBatchById.default
+      Description: Get batch by id
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch/id/{batchId}
+            Method: get
+            RequestParameters:
+              - method.request.path.batchId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
+      DockerTag: batch
+
+  removeBatch:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-removeBatch
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/removeBatchFn/removeBatch.default
+      Description: Delete a batch by id
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch/id/{batchId}
+            Method: delete
+            RequestParameters:
+              - method.request.path.batchId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
+      DockerTag: batch
+
+  # Curriculum lambdas
+  getAllCurricula:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getAllCurricula
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getAllCurriculaFn/getAllCurricula.default
+      Description: Get all curricula
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /curriculum
+            Method: get
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata: 
+      Dockerfile: Dockerfile.curriculum
+      DockerContext: ./
+      DockerTag: curriculum
+
+  insertCurriculum:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-insertCurriculum
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/insertCurriculumFn/insertCurriculum.default
+      Description: Add a curriculum
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /curriculum
+            Method: post
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata: 
+      Dockerfile: Dockerfile.curriculum
+      DockerContext: ./
+      DockerTag: curriculum
+
+  getCurriculum:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getCurriculum
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getCurriculumFn/getCurriculum.default
+      Description: Get a curriculum by id
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /curriculum/id/{curriculumId}
+            Method: get
+            RequestParameters:
+              - method.request.path.curriculumId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata: 
+      Dockerfile: Dockerfile.curriculum
+      DockerContext: ./
+      DockerTag: curriculum
+
+  deleteCurriculum:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-deleteCurriculum
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/deleteCurriculumFn/deleteCurriculum.default
+      Description: Delete a curriculum by id
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /curriculum/id/{curriculumId}
+            Method: delete
+            RequestParameters:
+              - method.request.path.curriculumId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata: 
+      Dockerfile: Dockerfile.curriculum
+      DockerContext: ./
+      DockerTag: curriculum
+
+  # Skill lambdas
+  getAllSkills:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getAllSkills
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getAllSkillsFn/getAllSkills.default
+      Description: Get all skills
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /skill
+            Method: get
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.skill
+      DockerContext: ./
+      DockerTag: skill
+
+  createSkill:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-createSkill
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/createSkillFn/createSkill.default
+      Description: Create a skill
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /skill
+            Method: post
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.skill
+      DockerContext: ./
+      DockerTag: skill
+
+  getSkillById:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getSkillById
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getSkillByIdFn/getSkillById.default
+      Description: Get a skill
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /skill/id/{skillId}
+            Method: get
+            RequestParameters:
+              - method.request.path.skillId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.skill
+      DockerContext: ./
+      DockerTag: skill
+
+  deleteSkill:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-deleteSkill
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/deleteSkillFn/deleteSkill.default
+      Description: Delete a skill
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /skill/id/{skillId}
+            Method: delete
+            RequestParameters:
+              - method.request.path.skillId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.skill
+      DockerContext: ./
+      DockerTag: skill
+
+  getSkillByName:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getSkillByName
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getSkillByNameFn/getSkillByName.default
+      Description: Get a skill by name
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /skill/name/{skillName}
+            Method: get
+            RequestParameters:
+              - method.request.path.skillName
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.skill
+      DockerContext: ./
+      DockerTag: skill
+
+  # Trainer lambdas
+  getAllTrainers:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getAllTrainers
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getAllTrainersFn/getAllTrainers.default
+      Description: Get all trainers
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer
+            Method: get
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
+      DockerTag: trainer
+
+  createTrainer:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-createTrainer
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/createTrainerFn/createTrainer.default
+      Description: Create a trainer
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer
+            Method: post
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
+      DockerTag: trainer
+
+  updateTrainer:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-updateTrainer
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/updateTrainerFn/udpateTrainer.default
+      Description: Update a trainer
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer
+            Method: put
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
+      DockerTag: trainer
+
+  getTrainerById:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getTrainerById
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getTrainerByIdFn/getTrainerById.default
+      Description: Get a trainer
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer/id/{trainerId}
+            Method: get
+            RequestParameters:
+              - method.request.path.trainerId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
+      DockerTag: trainer
+
+  deleteTrainer:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-deleteTrainer
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/deleteTrainerFn/deleteTrainer.default
+      Description: Delete a trainer
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer/id/{trainerId}
+            Method: delete
+            RequestParameters:
+              - method.request.path.trainerId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
+      DockerTag: trainer
+
+  getTrainersByFirstName:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getTrainersByFirstName
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getTrainersByFirstNameFn/getTrainersByFirstName.default
+      Description: Get all trainers with a given first name
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer/firstname/{trainerFN}
+            Method: get
+            RequestParameters:
+              - method.request.path.trainerFN
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
+      DockerTag: trainer
+
+  getTrainersByLastName:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-getTrainersByLastName
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/getTrainersByLastNameFn/getTrainersByLastName.default
+      Description: Get all trainers with a given last name
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /trainer/lastname/{trainerLN}
+            Method: get
+            RequestParameters:
+              - method.request.path.trainerLN
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.trainer
+      DockerContext: ./
+      DockerTag: trainer
+
+  # SQL initialization lambda
+  initDatabaseFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-initDatabase
+      Description: Initialize the database using the SQL create script.
+      PackageType: Image
+      Timeout: 30
+      ImageConfig:
+        Command:
+          - /p3/handler/init.default
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /database/init
+            Method: post
+    Metadata:
+      Dockerfile: Dockerfile.init
+      DockerContext: ./
+      DockerTag: init
