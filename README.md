@@ -76,7 +76,7 @@ _Any code returned not in this list indicates that something has gone wrong._
     "endDate": string,
     "startDate": string,
     "trainerId": number | null,
-    "clientId": number | null,
+    "clientId": number | null
   }
   ```
 - `PUT` to `/batch` will update an existing batch;
@@ -89,7 +89,7 @@ _Any code returned not in this list indicates that something has gone wrong._
     "endDate": string,
     "startDate": string,
     "trainerId": number | null,
-    "clientId": number | null,
+    "clientId": number | null
   }
   ```
 - `GET` to `/batch/curriculum/:curriculumId` will get all batches
@@ -213,4 +213,4 @@ _Any code returned not in this list indicates that something has gone wrong._
 
 ## License
 
-[![MIT](https://img.shields.io/github/license/RevatureRobert/2106Jun07RNCN-2-p2-be?style=for-the-badge)](https://github.com/RevatureRobert/2106Jun07RNCN-2-p2-be/blob/417cce5cafa0f36f638b138d9709e1a17a31215a/LICENSE)
+[![MIT](https://img.shields.io/github/license/RevatureRobert/2106Jun07RNCN-2-p2-be?style=for-the-badge)](https://github.com/Perfect-Personnel-Placement/backend/blob/cce792fb7b2227d101d330f048cc7a3d8ff762ec/LICENSE)
