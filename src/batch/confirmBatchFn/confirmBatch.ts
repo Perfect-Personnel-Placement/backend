@@ -6,8 +6,9 @@ import {CreateTopicCommand, PublishCommand, SubscribeCommand } from "@aws-sdk/cl
 import {snsClient } from "../../global/snsClient";
 
 let updateBatchQuery = 'UPDATE batch SET confirmed = true WHERE batchid = $1';
-let checkTrainerQuery = 'SELECT trainerid FROM batch WHERE batchid = $1 RETURNING *';
+let checkTrainerQuery = 'SELECT trainerid, curriculumid, startdate FROM batch WHERE batchid = $1 RETURNING *';
 let getTrainerEmailQuery = 'SELECT email FROM trainer WHERE trainerid = $1';
+const getCurricNameQuery = 'SELECT curriculumname FROM curriculum WHERE curriculumid = $1';
 
 export default async function handler(event: APIGatewayProxyEvent) { 
 
@@ -18,38 +19,44 @@ export default async function handler(event: APIGatewayProxyEvent) {
         
         //Make initial query to see if trainer exists
         const res = await pgClient.query(checkTrainerQuery, [batchId]);
-        const trainerId = res.rows[0].trainerId;
+        const trainerId = res.rows[0].trainerid;
+        const curriculumId = res.rows[0].curriculumid;
+        const startDate = res.rows[0].startdate;
 
         console.log(res.rows); //Returns undefined if trainer DNE
         if(res.rows) {
-            //Update batch status on postgres table batch
+            //Update batch status to confirmed on postgres table batch
             await pgClient.query(updateBatchQuery, [batchId]);
 
             //We're going to hand notifications to trainer who's batch was confirmed
             const trainerResult = await pgClient.query(getTrainerEmailQuery, [trainerId]);
             const trainerEmail = trainerResult.rows[0].email;
 
+            //Get curric name
+            const curricNameResult = await pgClient.query(getCurricNameQuery, [curriculumId]);
+            const curricName = curricNameResult.rows[0].curriculumname;
+
             //Declare SNS params
             //Create a topic --> subscribe individual trainer --> publish message
-            const topicParams = { Name: "OnBatchConfirm" }; //TOPIC_NAME
+            //const topicParams = { Name: "OnBatchConfirm" }; //TOPIC_NAME
             const subscriberParams = {
                 Protocol: "email" /* required */,
-                TopicArn: "arn:aws:sns:us-east-1:625432597367:P3_Emailer", 
+                TopicArn: process.env.SNS_TOPIC_ARN, 
                 Endpoint: trainerEmail, //EMAIL_ADDRESS
               };
             const publishParams = {
-              Message: 'The following batch has been confirmed: ${batchDetailsHere}', /* required */
-              TopicArn: 'TOPIC_ARN'
+              Message: `A batch for ${curricName} has been confirmed. Planned start date: ${startDate}`, 
+              TopicArn: process.env.SNS_TOPIC_ARN
             };
 
             const run = async () => {
                 try {
-                    const data = await snsClient.send(new CreateTopicCommand(topicParams));
+                   // const data = await snsClient.send(new CreateTopicCommand(topicParams));
                     const subscribeData = await snsClient.send(new SubscribeCommand(subscriberParams));
                     const publishedData = await snsClient.send(new PublishCommand(publishParams));
 
-                    console.log("Success.",  data, subscribeData, publishedData);
-                    return data; // For unit tests.
+                    console.log("Success.",  subscribeData, publishedData);
+                    return publishedData; // For unit tests.
                 } catch (err) {
                     console.log("Error", err.stack);
                 }
