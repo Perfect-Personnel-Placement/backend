@@ -11,12 +11,12 @@ export default async function handler(event: APIGatewayProxyEvent) {
     return new HTTPResponse(400, 'No path parameter was given');
   }
   const currId = event.pathParameters.curriculumId;
-  
+
   // Return data or error from database
   try {
     const res = await client.query(text, [currId]);
     const skillArray = await client.query(skillQuery, [currId]);
-    res.rows[0].skills = skillArray.rows;
+    res.rows[0].skillIdArr = skillArray.rows;
     return new HTTPResponse(200, res.rows);
   } catch (err) {
     return new HTTPResponse(400, {
