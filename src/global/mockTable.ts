@@ -1,11 +1,11 @@
 export const batch = {
-  batchId: 1,
-  batchSize: 1,
-  curriculumId: 1, //we provide, perhaps may change this, like name
-  endDate: '1',
-  startDate: '1',
-  trainerId: null, //we provide, perhaps may change this, like name
-  clientId: null //we provide, perhaps may change this, like name
+  batchid: 11210034,
+  batchsize: 1,
+  curriculumid: 1, //we provide, perhaps may change this, like name
+  enddate: '1',
+  startdate: '1',
+  trainerid: 123, //we provide, perhaps may change this, like name
+  clientid: null //we provide, perhaps may change this, like name
 };
 
 export const curriculum = {
@@ -30,7 +30,7 @@ export const skill = {
 };
 
 export const trainer = {
-    trainerId: 123,
+    trainerid: 123,
     email: "test@gmail.com",
     trainerfirst: "Robert",
     trainerlast: "Connell"
@@ -44,6 +44,6 @@ export const updateBatchData = {
   startDate: '9/3/27',
   trainerId: 299110,
   clientId: 54330,
-  confirmed: true,
+  confirmed: false,
 
 }
