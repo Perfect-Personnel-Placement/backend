@@ -10,6 +10,9 @@ Globals:
           Fn::GetAtt: [ PGRDS, Endpoint.Port ]
         RDS_USER: postgres
         RDS_PASSWORD: Password123!
+        RDS_NAME: P3_Database
+        SNS_TOPIC_ARN:
+          Ref: SNSTopic
 
 Description: Serverless backend for Revature Perfect Personnel Placement.
 
@@ -89,6 +92,12 @@ Resources:
         Ref: DBSubnetGroup
       VPCSecurityGroups:
         - Ref: SecurityGroup
+
+  # SNS
+  SNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: P3_Emailer
 
   # Cognito
 
@@ -450,6 +459,35 @@ Resources:
         SubnetIds:
           - Ref: Subnet1
           - Ref: Subnet2
+    Metadata:
+      Dockerfile: Dockerfile.batch
+      DockerContext: ./
+      DockerTag: batch
+
+  confirmBatch:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: p3-confirmBatch
+      PackageType: Image
+      ImageConfig:
+        Command:
+          - /p3/handler/confirmBatchFn/confirmBatch.default
+      Description: Confirm a batch
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /batch/{batchId}
+            Method: patch
+            RequestParameters: 
+              - method.request.path.batchId
+      VpcConfig:
+        SecurityGroupIds:
+          - Ref: SecurityGroup
+        SubnetIds:
+          - Ref: Subnet1
+          - Ref: Subnet2
+      Policies: AmazonSNSFullAccess
     Metadata:
       Dockerfile: Dockerfile.batch
       DockerContext: ./
@@ -873,7 +911,7 @@ Resources:
       PackageType: Image
       ImageConfig:
         Command:
-          - /p3/handler/updateTrainerFn/udpateTrainer.default
+          - /p3/handler/updateTrainerFn/updateTrainer.default
       Description: Update a trainer
       Events:
         ApiEvent:
