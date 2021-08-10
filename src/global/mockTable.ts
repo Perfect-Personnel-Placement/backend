@@ -11,8 +11,10 @@ export const batch = {
 export const curriculum = {
   createdby: 'nobody',
   createdon: '2021-08-05',
-  curriculumname: 'fortestingonly'
+  curriculumname: 'fortestingonly',
+  skillIdArr: [1, 2, 3]
 };
+
 export const demand = {
   clientid: 1,
   curriculumid: 1,
@@ -25,21 +27,22 @@ export const sampleCurr = {
 };
 
 export const skill = {
-    skillname: "whatever",
-    skillId: 10
+  skillname: "whatever",
+  skillId: 10
 };
 
 export const trainer = {
-    trainerid: 123,
-    email: "test@gmail.com",
-    trainerfirst: "Robert",
-    trainerlast: "Connell"
+  trainerId: 123,
+  email: "test@gmail.com",
+  trainerfirst: "Robert",
+  trainerlast: "Connell",
+  curriculaIdArr: [2, 7]
 };
 
 export const updateBatchData = {
-  batchSize : 25,
+  batchSize: 25,
   batchId: 11210034,
-  curriculumId : 11211,
+  curriculumId: 11211,
   endDate: '11/3/27',
   startDate: '9/3/27',
   trainerId: 299110,

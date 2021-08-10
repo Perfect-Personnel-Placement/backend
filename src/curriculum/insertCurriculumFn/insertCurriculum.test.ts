@@ -8,7 +8,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 describe('Insert Curriculum Handler', () => {
   it('should succeed with 201, from a valid input', async () => {
     (client.query as jest.Mock).mockImplementationOnce(() => {
-      return { rows: curriculum }; // look into mockReturn
+      return { rows: [{ curriculumid: 2 }] }; // look into mockReturn
     });
     const res = await handler({
       body: JSON.stringify(curriculum)
