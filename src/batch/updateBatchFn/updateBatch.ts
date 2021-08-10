@@ -2,7 +2,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import pgClient from '../../global/postgres';
 const text = 'UPDATE batch ' + 'SET batchsize = $1, curriculumid = $2, enddate = $3, ' + 
-    'startdate = $4, trainerid = $5, clientid = $6, confirmed = $7 WHERE batchid =  $8 RETURNING *';
+    'startdate = $4, trainerid = $5, clientid = $6 WHERE batchid =  $7 RETURNING *';
 
 export interface setBatch {
     batchSize : number,
@@ -12,7 +12,6 @@ export interface setBatch {
     startDate : string,
     trainerId : number | null,
     clientId : number | null,
-    confirmed : boolean
 
 }
 
@@ -40,7 +39,6 @@ export default async function handler(event: APIGatewayProxyEvent) {
         batch.startDate,
         batch.trainerId,
         batch.clientId,
-        batch.confirmed,
         batch.batchId,
     ];
     let res;

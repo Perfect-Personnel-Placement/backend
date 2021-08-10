@@ -18,7 +18,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     try {
         res = await client.query(text, trainerData)
         const curriculumArray = await client.query(curriculumQuery, [trainer])
-        res.rows[0].curricula = curriculumArray.rows
+        res.rows[0].curriculaIdArr = curriculumArray.rows
     } catch (err) {
         console.log(err);
         return new HTTPResponse(400, "Unable to Query the information")

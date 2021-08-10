@@ -8,8 +8,11 @@ const input: unknown = { pathParameters: trainer }
 describe('Testing GetTrainerById  Handler', () => {
     it('should succeed with status code 200', async () => {
         (client.query as jest.Mock).mockImplementationOnce(() => {
-            return { rows: trainer } // look into mockReturn
-        })
+            return { rows: [{ curriculaIdArr: [1] }] } // look into mockReturn
+        });
+        (client.query as jest.Mock).mockImplementationOnce(() => {
+            return { rows: {} } // look into mockReturn
+        });
         const res = await handler(input as APIGatewayProxyEvent);
         expect(res.statusCode).toEqual(200);
     })
