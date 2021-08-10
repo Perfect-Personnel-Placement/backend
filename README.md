@@ -90,12 +90,14 @@ _Any code returned not in this list indicates that something has gone wrong._
     "startDate": string,
     "trainerId": number | null,
     "clientId": number | null,
-    "confirmed": boolean
   }
   ```
 - `GET` to `/batch/curriculum/:curriculumId` will get all batches
   with the specified curriculum
 - `GET` to `/batch/id/:batchId` will get the batch with the specified ID
+- `PATCH` to `/batch/id/:batchId` will confirm a batch.
+  (Note: Make sure a trainer has been assigned to a batch first.
+  The `PUT` to `/batch` request can be used for this if necessary.)
 - `DELETE` to `/batch/id/:batchId` will delete the specified batch
 - `GET` to `/batch/trainer/:trainerId` will get all the batches assigned
   to a specified trainer
