@@ -76,7 +76,7 @@ _Any code returned not in this list indicates that something has gone wrong._
     "endDate": string,
     "startDate": string,
     "trainerId": number | null,
-    "clientId": number | null,
+    "clientId": number | null
   }
   ```
 - `PUT` to `/batch` will update an existing batch;
@@ -89,7 +89,7 @@ _Any code returned not in this list indicates that something has gone wrong._
     "endDate": string,
     "startDate": string,
     "trainerId": number | null,
-    "clientId": number | null,
+    "clientId": number | null
   }
   ```
 - `GET` to `/batch/curriculum/:curriculumId` will get all batches
