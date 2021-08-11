@@ -27,8 +27,8 @@ export const sampleCurr = {
 };
 
 export const skill = {
-  skillname: 'whatever',
-  skillId: 10
+  skillName: 'whatever',
+  skillId: 1
 };
 
 export const trainer = {
