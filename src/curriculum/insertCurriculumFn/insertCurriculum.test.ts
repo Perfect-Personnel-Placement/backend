@@ -13,13 +13,11 @@ describe('Insert Curriculum Handler', () => {
     const res = await handler({
       body: JSON.stringify(curriculum)
     } as APIGatewayProxyEvent);
-    console.log(res);
     expect(res.statusCode).toEqual(201);
   });
 
   it('should fail with 400, from a null body', async () => {
     const res = await handler({} as APIGatewayProxyEvent);
-    console.log(res);
     expect(res.statusCode).toEqual(400);
   });
 
@@ -27,7 +25,6 @@ describe('Insert Curriculum Handler', () => {
     const res = await handler({
       body: '{"curriculumname": "failure"}'
     } as APIGatewayProxyEvent);
-    console.log(res);
     expect(res.statusCode).toEqual(400);
   });
 
@@ -39,7 +36,6 @@ describe('Insert Curriculum Handler', () => {
     const res = await handler({
       body: JSON.stringify(curriculum)
     } as APIGatewayProxyEvent);
-    console.log(res);
     expect(res.statusCode).toEqual(400);
   });
 
@@ -50,7 +46,6 @@ describe('Insert Curriculum Handler', () => {
     const res = await handler({
       body: JSON.stringify(curriculum)
     } as APIGatewayProxyEvent);
-    console.log(res);
     expect(res.statusCode).toEqual(400);
   });
 });
