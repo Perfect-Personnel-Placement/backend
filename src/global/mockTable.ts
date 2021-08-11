@@ -27,15 +27,15 @@ export const sampleCurr = {
 };
 
 export const skill = {
-  skillname: "whatever",
+  skillname: 'whatever',
   skillId: 10
 };
 
 export const trainer = {
   trainerId: 123,
-  email: "test@gmail.com",
-  trainerfirst: "Robert",
-  trainerlast: "Connell",
+  email: 'test@gmail.com',
+  trainerfirst: 'Robert',
+  trainerlast: 'Connell',
   curriculaIdArr: [2, 7]
 };
 
@@ -47,6 +47,5 @@ export const updateBatchData = {
   startDate: '9/3/27',
   trainerId: 299110,
   clientId: 54330,
-  confirmed: false,
-
-}
+  confirmed: false
+};
