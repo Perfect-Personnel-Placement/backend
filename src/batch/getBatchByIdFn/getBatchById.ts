@@ -3,7 +3,12 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'SELECT * FROM batch WHERE (batchid = $1)';
 
-//YTyler
+/**
+ * Insert Curriculum Handler - Used to create a new curriculum in the database.
+ * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
+ * @returns {HTTPResponse} - HTTP response with status code and body
+ * @author YTyler
+ */
 export default async function handler(event: APIGatewayProxyEvent) {
     if (!event.pathParameters || !event.pathParameters.batchId) { //Check if the path parameters were null
         return new HTTPResponse(400, "No path parameters");

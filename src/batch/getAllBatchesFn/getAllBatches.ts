@@ -2,7 +2,13 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'SELECT * FROM batch';
-//YTyler
+
+/**
+ * Insert Curriculum Handler - Used to create a new curriculum in the database.
+ * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
+ * @returns {HTTPResponse} - HTTP response with status code and body
+ * @author YTyler
+ */
 export default async function handler(event: APIGatewayProxyEvent) {
 
     //Try querying the DataBase

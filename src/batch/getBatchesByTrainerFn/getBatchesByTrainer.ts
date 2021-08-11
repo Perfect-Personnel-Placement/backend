@@ -3,7 +3,12 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'SELECT * FROM batch WHERE (trainerid = $1)';
 
-// written by MH
+/**
+ * Insert Curriculum Handler - Used to create a new curriculum in the database.
+ * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
+ * @returns {HTTPResponse} - HTTP response with status code and body
+ * @author Mohamed Hassan
+ */
 export default async function handler(event: APIGatewayProxyEvent) {
     // Double-checks that neither pathParameters nor trainerId are undefined
     //  If undefined, reject with code 400

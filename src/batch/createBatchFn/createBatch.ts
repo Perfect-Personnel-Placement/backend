@@ -16,7 +16,12 @@ export interface createBatches {
   clientId: number | null;
 }
 
-// Written by backend as group
+/**
+ * Insert Curriculum Handler - Used to create a new curriculum in the database.
+ * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
+ * @returns {HTTPResponse} - HTTP response with status code and body
+ * @author Backend as a group :)
+ */
 export default async function handler(event: APIGatewayProxyEvent) {
   // Check that data was provided, then assign the data to a variable
   if (!event.body) {

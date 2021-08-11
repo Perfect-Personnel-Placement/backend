@@ -10,6 +10,12 @@ let checkTrainerQuery = 'SELECT confirmed, trainerid, curriculumid, startdate FR
 let getTrainerEmailQuery = 'SELECT email FROM trainer WHERE trainerid = $1';
 const getCurricNameQuery = 'SELECT curriculumname FROM curriculum WHERE curriculumid = $1';
 
+/**
+ * Insert Curriculum Handler - Used to create a new curriculum in the database.
+ * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
+ * @returns {HTTPResponse} - HTTP response with status code and body
+ * @author Mohamed Hassan
+ */
 export default async function handler(event: APIGatewayProxyEvent) { 
 
     //Pull data from event body
