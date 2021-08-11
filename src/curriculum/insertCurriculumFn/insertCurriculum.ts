@@ -19,9 +19,9 @@ export interface createCurr {
 }
 
 /**
- * Insert Curriculum Handler: Used to create a new curriculum in the database.
- * @param event: APIGatewayProxyEvent
- * @returns HTTPResponse
+ * Insert Curriculum Handler - Used to create a new curriculum in the database.
+ * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
+ * @returns {HTTPResponse} - HTTP response with status code and body
  * @author Marc Skwarczynski
  */
 export default async function handler(event: APIGatewayProxyEvent) {
@@ -42,9 +42,9 @@ export default async function handler(event: APIGatewayProxyEvent) {
 
   // Check that data has expected key-value pairs
   if (
-    !curr.createdby ||
-    !curr.createdon ||
-    !curr.curriculumname ||
+    typeof curr.createdby != 'string' ||
+    typeof curr.createdon != 'string' ||
+    typeof curr.curriculumname != 'string' ||
     !curr.skillIdArr
   ) {
     return new HTTPResponse(400, {
