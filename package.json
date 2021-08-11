@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:jest": "jest /src/ --coverage --collectCoverageFrom='./src/**' --coverageDirectory='coverage'",
     "build": "tsc",
     "start-ts": "ts-node"
   },
