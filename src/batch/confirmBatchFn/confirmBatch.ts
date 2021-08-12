@@ -19,7 +19,13 @@ const getCurricNameQuery = 'SELECT curriculumname FROM curriculum WHERE curricul
 export default async function handler(event: APIGatewayProxyEvent) { 
 
     //Pull data from event body
-    if(event.pathParameters) {
+    if (!event.pathParameters || !event.pathParameters.batchId) { //Check if the path parameters were null
+        console.log("Line23");
+        return new HTTPResponse(
+            400,
+            'No path parameter was given; expected batchId as a number.'
+          );
+    }
         const batchId = event.pathParameters.batchId;
         console.log(batchId);
         
@@ -32,7 +38,8 @@ export default async function handler(event: APIGatewayProxyEvent) {
         const startDate = res.rows[0].startdate;
         const confirmed = res.rows[0].confirmed;
 
-        if(res.rows && !confirmed) {
+        if(res.rows && confirmed) {
+            console.log("Line42");
             //Update batch status to confirmed on postgres table batch
             await pgClient.query(updateBatchQuery, [batchId]);
 
@@ -71,15 +78,14 @@ export default async function handler(event: APIGatewayProxyEvent) {
             };
             run();
 
-
+            console.log("Line80");
             return new HTTPResponse(200, "Batch confirmed successfully");
         
         } else {
+            console.log("Line84");
         return new HTTPResponse(400, "Batch unable to be confirmed");
     }
 
-} else { 
-    return new HTTPResponse(400, "Invalid path parameters");
-}
+
 }
 

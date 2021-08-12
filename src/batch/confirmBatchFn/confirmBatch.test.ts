@@ -1,9 +1,13 @@
 import handler from './confirmBatch';
 jest.mock('../../global/postgres')
+jest.mock('../../global/snsClient')
 import client from '../../global/postgres'
+import { snsClient } from '../../global/snsClient';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { batch } from '../../global/mockTable';
 const input: unknown = { pathParameters: { batchId : 11210034 } }
+const wronginput: unknown = { pathParameters: { batchId : "WrongPathParam" } }
+
 
 // Written by BWK
 describe('Get Batch by ID Handler', () => {
@@ -13,7 +17,17 @@ describe('Get Batch by ID Handler', () => {
     })
 
     it('should succeed with 200, from a valid input', async () => {
-        (client.query as jest.Mock).mockResolvedValueOnce({ rows: {} })
+        (client.query as jest.Mock).mockResolvedValueOnce({ rows: [{
+            trainerid : 22,
+            curriculumid : 33,
+            startdate : "1/1/21",
+            enddate : "3/3/23",
+            confirmed : true
+        }] }), (client.query as jest.Mock).mockResolvedValue({ rows : [{
+            email : "sample@test.com"
+        }]}), (snsClient.send as jest.Mock).mockResolvedValueOnce({
+
+        })
         const res = await handler(input as APIGatewayProxyEvent);
         expect(res.statusCode).toEqual(200);
     })
@@ -25,4 +39,18 @@ describe('Get Batch by ID Handler', () => {
         const res = await handler(input as APIGatewayProxyEvent)
         expect(res.statusCode).toEqual(400)
     })
+
+    it('should fail with 400, from an invalid path parameter', async () => {
+        const res = await handler(wronginput as APIGatewayProxyEvent);
+        expect(res.statusCode).toEqual(400);
+      });
+
+    it('should fail with 400, from a database query error', async () => {
+        const err = { detail: 'normal error from testing' };
+        (client.query as jest.Mock).mockImplementationOnce(() => {
+          throw err;
+        });
+        const res = await handler({} as APIGatewayProxyEvent);
+        expect(res.statusCode).toEqual(400);
+      });
 })
