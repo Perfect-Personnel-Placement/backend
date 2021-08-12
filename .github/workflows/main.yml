@@ -28,7 +28,7 @@ jobs:
       run:  sudo npm install -g jest
     - name: Run Tests
       # run:  npm run test 'src/trainer/createTrainerFn/createTrainer.test.ts'
-      run: npm run test-stupid
+      run: npm run test
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       # with:
