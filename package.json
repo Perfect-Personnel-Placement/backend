@@ -11,7 +11,13 @@
     "start-ts": "ts-node"
   },
   "jest": {
-    "testResultsProcessor": "jest-sonar-reporter"
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "testResultsProcessor": "jest-sonar-reporter",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ]
   },
   "repository": {
     "type": "git",
