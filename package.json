@@ -4,7 +4,7 @@
   "description": "Serverless backend for Perfect Personnel Placement.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest /src/trainer/createTrainerFn/ --coverage",
     "test:jest": "jest /src/ --coverage --collectCoverageFrom='./src/**' --coverageDirectory='coverage'",
     "test-stupid": "jest /src/trainer/createTrainerFn/** --coverage --collectCoverageFrom='./src/trainer/createTrainerFn/**' --coverageDirectory='coverage'",
     "build": "tsc",
