@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\init\init.test.ts">
+    <testCase name="Function handler for init database function Should run successfully without errors" duration="5"/>
+    <testCase name="Function handler for init database function Should fail gracefully if FS fails" duration="14"/>
+    <testCase name="Function handler for init database function Should fail gracefully if PG fails" duration="1"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\demand\getAllDemandsFn\getAllDemands.test.ts">
+    <testCase name="Get All Demands Handler should succeed with 200, from a valid input" duration="5"/>
+    <testCase name="Get All Demands Handler should fail with 400, from a database query error" duration="22"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\getBatchByIdFn\getBatchById.test.ts">
+    <testCase name="Testing getBatchById Handler should succeed with status code 200" duration="5"/>
+    <testCase name="Testing getBatchById Handler should fail with 400, from a pathparamaters is null" duration="1"/>
+    <testCase name="Testing getBatchById Handler should fail with 400, from a database query error" duration="11"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\curriculum\getAllCurriculaFn\getAllCurricula.test.ts">
+    <testCase name="Get All Curriculua Handler should succeed with 200, from a valid input" duration="4"/>
+    <testCase name="Get All Curriculua Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\skill\createSkillFn\createSkill.test.ts">
+    <testCase name="Create the Skill Handler should succeed with 201, from a valid input" duration="24"/>
+    <testCase name="Create the Skill Handler should fail with 400, from a null body" duration="1"/>
+    <testCase name="Create the Skill Handler should fail with 400, from a database query error" duration="2"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\trainer\deleteTrainerFn\deleteTrainer.test.ts">
+    <testCase name="Testing DeleteTrainer  Handler should succeed with status code 200" duration="4"/>
+    <testCase name="Testing DeleteTrainer  Handler should fail with 400, from a pathparmaters is null" duration="1"/>
+    <testCase name="Testing DeleteTrainer  Handler should fail with 400, from a database query error" duration="12"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\trainer\createTrainerFn\createTrainer.test.ts">
+    <testCase name="Testing CreateTrainer  Handler should succeed with 201, from a valid input" duration="3"/>
+    <testCase name="Testing CreateTrainer  Handler should fail with 400, from a null body" duration="1"/>
+    <testCase name="Testing CreateTrainer  Handler should fail with 400, from a database query error" duration="10"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\curriculum\getCurriculumFn\getCurriculum.test.ts">
+    <testCase name="Get Curriculum handler should fail with 400, from an invalid path parameter" duration="1"/>
+    <testCase name="Get Curriculum handler should succeed with 200, from a valid input" duration="3"/>
+    <testCase name="Get Curriculum handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\skill\deleteSkillFn\deleteSkill.test.ts">
+    <testCase name="Delete a Skill Handler should succeed with 200, from a valid input" duration="20"/>
+    <testCase name="Delete a Skill Handler should fail with 400, from a null body" duration="0"/>
+    <testCase name="Delete a Skill Handler should fail with 400, from a database query error" duration="3"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\trainer\updateTrainerFn\updateTrainer.test.ts">
+    <testCase name="Testing UpdateTrainer  Handler should succeed with 200, from a valid input" duration="17"/>
+    <testCase name="Testing UpdateTrainer  Handler should fail with 400, from a null body" duration="1"/>
+    <testCase name="Testing UpdateTrainer  Handler should fail with 400, from a database query error" duration="2"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\trainer\getTrainersByFirstNameFn\getTrainersByFirstName.test.ts">
+    <testCase name="Testing GetTrainerByFirstName  Handler should succeed with status code 200" duration="5"/>
+    <testCase name="Testing GetTrainerByFirstName  Handler should fail with 400, from a pathparmaters is null" duration="1"/>
+    <testCase name="Testing GetTrainerByFirstName  Handler should fail with 400, from a database query error" duration="11"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\client\getClientFn\getClient.test.ts">
+    <testCase name="getClient handler should fail with 400, from an invalid path parameter" duration="4"/>
+    <testCase name="getClient handler should succeed with 200, from a valid input" duration="1"/>
+    <testCase name="getClient handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\skill\getSkillByNameFn\getSkillByName.test.ts">
+    <testCase name="Get Skill by Name Handler should fail with 400, from an invalid path parameter" duration="5"/>
+    <testCase name="Get Skill by Name Handler should succeed with 200, from a valid input" duration="14"/>
+    <testCase name="Get Skill by Name Handler should fail with 400, from a database query error" duration="2"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\trainer\getTrainerByIdFn\getTrainerById.test.ts">
+    <testCase name="Testing GetTrainerById  Handler should succeed with status code 200" duration="4"/>
+    <testCase name="Testing GetTrainerById  Handler should fail with 400, from a pathparmaters is null" duration="1"/>
+    <testCase name="Testing GetTrainerById  Handler should fail with 400, from a database query error" duration="14"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\demand\getDemandsByClientFn\getDemandsByClient.test.ts">
+    <testCase name="Get Demand by Client Handler should fail with 400, from an invalid path parameter" duration="7"/>
+    <testCase name="Get Demand by Client Handler should succeed with 200, from a valid input" duration="15"/>
+    <testCase name="Get Demand by Client Handler should fail with 400, from a database query error" duration="2"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\client\getClientByNameFn\getClientByName.test.ts">
+    <testCase name="getClientByName handler should fail with 400, from an invalid path parameter" duration="4"/>
+    <testCase name="getClientByName handler should succeed with 200, from a valid input" duration="1"/>
+    <testCase name="getClientByName handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\demand\getDemandByIdFn\getDemandById.test.ts">
+    <testCase name="Get Demand by ID Handler should fail with 400, from an invalid path parameter" duration="5"/>
+    <testCase name="Get Demand by ID Handler should succeed with 200, from a valid input" duration="12"/>
+    <testCase name="Get Demand by ID Handler should fail with 400, from a database query error" duration="2"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\getBatchesByCurriculumFn\getBatchesByCurriculum.test.ts">
+    <testCase name="Get Batch by ID Handler should fail with 400, from an invalid path parameter" duration="5"/>
+    <testCase name="Get Batch by ID Handler should succeed with 200, from a valid input" duration="14"/>
+    <testCase name="Get Batch by ID Handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\client\addClientFn\addClient.test.ts">
+    <testCase name="addClient handler should succeed with 201, from a valid input" duration="4"/>
+    <testCase name="addClient handler should fail with 400, from a null body" duration="1"/>
+    <testCase name="addClient handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\demand\getDemandByCurriculumFn\getDemandByCurriculum.test.ts">
+    <testCase name="Get Demand by Curriculum Handler should fail with 400, from an invalid path parameter" duration="4"/>
+    <testCase name="Get Demand by Curriculum Handler should succeed with 200, from a valid dateless input" duration="20"/>
+    <testCase name="Get Demand by Curriculum Handler should succeed with 200, from a valid dated input" duration="2"/>
+    <testCase name="Get Demand by Curriculum Handler should fail with 400, from a database query error" duration="2"/>
+    <testCase name="Get Demand by Curriculum Handler should fail with 400, due to missing end date" duration="6"/>
+    <testCase name="Get Demand by Curriculum Handler should fail with 400, due to missing start date" duration="1"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\getAllBatchesFn\getAllBatches.test.ts">
+    <testCase name="Test GetAllBatches should succeed with 200, from a valid input" duration="5"/>
+    <testCase name="Test GetAllBatches should fail with 400, from a database query error" duration="18"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\removeBatchFn\removeBatch.test.ts">
+    <testCase name="Testing DeleteTrainer  Handler should succeed with status code 200" duration="4"/>
+    <testCase name="Testing DeleteTrainer  Handler should fail with 400, from a pathparmaters is null" duration="0"/>
+    <testCase name="Testing DeleteTrainer  Handler should fail with 400, from a database query error" duration="13"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\curriculum\deleteCurriculumFn\deleteCurriculum.test.ts">
+    <testCase name="Delete Curriculum handler should fail with 400, from an invalid path parameter" duration="3"/>
+    <testCase name="Delete Curriculum handler should succeed with 200, from a valid input" duration="1"/>
+    <testCase name="Delete Curriculum handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\demand\getDemandByDateFn\getDemandByDate.test.ts">
+    <testCase name="Testing GetDemandByDate  Handler should succeed with status code 200" duration="5"/>
+    <testCase name="Testing GetDemandByDate  Handler should fail with 400, from a pathparmaters is null" duration="1"/>
+    <testCase name="Testing GetDemandByDate  Handler should fail with 400, from a database query error" duration="15"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\trainer\getTrainersByLastNameFn\getTrainersByLastName.test.ts">
+    <testCase name="Testing GetTrainerByLastName  Handler should succeed with status code 200" duration="4"/>
+    <testCase name="Testing GetTrainerByLastName  Handler should fail with 400, from a pathparmaters is null" duration="0"/>
+    <testCase name="Testing GetTrainerByLastName  Handler should fail with 400, from a database query error" duration="12"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\createBatchFn\createBatch.test.ts">
+    <testCase name="Create the Batch Handler should succeed with 201, from a valid input" duration="4"/>
+    <testCase name="Create the Batch Handler should fail with 400, from a null body" duration="1"/>
+    <testCase name="Create the Batch Handler should fail with 400, from a database query error" duration="13"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\curriculum\insertCurriculumFn\insertCurriculum.test.ts">
+    <testCase name="Insert Curriculum Handler should succeed with 201, from a valid input" duration="4"/>
+    <testCase name="Insert Curriculum Handler should fail with 400, from a null body" duration="1"/>
+    <testCase name="Insert Curriculum Handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\trainer\getAllTrainersFn\getAllTrainers.test.ts">
+    <testCase name="Test GetAllTrainers should succeed with 200, from a valid input" duration="5"/>
+    <testCase name="Test GetAllTrainers should fail with 400, from a database query error" duration="13"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\skill\getAllSkillsFn\getAllSkills.test.ts">
+    <testCase name="Get All Skills Handler should succeed with 200, from a valid input" duration="4"/>
+    <testCase name="Get All Skills Handler should fail with 400, from a database query error" duration="10"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\skill\getSkillByIdFn\getSkillById.test.ts">
+    <testCase name="Get Skill by ID Handler should fail with 400, from an invalid path parameter" duration="4"/>
+    <testCase name="Get Skill by ID Handler should succeed with 200, from a valid input" duration="15"/>
+    <testCase name="Get Skill by ID Handler should fail with 400, from a database query error" duration="2"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\client\getAllClientsFn\getAllClients.test.ts">
+    <testCase name="getAllClients handler should succeed with 200, from a valid input" duration="5"/>
+    <testCase name="getAllClients handler should fail with 400, from a database query error" duration="12"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\demand\createDemandFn\createDemand.test.ts">
+    <testCase name="Testing CreateDemand  Handler should succeed with 201, from a valid input" duration="3"/>
+    <testCase name="Testing CreateDemand  Handler should fail with 400, from a null body" duration="0"/>
+    <testCase name="Testing CreateDemand  Handler should fail with 400, from a database query error" duration="12"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\updateBatchFn\updateBatch.test.ts">
+    <testCase name="Testing UpdateBatch Handler should succeed with 200, from a valid input" duration="2"/>
+    <testCase name="Testing UpdateBatch Handler should fail with 400, from a null body" duration="0"/>
+    <testCase name="Testing UpdateBatch Handler should fail with 400, from a database query error" duration="9"/>
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\getBatchesByTrainerFn\getBatchesByTrainer.test.ts">
+  </file>
+  <file path="C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\confirmBatchFn\confirmBatch.test.ts">
+    <testCase name="Get Batch by ID Handler should fail with 400, from an invalid path parameter" duration="2"/>
+    <testCase name="Get Batch by ID Handler should succeed with 200, from a valid input" duration="11">
+      <failure message="TypeError: Cannot read property &apos;trainerid&apos; of undefined"><![CDATA[TypeError: Cannot read property 'trainerid' of undefined
+    at handler (C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\confirmBatchFn\confirmBatch.ts:24:39)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at Object.<anonymous> (C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\confirmBatchFn\confirmBatch.test.ts:17:21)]]></failure>
+    </testCase>
+    <testCase name="Get Batch by ID Handler should fail with 400, from a database query error" duration="1">
+      <failure message="Error: thrown: &quot;error&quot;"><![CDATA[Error: thrown: "error"
+    at C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\confirmBatchFn\confirmBatch.test.ts:21:5
+    at _dispatchDescribe (C:\Users\Samuel Smetzer\Documents\GitHub\backend\node_modules\jest-circus\build\index.js:97:26)
+    at describe (C:\Users\Samuel Smetzer\Documents\GitHub\backend\node_modules\jest-circus\build\index.js:60:5)
+    at Object.<anonymous> (C:\Users\Samuel Smetzer\Documents\GitHub\backend\src\batch\confirmBatchFn\confirmBatch.test.ts:9:1)
+    at Runtime._execModule (C:\Users\Samuel Smetzer\Documents\GitHub\backend\node_modules\jest-runtime\build\index.js:1394:24)
+    at Runtime._loadModule (C:\Users\Samuel Smetzer\Documents\GitHub\backend\node_modules\jest-runtime\build\index.js:996:12)
+    at Runtime.requireModule (C:\Users\Samuel Smetzer\Documents\GitHub\backend\node_modules\jest-runtime\build\index.js:828:12)
+    at jestAdapter (C:\Users\Samuel Smetzer\Documents\GitHub\backend\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:79:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at runTestInternal (C:\Users\Samuel Smetzer\Documents\GitHub\backend\node_modules\jest-runner\build\runTest.js:389:16)]]></failure>
+    </testCase>
+  </file>
+</testExecutions>
