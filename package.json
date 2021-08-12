@@ -10,6 +10,9 @@
     "build": "tsc",
     "start-ts": "ts-node"
   },
+  "jest": {
+    "testResultsProcessor": "jest-sonar-reporter"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Perfect-Personnel-Placement/backend.git"
