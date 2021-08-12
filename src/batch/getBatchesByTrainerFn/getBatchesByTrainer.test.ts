@@ -1,4 +1,4 @@
-import handler from './getTrainerById';
+import handler from './getBatchesByTrainer';
 jest.mock('../../global/postgres')
 import client from '../../global/postgres'
 import { APIGatewayProxyEvent } from 'aws-lambda';
