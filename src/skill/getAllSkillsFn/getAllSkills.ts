@@ -3,7 +3,6 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 const text = 'SELECT * FROM skill';
 
-// Written by BWK
 /**
  * Get Skill Handler - Used to get all of the skills
  * @returns {HTTPResponse} - HTTP response with status code and body
