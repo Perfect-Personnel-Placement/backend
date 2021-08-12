@@ -8,6 +8,15 @@ export const batch = {
   clientid: null //we provide, perhaps may change this, like name
 };
 
+export const batch2 = {
+  batchSize: 1,
+  curriculumId: 1, //we provide, perhaps may change this, like name
+  endDate: '1',
+  startDate: '1',
+  trainerId: 123, //we provide, perhaps may change this, like name
+  clientId: 345 //we provide, perhaps may change this, like name
+};
+
 export const curriculum = {
   createdby: 'nobody',
   createdon: '2021-08-05',
