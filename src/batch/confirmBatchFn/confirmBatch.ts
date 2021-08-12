@@ -5,6 +5,8 @@ import { PublishCommand } from "@aws-sdk/client-sns";
 import { snsClient } from "../../global/snsClient";
 import { SendEmailCommand, SendEmailCommandInput } from "@aws-sdk/client-ses";
 import { sesClient } from "../../global/sesClient";
+import { trainer } from 'src/global/mockTable';
+
 
 //Postgres queries
 let updateBatchQuery = 'UPDATE batch SET confirmed = true WHERE batchid = $1';
@@ -40,8 +42,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     const startDate = res.rows[0].startdate;
     const confirmed = res.rows[0].confirmed;
 
-    if (res.rows && confirmed) {
-        console.log("Line42");
+    if (res.rows && !confirmed) {
         //Update batch status to confirmed on postgres table batch
         await pgClient.query(updateBatchQuery, [batchId]);
 
@@ -76,8 +77,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
             Destination: {
                 /* required */
                 ToAddresses: [
-                    "perfectpersonnelplacement@gmail.com",
-                    "marc.skwarczynski@revature.net", //RECEIVER_ADDRESS
+                    trainerEmail, //RECEIVER_ADDRESS
                     /* more To-email addresses */
                 ],
             },
@@ -96,7 +96,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
                     Data: "New batch confirmed.",
                 },
             },
-            Source: "marc.skwarczynski@revature.net", // SENDER_ADDRESS
+            Source: "perfectpersonnelplacement@outlook.com", // SENDER_ADDRESS
         };
 
         try {
