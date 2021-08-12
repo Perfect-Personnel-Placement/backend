@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:jest": "jest /src/ --coverage --collectCoverageFrom='./src/**' --coverageDirectory='coverage'",
+    "test-stupid": "jest src/trainer/createTrainerFn/** --coverage --collectCoverageFrom='./src/trainer/createTrainerFn/**' --coverageDirectory='coverage'",
     "build": "tsc",
     "start-ts": "ts-node"
   },
