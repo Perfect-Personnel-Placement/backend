@@ -14,29 +14,33 @@ let checkTrainerQuery = 'SELECT confirmed, trainerid, curriculumid, startdate FR
 let getTrainerEmailQuery = 'SELECT email FROM trainer WHERE trainerid = $1';
 const getCurricNameQuery = 'SELECT curriculumname FROM curriculum WHERE curriculumid = $1';
 
+
+let responseBody : any = {
+    message: "Batch confirmed successfully!",
+    snsStatus: "",
+    sesStatus: ""
+}
 /**
  * Insert Curriculum Handler - Used to create a new curriculum in the database.
  * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
  * @returns {HTTPResponse} - HTTP response with status code and body
  * @author Mohamed Hassan
  */
+
+
 export default async function handler(event: APIGatewayProxyEvent) {
 
     //Pull data from event body
     if (!event.pathParameters || !event.pathParameters.batchId) { //Check if the path parameters were null
-        console.log("Line23");
         return new HTTPResponse(
             400,
             'No path parameter was given; expected batchId as a number.'
         );
     }
     const batchId = event.pathParameters.batchId;
-    console.log(batchId);
 
     //Make initial query to see if trainer exists
     const res = await pgClient.query(checkTrainerQuery, [batchId]);
-    console.log(res.rows); //Returns undefined if trainer DNE
-
     const trainerId = res.rows[0].trainerid;
     const curriculumId = res.rows[0].curriculumid;
     const startDate = res.rows[0].startdate;
@@ -64,15 +68,15 @@ export default async function handler(event: APIGatewayProxyEvent) {
         //SNS 
         try {
             const publishedData = await snsClient.send(new PublishCommand(publishParams));
-
+            responseBody.snsStatus = "Successful SNS call."
             console.log("Success.", publishedData);
         } catch (err) {
-            console.log("Error", err.stack);
+            responseBody.snsStatus = "Failed to publish to SNS.";
+            console.log("Error", err);
+            
         }
 
         //SES
-        // Set the parameters
-        console.log("SES");
         const params: SendEmailCommandInput = {
             Destination: {
                 /* required */
@@ -101,17 +105,20 @@ export default async function handler(event: APIGatewayProxyEvent) {
 
         try {
             const data = await sesClient.send(new SendEmailCommand(params));
+            responseBody.sesStatus = "Successfully sent email."
             console.log("Success", data);
           } catch (err) {
             console.log("Error", err);
+            responseBody.sesStatus = "Failed to send SES email."
           }
 
 
 
 
-        return new HTTPResponse(200, "Batch confirmed successfully");
+        return new HTTPResponse(200, responseBody);
 
     } else {
+        console.log("Line122");
         return new HTTPResponse(400, "Batch unable to be confirmed");
     }
 
