@@ -18,6 +18,13 @@ describe('Testing CreateTrainer  Handler', () => {
         expect(res.statusCode).toEqual(400);
     })
 
+    it('should fail with 400, from an incomplete body', async () => {
+        const res = await handler({
+          body: '{"trainername": "failure"}'
+        } as APIGatewayProxyEvent);
+        expect(res.statusCode).toEqual(400);
+      });
+
     it('should fail with 400, from a database query error', async () => {
         (client.query as jest.Mock).mockImplementationOnce(() => {
             throw "error"
@@ -26,4 +33,13 @@ describe('Testing CreateTrainer  Handler', () => {
         expect(res.statusCode).toEqual(400)
     })
 
+    it('should fail with 400, from an unknown database query error', async () => {
+        (client.query as jest.Mock).mockImplementationOnce(() => {
+          throw 'error';
+        });
+        const res = await handler({
+          body: JSON.stringify(trainer)
+        } as APIGatewayProxyEvent);
+        expect(res.statusCode).toEqual(400);
+      });
 })
