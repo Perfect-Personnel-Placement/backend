@@ -4,10 +4,20 @@
   "description": "Serverless backend for Perfect Personnel Placement.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest /src/trainer/createTrainerFn/ --coverage",
     "test:jest": "jest /src/ --coverage --collectCoverageFrom='./src/**' --coverageDirectory='coverage'",
+    "test-stupid": "jest /src/trainer/createTrainerFn/** --coverage --collectCoverageFrom='./src/trainer/createTrainerFn/**' --coverageDirectory='coverage'",
     "build": "tsc",
     "start-ts": "ts-node"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "testResultsProcessor": "jest-sonar-reporter",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ]
   },
   "repository": {
     "type": "git",
