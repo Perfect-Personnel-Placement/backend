@@ -23,7 +23,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     try {
         res = await client.query(text, trainerData)
         return new HTTPResponse(200, res.rows)
-    } catch (err) {
+    } catch (err: any) {
         console.log(err);
         let displayError: string;
         if (err.detail){

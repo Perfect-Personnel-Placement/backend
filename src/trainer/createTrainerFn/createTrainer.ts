@@ -34,23 +34,23 @@ export default async function handler(event: APIGatewayProxyEvent) {
   }
   const trainer: createTrainer = JSON.parse(event.body);
 
-    // Check that data has expected key-value pairs
-    if (
-      typeof trainer.email != 'string' ||
-      typeof trainer.trainerfirst != 'string' ||
-      typeof trainer.trainerfirst != 'string'
-    ) {
-      return new HTTPResponse(400, {
-        error: 'Body was missing information. Body must be formatted as follows:',
-        body: {
-          email: 'string',
-          trainerfirst: 'string',
-          trainerlast: 'string'
-        }
-      });
-    }
+  // Check that data has expected key-value pairs
+  if (
+    typeof trainer.email != 'string' ||
+    typeof trainer.trainerfirst != 'string' ||
+    typeof trainer.trainerlast != 'string'
+  ) {
+    return new HTTPResponse(400, {
+      error: 'Body was missing information. Body must be formatted as follows:',
+      body: {
+        email: 'string',
+        trainerfirst: 'string',
+        trainerlast: 'string'
+      }
+    });
+  }
 
-   // Set up query values into an array as required by postgres
+  // Set up query values into an array as required by postgres
   const trainerData = [
     trainer.email,
     trainer.trainerfirst,
@@ -75,5 +75,5 @@ export default async function handler(event: APIGatewayProxyEvent) {
       db_error: displayError
     });
   }
-  
+
 }

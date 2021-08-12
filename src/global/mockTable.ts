@@ -49,3 +49,11 @@ export const updateBatchData = {
   clientId: 54330,
   confirmed: false
 };
+
+export const updateTrainerData = {
+  trainerid: 8,
+  email: 'yes@sir.com',
+  trainerfirst: 'paul',
+  trainerlast: 'smith',
+  curriculaIdArr: [3, 9]
+}
