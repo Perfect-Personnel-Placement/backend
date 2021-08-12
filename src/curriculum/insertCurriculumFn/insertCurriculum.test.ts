@@ -21,7 +21,25 @@ describe('Insert Curriculum Handler', () => {
     expect(res.statusCode).toEqual(400);
   });
 
+  it('should fail with 400, from an incomplete body', async () => {
+    const res = await handler({
+      body: '{"curriculumname": "failure"}'
+    } as APIGatewayProxyEvent);
+    expect(res.statusCode).toEqual(400);
+  });
+
   it('should fail with 400, from a database query error', async () => {
+    const err = { detail: 'normal error from testing' };
+    (client.query as jest.Mock).mockImplementationOnce(() => {
+      throw err;
+    });
+    const res = await handler({
+      body: JSON.stringify(curriculum)
+    } as APIGatewayProxyEvent);
+    expect(res.statusCode).toEqual(400);
+  });
+
+  it('should fail with 400, from an unknown database query error', async () => {
     (client.query as jest.Mock).mockImplementationOnce(() => {
       throw 'error';
     });
