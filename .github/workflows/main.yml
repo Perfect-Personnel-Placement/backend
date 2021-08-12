@@ -30,8 +30,8 @@ jobs:
       run:  npm run test 'src/trainer/createTrainerFn/createTrainer.test.ts'
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
-      with:
-        projectBaseDir: './backend/src'
+      # with:
+      #   projectBaseDir: './backend/src'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
