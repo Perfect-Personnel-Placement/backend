@@ -1,0 +1,467 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>p3-backend</title>
+	<meta name="description" content="Documentation for p3-backend">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">p3-backend</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>p3-backend</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#perfect-personnel-placement-backend" id="perfect-personnel-placement-backend" style="color: inherit; text-decoration: none;">
+					<h1>Perfect Personnel Placement Backend</h1>
+				</a>
+				<p><img src="https://img.shields.io/badge/BUILT%20%26%20DEPLOYED%20BY-SAM-orange?style=for-the-badge&logo=amazonaws" alt="Built and Deployed by SAM">
+					<img src="https://img.shields.io/badge/SERVERLESS%20STACK-CLOUDFORMATION-orange?style=for-the-badge&logo=amazonaws" alt="Serverless Stack">
+				<img src="https://img.shields.io/badge/CI%2FCD-CODEPIPELINE-orange?style=for-the-badge&logo=amazonaws" alt="CI/CD by AWS CodePipeline"></p>
+				<p>NOTE: This repo only contains the back-end of our project.
+					The interface used can be found at
+				<a href="https://github.com/Perfect-Personnel-Placement/frontend">Perfect-Personnel-Placement/frontend</a>.</p>
+				<a href="#project-description" id="project-description" style="color: inherit; text-decoration: none;">
+					<h2>Project Description</h2>
+				</a>
+				<p>The Serverless Training planner is a serverless mobile app that Revature
+					managers can use to look at important information regarding clientele demands
+					and batch output for the company. This service visualizes all current
+					batches planned along with any associated information. It also visualizes that
+					batch output alongside the client demand for associates. Managers may input
+					information for clients, their demands, and batches which consist of a
+					curriculum composed of skills, the number of associates, a trainer, and the
+					dates for the batch. This service helps ease the management of supply and demand
+				for the company and is an organizational aid.</p>
+				<a href="#technologies-used" id="technologies-used" style="color: inherit; text-decoration: none;">
+					<h2>Technologies Used</h2>
+				</a>
+				<ul>
+					<li>AWS SAM</li>
+					<li>AWS CloudFormation</li>
+					<li>AWS Lambda</li>
+					<li>AWS API Gateway</li>
+					<li>AWS S3</li>
+					<li>AWS CodePipeline</li>
+					<li>AWS RDS</li>
+					<li>PostgreSQL</li>
+					<li>NodeJS</li>
+					<li>Jest</li>
+				</ul>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting Started</h2>
+				</a>
+				<p>See STARTUP.md (in the current folder) for instructions on how to get the
+					application up and running.
+				Once running, use according to the instructions below.</p>
+				<p>Potential improvements have been noted in IMPROVE.md (in the current folder).</p>
+				<a href="#features-amp-usage" id="features-amp-usage" style="color: inherit; text-decoration: none;">
+					<h2>Features &amp; Usage</h2>
+				</a>
+				<p>The following API calls can be made. The list below applies to ALL endpoints:</p>
+				<ul>
+					<li>A <code>:</code> in front of a portion of the path means to replace that section with
+					your desired value.</li>
+					<li>Unless otherwise indicated, no body should be included.</li>
+					<li>All request/response bodies must be in JSON.</li>
+					<li>Any dates must be sent as a string in
+						<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format.
+					For example, Friday 6 August 2021 would be sent as <code>&#39;2021-08-06&#39;</code>.</li>
+				</ul>
+				<a href="#http-codes-to-expect" id="http-codes-to-expect" style="color: inherit; text-decoration: none;">
+					<h3>HTTP Codes to Expect</h3>
+				</a>
+				<table>
+					<thead>
+						<tr>
+							<th>Code</th>
+							<th>Meaning</th>
+							<th>Usage</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td>200</td>
+							<td>OK</td>
+							<td>Should be returned on everything but <code>POST</code> requests</td>
+						</tr>
+						<tr>
+							<td>201</td>
+							<td>Created</td>
+							<td>Should only be returned on <code>POST</code> requests)</td>
+						</tr>
+						<tr>
+							<td>400</td>
+							<td>Bad Request</td>
+							<td>Will be returned if there is an error with your syntax, an error in the types you used in the body of the message, or if you violated a database constraint (such as a foreign key relationship)</td>
+						</tr>
+						<tr>
+							<td>500</td>
+							<td>Internal Server Error</td>
+							<td>Will be returned if the database is unreachable</td>
+						</tr>
+				</tbody></table>
+				<p><em>Any code returned not in this list indicates that something has gone wrong.</em></p>
+				<a href="#batch" id="batch" style="color: inherit; text-decoration: none;">
+					<h3>Batch</h3>
+				</a>
+				<ul>
+					<li><code>GET</code> to <code>/batch</code> will get all batches</li>
+					<li><code>POST</code> to <code>/batch</code> will create a new batch (will be unconfirmed);
+						requires the following body:<pre><code class="language-JSON"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;batchSize&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;curriculumId&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;endDate&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;startDate&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;trainerId&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000"> </span><span style="color: #CD3131">|</span><span style="color: #000000"> </span><span style="color: #0000FF">null</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;clientId&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000"> </span><span style="color: #CD3131">|</span><span style="color: #000000"> </span><span style="color: #0000FF">null</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					</li>
+					<li><code>PUT</code> to <code>/batch</code> will update an existing batch;
+						requires the following body:<pre><code class="language-JSON"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;batchSize&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;batchId&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;curriculumId&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;endDate&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;startDate&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;trainerId&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000"> </span><span style="color: #CD3131">|</span><span style="color: #000000"> </span><span style="color: #0000FF">null</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;clientId&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000"> </span><span style="color: #CD3131">|</span><span style="color: #000000"> </span><span style="color: #0000FF">null</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					</li>
+					<li><code>GET</code> to <code>/batch/curriculum/:curriculumId</code> will get all batches
+					with the specified curriculum</li>
+					<li><code>GET</code> to <code>/batch/id/:batchId</code> will get the batch with the specified ID</li>
+					<li><code>PATCH</code> to <code>/batch/id/:batchId</code> will confirm a batch.
+						(Note: Make sure a trainer has been assigned to a batch first.
+					The <code>PUT</code> to <code>/batch</code> request can be used for this if necessary.)</li>
+					<li><code>DELETE</code> to <code>/batch/id/:batchId</code> will delete the specified batch</li>
+					<li><code>GET</code> to <code>/batch/trainer/:trainerId</code> will get all the batches assigned
+					to a specified trainer</li>
+				</ul>
+				<a href="#client" id="client" style="color: inherit; text-decoration: none;">
+					<h3>Client</h3>
+				</a>
+				<ul>
+					<li><code>GET</code> to <code>/client</code> will get all clients</li>
+					<li><code>POST</code> to <code>/client</code> will create a new client;
+						requires the following body:<pre><code class="language-JSON"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;clientName&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					</li>
+					<li><code>GET</code> to <code>/client/id/:clientId</code> will get a specific client by id</li>
+					<li><code>GET</code> to <code>/client/name/:clientName</code> will get a specific client by name</li>
+				</ul>
+				<a href="#curriculum" id="curriculum" style="color: inherit; text-decoration: none;">
+					<h3>Curriculum</h3>
+				</a>
+				<ul>
+					<li><code>GET</code> to <code>/curriculum</code> will get all curricula</li>
+					<li><code>POST</code> to <code>/curriculum</code> will create a new curriculum;
+						requires the following body:<pre><code class="language-JSON"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;createdby&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;createdon&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000"> </span><span style="color: #CD3131">(in</span><span style="color: #000000"> </span><span style="color: #CD3131">ISO</span><span style="color: #000000"> </span><span style="color: #098658">8601</span><span style="color: #000000"> </span><span style="color: #CD3131">format</span><span style="color: #000000"> </span><span style="color: #CD3131">--</span><span style="color: #000000"> </span><span style="color: #CD3131">see</span><span style="color: #000000"> </span><span style="color: #CD3131">above)</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;curriculumname&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;skillIdArr&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000">[]</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					</li>
+					<li><code>GET</code> to <code>/curriculum/id/:curriculumId</code> will get a specific curriculum</li>
+					<li><code>DELETE</code> to <code>/curriculum/id/:curriculumId</code> will delete a specific curriculum</li>
+				</ul>
+				<a href="#demand-number-of-associates-requested-per-curriculum" id="demand-number-of-associates-requested-per-curriculum" style="color: inherit; text-decoration: none;">
+					<h3>Demand (number of associates requested per curriculum)</h3>
+				</a>
+				<ul>
+					<li><code>GET</code> to <code>/demand</code> will get all demands</li>
+					<li><code>POST</code> to <code>/demand</code> will create a new demand;
+						requires the following body:<pre><code class="language-JSON"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;clientid&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;curriculumid&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;needby&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;quantitydemanded&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					</li>
+					<li><code>GET</code> to <code>/demand/client/:clientId</code> will get all demand from a specific client</li>
+					<li><code>GET</code> to <code>/demand/curriculum/:curriculumId</code> will get all demand for a specific
+					curriculum</li>
+					<li><code>GET</code> to <code>/demand/curriculum/:curriculumId/:startDate/:endDate</code> will get all
+					demand for a specific curriculum within the specified date range</li>
+					<li><code>GET</code> to <code>/demand/date/:startDate/:endDate</code> will get all demand within the
+					specified date range</li>
+					<li><code>GET</code> to <code>/demand/id/:demandId</code> will get a specific demand</li>
+				</ul>
+				<a href="#skill" id="skill" style="color: inherit; text-decoration: none;">
+					<h3>Skill</h3>
+				</a>
+				<ul>
+					<li><code>GET</code> to <code>/skill</code> will get all skills</li>
+					<li><code>POST</code> to <code>/skill</code> will create a new skill;
+						requires the following body:<pre><code class="language-JSON"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;skillName&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					</li>
+					<li><code>GET</code> to <code>/skill/id/:skillId</code> will get a specific skill by id</li>
+					<li><code>DELETE</code> to <code>/skill/id/:skillId</code> will delete a specific skill</li>
+					<li><code>GET</code> to <code>/skill/name/:skillName</code> will get a specific skill by name</li>
+				</ul>
+				<a href="#trainer" id="trainer" style="color: inherit; text-decoration: none;">
+					<h3>Trainer</h3>
+				</a>
+				<ul>
+					<li><code>GET</code> to <code>/trainer</code> will get all trainers</li>
+					<li><code>POST</code> to <code>/trainer</code> will create a new trainer;
+						requires the following body:<pre><code class="language-JSON"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;email&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;trainerfirst&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;trainerlast&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					</li>
+					<li><code>PUT</code> to <code>/trainer</code> will update a trainer&#39;s information;
+						requires the following body:<pre><code class="language-JSON"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;trainerid&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;email&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;trainerfirst&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;trainerlast&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">string</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;curriculaIdArr&quot;</span><span style="color: #000000">: </span><span style="color: #CD3131">number</span><span style="color: #000000">[]</span>
+<span style="color: #000000">}</span>
+</code></pre>
+					</li>
+					<li><code>GET</code> to <code>/trainer/id/:trainerId</code> will get the information about
+					a specific trainer</li>
+					<li><code>DELETE</code> to <code>/trainer/id/:trainerId</code> will delete a specific trainer</li>
+					<li><code>GET</code> to <code>/trainer/firstname/:trainerFirstName</code> will get all trainers with
+					the requested first name</li>
+					<li><code>GET</code> to <code>/trainer/lastname/:trainerLastName</code> will get all trainers with
+					the requested last name</li>
+				</ul>
+				<a href="#contributors" id="contributors" style="color: inherit; text-decoration: none;">
+					<h2>Contributors</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Drelek">Jared Burkamper</a></li>
+					<li><a href="https://github.com/Dague04">Daguinson Fleurantin</a></li>
+					<li><a href="https://github.com/MohamedOne">Mohamed Hassan</a></li>
+					<li><a href="https://github.com/Brandon-Kirsch">Brandon Kirsch</a></li>
+					<li><a href="https://github.com/J19kula">Jacob Kula</a></li>
+					<li><a href="https://github.com/marcski55">Marc Skwarczynski</a></li>
+					<li><a href="https://github.com/Kamuela96">Samuel Smetzer</a></li>
+					<li><a href="https://github.com/mat2718">Matthew Terry</a></li>
+					<li><a href="https://github.com/nickwanguu">Nick Wang</a></li>
+					<li><a href="https://github.com/YTyler">Tyler Yates</a></li>
+				</ul>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
+				<p><a href="https://github.com/Perfect-Personnel-Placement/backend/blob/cce792fb7b2227d101d330f048cc7a3d8ff762ec/LICENSE"><img src="https://img.shields.io/github/license/RevatureRobert/2106Jun07RNCN-2-p2-be?style=for-the-badge" alt="MIT"></a></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/batch_confirmBatchFn_confirmBatch.html">batch/confirm<wbr>Batch<wbr>Fn/confirm<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/batch_createBatchFn_createBatch.html">batch/create<wbr>Batch<wbr>Fn/create<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/batch_getAllBatchesFn_getAllBatches.html">batch/get<wbr>All<wbr>Batches<wbr>Fn/get<wbr>All<wbr>Batches</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/batch_getBatchByIdFn_getBatchById.html">batch/get<wbr>Batch<wbr>ById<wbr>Fn/get<wbr>Batch<wbr>ById</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/batch_getBatchesByCurriculumFn_getBatchesByCurriculum.html">batch/get<wbr>Batches<wbr>ByCurriculum<wbr>Fn/get<wbr>Batches<wbr>ByCurriculum</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/batch_getBatchesByTrainerFn_getBatchesByTrainer.html">batch/get<wbr>Batches<wbr>ByTrainer<wbr>Fn/get<wbr>Batches<wbr>ByTrainer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/batch_removeBatchFn_removeBatch.html">batch/remove<wbr>Batch<wbr>Fn/remove<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/batch_updateBatchFn_updateBatch.html">batch/update<wbr>Batch<wbr>Fn/update<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/client_addClientFn_addClient.html">client/add<wbr>Client<wbr>Fn/add<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/client_getAllClientsFn_getAllClients.html">client/get<wbr>All<wbr>Clients<wbr>Fn/get<wbr>All<wbr>Clients</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/client_getClientByNameFn_getClientByName.html">client/get<wbr>Client<wbr>ByName<wbr>Fn/get<wbr>Client<wbr>ByName</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/client_getClientFn_getClient.html">client/get<wbr>Client<wbr>Fn/get<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/curriculum_deleteCurriculumFn_deleteCurriculum.html">curriculum/delete<wbr>Curriculum<wbr>Fn/delete<wbr>Curriculum</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/curriculum_getAllCurriculaFn_getAllCurricula.html">curriculum/get<wbr>All<wbr>Curricula<wbr>Fn/get<wbr>All<wbr>Curricula</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/curriculum_getCurriculumFn_getCurriculum.html">curriculum/get<wbr>Curriculum<wbr>Fn/get<wbr>Curriculum</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/curriculum_insertCurriculumFn_insertCurriculum.html">curriculum/insert<wbr>Curriculum<wbr>Fn/insert<wbr>Curriculum</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/demand_createDemandFn_createDemand.html">demand/create<wbr>Demand<wbr>Fn/create<wbr>Demand</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/demand_getAllDemandsFn_getAllDemands.html">demand/get<wbr>All<wbr>Demands<wbr>Fn/get<wbr>All<wbr>Demands</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/demand_getDemandByCurriculumFn_getDemandByCurriculum.html">demand/get<wbr>Demand<wbr>ByCurriculum<wbr>Fn/get<wbr>Demand<wbr>ByCurriculum</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/demand_getDemandByDateFn_getDemandByDate.html">demand/get<wbr>Demand<wbr>ByDate<wbr>Fn/get<wbr>Demand<wbr>ByDate</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/demand_getDemandByIdFn_getDemandById.html">demand/get<wbr>Demand<wbr>ById<wbr>Fn/get<wbr>Demand<wbr>ById</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/demand_getDemandsByClientFn_getDemandsByClient.html">demand/get<wbr>Demands<wbr>ByClient<wbr>Fn/get<wbr>Demands<wbr>ByClient</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/global_mockTable.html">global/mock<wbr>Table</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/global_objects.html">global/objects</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/global_postgres.html">global/postgres</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/global_sesClient.html">global/ses<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/global_snsClient.html">global/sns<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/init_init.html">init/init</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/skill_createSkillFn_createSkill.html">skill/create<wbr>Skill<wbr>Fn/create<wbr>Skill</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/skill_deleteSkillFn_deleteSkill.html">skill/delete<wbr>Skill<wbr>Fn/delete<wbr>Skill</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/skill_getAllSkillsFn_getAllSkills.html">skill/get<wbr>All<wbr>Skills<wbr>Fn/get<wbr>All<wbr>Skills</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/skill_getSkillByIdFn_getSkillById.html">skill/get<wbr>Skill<wbr>ById<wbr>Fn/get<wbr>Skill<wbr>ById</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/skill_getSkillByNameFn_getSkillByName.html">skill/get<wbr>Skill<wbr>ByName<wbr>Fn/get<wbr>Skill<wbr>ByName</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/trainer_createTrainerFn_createTrainer.html">trainer/create<wbr>Trainer<wbr>Fn/create<wbr>Trainer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/trainer_deleteTrainerFn_deleteTrainer.html">trainer/delete<wbr>Trainer<wbr>Fn/delete<wbr>Trainer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/trainer_getAllTrainersFn_getAllTrainers.html">trainer/get<wbr>All<wbr>Trainers<wbr>Fn/get<wbr>All<wbr>Trainers</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/trainer_getTrainerByIdFn_getTrainerById.html">trainer/get<wbr>Trainer<wbr>ById<wbr>Fn/get<wbr>Trainer<wbr>ById</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/trainer_getTrainersByFirstNameFn_getTrainersByFirstName.html">trainer/get<wbr>Trainers<wbr>ByFirst<wbr>Name<wbr>Fn/get<wbr>Trainers<wbr>ByFirst<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/trainer_getTrainersByLastNameFn_getTrainersByLastName.html">trainer/get<wbr>Trainers<wbr>ByLast<wbr>Name<wbr>Fn/get<wbr>Trainers<wbr>ByLast<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/trainer_updateTrainerFn_updateTrainer.html">trainer/update<wbr>Trainer<wbr>Fn/update<wbr>Trainer</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

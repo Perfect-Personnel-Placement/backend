@@ -1,16 +1,32 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
-const text = 'SELECT * FROM curriculum WHERE curriculumid = $1';
-const skillQuery = 'SELECT * FROM curriculum_skill WHERE curriculumid = $1'
 
-// Written by MJS
+// Postgres queries
+const text = 'SELECT * FROM curriculum WHERE curriculumid = $1';
+const skillQuery = 'SELECT * FROM curriculum_skill WHERE curriculumid = $1';
+
+/**
+ * Get Curriculum Handler - Gets a single curriculum by id
+ * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
+ * @returns {HTTPResponse} - HTTP response with status code and body
+ * @author Marc Skwarczynski
+ */
 export default async function handler(event: APIGatewayProxyEvent) {
   // Check that parameters were given, then assign to variable
-  if (!event.pathParameters) {
-    return new HTTPResponse(400, 'No path parameter was given');
+  if (!(event.pathParameters && event.pathParameters.curriculumId)) {
+    return new HTTPResponse(
+      400,
+      'No path parameter was given; expected curriculumId as a number.'
+    );
   }
-  const currId = event.pathParameters.curriculumId;
+  const currId: number = parseInt(event.pathParameters.curriculumId);
+  if (isNaN(currId)) {
+    return new HTTPResponse(
+      400,
+      'Path parameter given is not a number; expected curriculumId as a number.'
+    );
+  }
 
   // Return data or error from database
   try {
@@ -18,10 +34,16 @@ export default async function handler(event: APIGatewayProxyEvent) {
     const skillArray = await client.query(skillQuery, [currId]);
     res.rows[0].skillIdArr = skillArray.rows;
     return new HTTPResponse(200, res.rows);
-  } catch (err) {
+  } catch (err: any) {
+    let displayError: string;
+    if (err.detail) {
+      displayError = err.detail;
+    } else {
+      displayError = 'Unknown error.';
+    }
     return new HTTPResponse(400, {
-      Message: 'Unable to query the information',
-      err
+      error: 'The database rejected the query.',
+      db_error: displayError
     });
   }
 }

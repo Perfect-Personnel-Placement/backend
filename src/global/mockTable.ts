@@ -8,6 +8,15 @@ export const batch = {
   clientid: null //we provide, perhaps may change this, like name
 };
 
+export const batch2 = {
+  batchSize: 1,
+  curriculumId: 1, //we provide, perhaps may change this, like name
+  endDate: '1',
+  startDate: '1',
+  trainerId: 123, //we provide, perhaps may change this, like name
+  clientId: 345 //we provide, perhaps may change this, like name
+};
+
 export const curriculum = {
   createdby: 'nobody',
   createdon: '2021-08-05',
@@ -27,15 +36,15 @@ export const sampleCurr = {
 };
 
 export const skill = {
-  skillname: "whatever",
-  skillId: 10
+  skillName: 'whatever',
+  skillId: 1
 };
 
 export const trainer = {
   trainerId: 123,
-  email: "test@gmail.com",
-  trainerfirst: "Robert",
-  trainerlast: "Connell",
+  email: 'test@gmail.com',
+  trainerfirst: 'Robert',
+  trainerlast: 'Connell',
   curriculaIdArr: [2, 7]
 };
 
@@ -47,6 +56,13 @@ export const updateBatchData = {
   startDate: '9/3/27',
   trainerId: 299110,
   clientId: 54330,
-  confirmed: false,
+  confirmed: false
+};
 
+export const updateTrainerData = {
+  trainerid: 8,
+  email: 'yes@sir.com',
+  trainerfirst: 'paul',
+  trainerlast: 'smith',
+  curriculaIdArr: [3, 9]
 }
