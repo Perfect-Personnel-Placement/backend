@@ -14,14 +14,6 @@ jobs:
     steps:
       - name: Auto Assign Action
         uses: kentaro-m/auto-assign-action@v1.2.0
-  assign_one_project:
-    runs-on: ubuntu-latest
-    name: Assign to One Project
-    steps:
-    - name: Assign NEW issues and NEW pull requests to project 2
-      uses: srggrs/assign-one-project-github-action@1.2.1
-      with:
-        project: 'https://github.com/orgs/Perfect-Personnel-Placement/projects/1'
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
