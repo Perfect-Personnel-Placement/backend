@@ -60,7 +60,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     typeof batch.endDate != 'string' ||
     typeof batch.startDate != 'string' ||
     (typeof batch.trainerId != 'number' && typeof batch.trainerId != null) ||
-    (typeof batch.clientId != 'number' && typeof batch.trainerId != null)
+    (typeof batch.clientId != 'number' && typeof batch.clientId != null)
   ) {
     return new HTTPResponse(400, {
       error: 'Body was missing information. Body must be formatted as follows:',
@@ -76,9 +76,8 @@ export default async function handler(event: APIGatewayProxyEvent) {
   }
 
   // Assign data or return error provided by the database
-  let res;
   try {
-    res = await client.query(text, batchData);
+    const res = await client.query(text, batchData);
     return new HTTPResponse(201, res.rows);
   } catch (err: any) {
     let displayError: string;
