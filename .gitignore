@@ -106,3 +106,4 @@ dist
 
 # AWS build cache
 .aws-sam/
+package-lock.json

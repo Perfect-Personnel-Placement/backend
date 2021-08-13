@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:jest": "jest /src/ --coverage --collectCoverageFrom='./src/**' --coverageDirectory='coverage'",
     "build": "tsc",
-    "start-ts": "ts-node"
+    "start-ts": "ts-node",
+    "generate-docs": "typedoc"
   },
   "repository": {
     "type": "git",
@@ -29,8 +31,10 @@
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
     "jest": "^27.0.6",
+    "jest-sonar-reporter": "^2.0.0",
     "ts-jest": "^27.0.4",
     "ts-node": "^10.2.0",
+    "typedoc": "^0.21.5",
     "typescript": "^4.3.5"
   },
   "dependencies": {

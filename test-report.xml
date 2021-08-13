@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/client/getClientFn/getClient.test.ts">
+    <testCase name="getClient handler should fail with 400, from a missing path parameter" duration="2"/>
+    <testCase name="getClient handler should fail with 400, from an incorrect path parameter" duration="0"/>
+    <testCase name="getClient handler should succeed with 200, from a valid input" duration="1"/>
+    <testCase name="getClient handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/batch/removeBatchFn/removeBatch.test.ts">
+    <testCase name="Testing DeleteTrainer  Handler should succeed with status code 200" duration="1"/>
+    <testCase name="Testing DeleteTrainer  Handler should fail with 400, from a pathparmaters is null" duration="0"/>
+    <testCase name="Testing DeleteTrainer  Handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Testing DeleteTrainer  Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Testing DeleteTrainer  Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/batch/createBatchFn/createBatch.test.ts">
+    <testCase name="Create the Batch Handler should succeed with 201, from a valid input" duration="2"/>
+    <testCase name="Create the Batch Handler should fail with 400, from a null body" duration="0"/>
+    <testCase name="Create the Batch Handler should fail with 400, from a database query error" duration="3"/>
+    <testCase name="Create the Batch Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Create the Batch Handler should fail with 400, from an incomplete body" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/demand/getDemandByIdFn/getDemandById.test.ts">
+    <testCase name="Get Demand by ID Handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Get Demand by ID Handler should succeed with 200, from a valid input" duration="1"/>
+    <testCase name="Get Demand by ID Handler should fail with 400, from an unknown database query error" duration="0"/>
+    <testCase name="Get Demand by ID Handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/trainer/getTrainersByLastNameFn/getTrainersByLastName.test.ts">
+    <testCase name="Testing GetTrainerByLastName  Handler should succeed with status code 200" duration="1"/>
+    <testCase name="Testing GetTrainerByLastName  Handler should fail with 400, from a pathparmaters is null" duration="0"/>
+    <testCase name="Testing GetTrainerByLastName  Handler should fail with 400, from an unknown database query error" duration="0"/>
+    <testCase name="Testing GetTrainerByLastName  Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/batch/getBatchByIdFn/getBatchById.test.ts">
+    <testCase name="Testing getBatchById Handler should succeed with status code 200" duration="0"/>
+    <testCase name="Testing getBatchById Handler should fail with 400, from a pathparamaters is null" duration="0"/>
+    <testCase name="Testing getBatchById Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Testing getBatchById Handler should fail with 400, from an invalid path parameter" duration="3"/>
+    <testCase name="Testing getBatchById Handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/curriculum/getCurriculumFn/getCurriculum.test.ts">
+    <testCase name="Get Curriculum handler should fail with 400, from a missing path parameter" duration="1"/>
+    <testCase name="Get Curriculum handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Get Curriculum handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Get Curriculum handler should fail with 400, from an unknown database query error" duration="0"/>
+    <testCase name="Get Curriculum handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/batch/updateBatchFn/updateBatch.test.ts">
+    <testCase name="Testing UpdateBatch Handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Testing UpdateBatch Handler should fail with 400, from a null body" duration="1"/>
+    <testCase name="Testing UpdateBatch Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Testing UpdateBatch Handler should fail with 400, from an incomplete body" duration="0"/>
+    <testCase name="Testing UpdateBatch Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/trainer/getTrainersByFirstNameFn/getTrainersByFirstName.test.ts">
+    <testCase name="Testing GetTrainerByFirstName  Handler should succeed with status code 200" duration="0"/>
+    <testCase name="Testing GetTrainerByFirstName  Handler should fail with 400, from a pathparmaters is null" duration="0"/>
+    <testCase name="Testing GetTrainerByFirstName  Handler should fail with 400, from an unknown database query error" duration="0"/>
+    <testCase name="Testing GetTrainerByFirstName  Handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/skill/deleteSkillFn/deleteSkill.test.ts">
+    <testCase name="Delete a Skill Handler should succeed with 200, from a valid input" duration="2"/>
+    <testCase name="Delete a Skill Handler should fail with 400, from a null body" duration="0"/>
+    <testCase name="Delete a Skill Handler should fail with 400, from a invalid input" duration="0"/>
+    <testCase name="Delete a Skill Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Delete a Skill Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/batch/getBatchesByTrainerFn/getBatchesByTrainer.test.ts">
+    <testCase name="Get Batch by ID Handler should fail with 400, from an invalid path parameter" duration="1"/>
+    <testCase name="Get Batch by ID Handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Get Batch by ID Handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Get Batch by ID Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Get Batch by ID Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/client/getAllClientsFn/getAllClients.test.ts">
+    <testCase name="getAllClients handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="getAllClients handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/curriculum/getAllCurriculaFn/getAllCurricula.test.ts">
+    <testCase name="Get All Curriculua Handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Get All Curriculua Handler should fail with 400, from an unknown database query error" duration="1"/>
+    <testCase name="Get All Curriculua Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/trainer/getTrainerByIdFn/getTrainerById.test.ts">
+    <testCase name="Testing GetTrainerById  Handler should succeed with status code 200" duration="1"/>
+    <testCase name="Testing GetTrainerById  Handler should fail with 400, from a pathparmaters is null" duration="0"/>
+    <testCase name="Testing GetTrainerById  Handler should fail with 400, from an unknown database query error" duration="1"/>
+    <testCase name="Testing GetTrainerById  Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/batch/getAllBatchesFn/getAllBatches.test.ts">
+    <testCase name="Test GetAllBatches should succeed with 200, from a valid input" duration="1"/>
+    <testCase name="Test GetAllBatches should fail with 400, from a database query error" duration="1"/>
+    <testCase name="Test GetAllBatches should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/trainer/updateTrainerFn/updateTrainer.test.ts">
+    <testCase name="Testing UpdateTrainer  Handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Testing UpdateTrainer  Handler should fail with 400, from a null body" duration="1"/>
+    <testCase name="Testing UpdateTrainer  Handler should fail with 400, from an incomplete body" duration="0"/>
+    <testCase name="Testing UpdateTrainer  Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Testing UpdateTrainer  Handler should fail with 400, from an unknown database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/batch/getBatchesByCurriculumFn/getBatchesByCurriculum.test.ts">
+    <testCase name="Get Batch by ID Handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Get Batch by ID Handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Get Batch by ID Handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Get Batch by ID Handler should fail with 400, from a database query error" duration="1"/>
+    <testCase name="Get Batch by ID Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/curriculum/insertCurriculumFn/insertCurriculum.test.ts">
+    <testCase name="Insert Curriculum Handler should succeed with 201, from a valid input" duration="2"/>
+    <testCase name="Insert Curriculum Handler should fail with 400, from a null body" duration="0"/>
+    <testCase name="Insert Curriculum Handler should fail with 400, from an incomplete body" duration="0"/>
+    <testCase name="Insert Curriculum Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Insert Curriculum Handler should fail with 400, from an unknown database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/skill/getSkillByNameFn/getSkillByName.test.ts">
+    <testCase name="Get Skill by Name Handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Get Skill by Name Handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Get Skill by Name Handler should fail with 400, from a invalid input" duration="0"/>
+    <testCase name="Get Skill by Name Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Get Skill by Name Handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/trainer/deleteTrainerFn/deleteTrainer.test.ts">
+    <testCase name="Delete Trainer handler should fail with 400, from a missing path parameter" duration="1"/>
+    <testCase name="Delete Trainer handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Delete Trainer handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Delete Trainer handler should fail with 400, from an unknown database query error" duration="1"/>
+    <testCase name="Delete Trainer handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/curriculum/deleteCurriculumFn/deleteCurriculum.test.ts">
+    <testCase name="Delete Curriculum handler should fail with 400, from a missing path parameter" duration="0"/>
+    <testCase name="Delete Curriculum handler should fail with 400, from an invalid path parameter" duration="1"/>
+    <testCase name="Delete Curriculum handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Delete Curriculum handler should fail with 400, from an unknown database query error" duration="0"/>
+    <testCase name="Delete Curriculum handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/skill/getAllSkillsFn/getAllSkills.test.ts">
+    <testCase name="Get All Skills Handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Get All Skills Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Get All Skills Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/skill/getSkillByIdFn/getSkillById.test.ts">
+    <testCase name="Get Skill by ID Handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Get Skill by ID Handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Get Skill by ID Handler should fail with 400, from a invalid input" duration="0"/>
+    <testCase name="Get Skill by ID Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Get Skill by ID Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/client/addClientFn/addClient.test.ts">
+    <testCase name="addClient handler should succeed with 201, from a valid input" duration="0"/>
+    <testCase name="addClient handler should fail with 400, from a null body" duration="0"/>
+    <testCase name="addClient handler should fail with 400, from an incomplete body" duration="0"/>
+    <testCase name="addClient handler should fail with 400, from a database query error" duration="1"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/client/getClientByNameFn/getClientByName.test.ts">
+    <testCase name="getClientByName handler should fail with 400, from an invalid path parameter" duration="1"/>
+    <testCase name="getClientByName handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="getClientByName handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/demand/getAllDemandsFn/getAllDemands.test.ts">
+    <testCase name="Get All Demands Handler should succeed with 200, from a valid input" duration="1"/>
+    <testCase name="Get All Demands Handler should fail with 400, from an unknown database query error" duration="0"/>
+    <testCase name="Get All Demands Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/demand/getDemandsByClientFn/getDemandsByClient.test.ts">
+    <testCase name="Get Demand by Client Handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Get Demand by Client Handler should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Get Demand by Client Handler should fail with 400, from an unknown database query error" duration="1"/>
+    <testCase name="Get Demand by Client Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/batch/confirmBatchFn/confirmBatch.test.ts">
+    <testCase name="Confirm Batch Handler should fail with 400, from an invalid path parameter" duration="1"/>
+    <testCase name="Confirm Batch Handler should fail with 400, from a true confirmed" duration="1"/>
+    <testCase name="Confirm Batch Handler should fail with 400, from an unknown database query error" duration="0"/>
+    <testCase name="Confirm Batch Handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Confirm Batch Handler should pass with SNS module status code 200" duration="0"/>
+    <testCase name="Confirm Batch Handler should pass with 200 even with snsError" duration="0"/>
+    <testCase name="Confirm Batch Handler should pass with 200 even with sesError" duration="1"/>
+    <testCase name="Confirm Batch Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Confirm Batch Handler should pass with SNS module status code 200" duration="0"/>
+    <testCase name="Confirm Batch Handler should succeed with 200, from a valid input" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/trainer/getAllTrainersFn/getAllTrainers.test.ts">
+    <testCase name="Test GetAllTrainers should succeed with 200, from a valid input" duration="0"/>
+    <testCase name="Test GetAllTrainers should fail with 400, from an unknown database query error" duration="1"/>
+    <testCase name="Test GetAllTrainers should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/demand/getDemandByDateFn/getDemandByDate.test.ts">
+    <testCase name="Testing GetDemandByDate  Handler should succeed with status code 200" duration="0"/>
+    <testCase name="Testing GetDemandByDate  Handler should fail with 400, from a pathparmaters is null" duration="0"/>
+    <testCase name="Testing GetDemandByDate  Handler should fail with 400, from an unknown database query error" duration="0"/>
+    <testCase name="Testing GetDemandByDate  Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/init/init.test.ts">
+    <testCase name="Function handler for init database function Should run successfully without errors" duration="0"/>
+    <testCase name="Function handler for init database function Should fail gracefully if FS fails" duration="5"/>
+    <testCase name="Function handler for init database function Should fail gracefully if PG fails" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/demand/getDemandByCurriculumFn/getDemandByCurriculum.test.ts">
+    <testCase name="Get Demand by Curriculum Handler should fail with 400, from an invalid path parameter" duration="0"/>
+    <testCase name="Get Demand by Curriculum Handler should succeed with 200, from a valid dateless input" duration="0"/>
+    <testCase name="Get Demand by Curriculum Handler should succeed with 200, from a valid dated input" duration="0"/>
+    <testCase name="Get Demand by Curriculum Handler should fail with 400, from an unknown database query error" duration="1"/>
+    <testCase name="Get Demand by Curriculum Handler should fail with 400, from a database query error" duration="1"/>
+    <testCase name="Get Demand by Curriculum Handler should fail with 400, due to missing end date" duration="0"/>
+    <testCase name="Get Demand by Curriculum Handler should fail with 400, due to missing start date" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/trainer/createTrainerFn/createTrainer.test.ts">
+    <testCase name="Testing CreateTrainer  Handler should succeed with 201, from a valid input" duration="0"/>
+    <testCase name="Testing CreateTrainer  Handler should fail with 400, from a null body" duration="0"/>
+    <testCase name="Testing CreateTrainer  Handler should fail with 400, from an incomplete body" duration="0"/>
+    <testCase name="Testing CreateTrainer  Handler should fail with 400, from a database query error" duration="1"/>
+    <testCase name="Testing CreateTrainer  Handler should fail with 400, from an unknown database query error" duration="0"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/skill/createSkillFn/createSkill.test.ts">
+    <testCase name="Create the Skill Handler should succeed with 201, from a valid input" duration="0"/>
+    <testCase name="Create the Skill Handler should fail with 400, from a null body" duration="0"/>
+    <testCase name="Create the Skill Handler should fail with 400, from an incomplete body" duration="0"/>
+    <testCase name="Create the Skill Handler should fail with 400, from a database query error" duration="0"/>
+    <testCase name="Create the Skill Handler should fail with 400, from an unknown database query error" duration="1"/>
+  </file>
+  <file path="/Users/marcski55/Documents/GitHub/P3/backend/src/demand/createDemandFn/createDemand.test.ts">
+    <testCase name="Testing CreateDemand  Handler should succeed with 201, from a valid input" duration="0"/>
+    <testCase name="Testing CreateDemand  Handler should fail with 400, from a null body" duration="0"/>
+    <testCase name="Testing CreateDemand  Handler should fail with 400, from an invalid body" duration="0"/>
+    <testCase name="Testing CreateDemand  Handler should fail with 400, from an unknown database query error" duration="0"/>
+    <testCase name="Testing CreateDemand  Handler should fail with 400, from a database query error" duration="0"/>
+  </file>
+</testExecutions>

@@ -21,4 +21,4 @@ COPY --from=0 /p3 /p3
 
 COPY dist/init ./handler
 
-COPY create.sql ./handler/
+COPY SQLScripts ./handler/SQLScripts

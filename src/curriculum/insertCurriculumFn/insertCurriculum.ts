@@ -1,17 +1,18 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
+
+// Postgres queries
 const text =
   'INSERT INTO curriculum' +
   ' (createdby, createdon, lastmodified, lastmodifiedby, curriculumname)' +
   ' VALUES ($1, $2, $3, $4, $5) RETURNING *';
-
 const skillQuery =
-  'INSERT INTO curriculum_skill' +
-  ' (skillid, curriculumid)' +
-  ' Values ($1, $2) RETURNING *';
+  'INSERT INTO curriculum_skill ' +
+  '(skillid, curriculumid) VALUES ($1, $2) RETURNING *';
 
-export interface createCurr {
+//Expected input from HTTP Request Body
+export interface CreateCurr {
   createdby: string;
   createdon: string;
   curriculumname: string;
@@ -38,7 +39,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
       }
     });
   }
-  const curr: createCurr = JSON.parse(event.body);
+  const curr: CreateCurr = JSON.parse(event.body);
 
   // Check that data has expected key-value pairs
   if (
