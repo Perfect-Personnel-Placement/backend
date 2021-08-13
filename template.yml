@@ -4,10 +4,10 @@ Globals:
   Function:
     Environment:
       Variables:
-        RDS_URL: 
-          Fn::GetAtt: [ PGRDS, Endpoint.Address ]
+        RDS_URL:
+          Fn::GetAtt: [PGRDS, Endpoint.Address]
         RDS_PORT:
-          Fn::GetAtt: [ PGRDS, Endpoint.Port ]
+          Fn::GetAtt: [PGRDS, Endpoint.Port]
         RDS_USER: postgres
         RDS_PASSWORD: Password123!
         RDS_NAME: P3_Database
@@ -29,7 +29,7 @@ Resources:
     Properties:
       GroupName: p3-main-group
       GroupDescription: The security group for accessing RDS
-      VpcId: 
+      VpcId:
         Ref: VPC
 
   SecurityGroupInboundRule:
@@ -41,18 +41,18 @@ Resources:
       IpProtocol: -1
       GroupId:
         Ref: SecurityGroup
-      SourceSecurityGroupId: 
+      SourceSecurityGroupId:
         Ref: SecurityGroup
 
   # Subnets
   Subnet1:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId: 
+      VpcId:
         Ref: VPC
       CidrBlock: 10.192.10.0/24
       MapPublicIpOnLaunch: false
-      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      AvailabilityZone: !Select [0, !GetAZs ""]
 
   Subnet2:
     Type: AWS::EC2::Subnet
@@ -61,8 +61,8 @@ Resources:
         Ref: VPC
       CidrBlock: 10.192.11.0/24
       MapPublicIpOnLaunch: false
-      AvailabilityZone: !Select [ 1, !GetAZs '' ]
-  
+      AvailabilityZone: !Select [1, !GetAZs ""]
+
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
@@ -71,7 +71,7 @@ Resources:
       SubnetIds:
         - Ref: Subnet1
         - Ref: Subnet2
-  
+
   # RDS
   PGRDS:
     Type: AWS::RDS::DBInstance
@@ -80,7 +80,7 @@ Resources:
       DBInstanceClass: db.t2.micro
       DBInstanceIdentifier: P3-Postgres-DB
       DBName: P3_Database
-      EnableCloudwatchLogsExports: 
+      EnableCloudwatchLogsExports:
         - postgresql
       Engine: postgres
       EngineVersion: 12.7
@@ -93,11 +93,25 @@ Resources:
       VPCSecurityGroups:
         - Ref: SecurityGroup
 
+  # RDSProxy:
+  #   Type: AWS::RDS::DBProxy
+  #   Properties:
+  #     Auth:
+  #       - ###
+  #     DBProxyName: P3-RDS-Proxy
+  #     EngineFamily: POSTGRESQL
+  #     RoleArn: ###
+  #     VpcSecurityGroupIds:
+  #       - Red: SecurityGroup
+  #     VpcSubnetIds:
+  #       - Ref: Subnet1
+  #       - Ref: Subnet2
+
   # SNS
   SNSTopic:
     Type: AWS::SNS::Topic
     Properties:
-      TopicName: P3_Emailer
+      TopicName: P3_ConfirmBatch
 
   # Cognito
 
@@ -127,7 +141,7 @@ Resources:
       Dockerfile: Dockerfile.client
       DockerContext: ./
       DockerTag: client
-  
+
   addClient:
     Type: AWS::Serverless::Function
     Properties:
@@ -479,7 +493,7 @@ Resources:
           Properties:
             Path: /batch/{batchId}
             Method: patch
-            RequestParameters: 
+            RequestParameters:
               - method.request.path.batchId
       VpcConfig:
         SecurityGroupIds:
@@ -627,7 +641,7 @@ Resources:
         SubnetIds:
           - Ref: Subnet1
           - Ref: Subnet2
-    Metadata: 
+    Metadata:
       Dockerfile: Dockerfile.curriculum
       DockerContext: ./
       DockerTag: curriculum
@@ -653,7 +667,7 @@ Resources:
         SubnetIds:
           - Ref: Subnet1
           - Ref: Subnet2
-    Metadata: 
+    Metadata:
       Dockerfile: Dockerfile.curriculum
       DockerContext: ./
       DockerTag: curriculum
@@ -681,7 +695,7 @@ Resources:
         SubnetIds:
           - Ref: Subnet1
           - Ref: Subnet2
-    Metadata: 
+    Metadata:
       Dockerfile: Dockerfile.curriculum
       DockerContext: ./
       DockerTag: curriculum
@@ -709,7 +723,7 @@ Resources:
         SubnetIds:
           - Ref: Subnet1
           - Ref: Subnet2
-    Metadata: 
+    Metadata:
       Dockerfile: Dockerfile.curriculum
       DockerContext: ./
       DockerTag: curriculum
