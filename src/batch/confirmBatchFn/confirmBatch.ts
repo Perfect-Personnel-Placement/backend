@@ -44,16 +44,31 @@ export default async function handler(event: APIGatewayProxyEvent) {
     const trainerId = res.rows[0].trainerid;
     const curriculumId = res.rows[0].curriculumid;
     const startDate = res.rows[0].startdate;
-
-    // Update batch status to confirmed on postgres table batch
-    await pgClient.query(updateBatchQuery, [batchId]);
+    let trainerEmail;
 
     // Notify trainer whose batch was confirmed
     // Grab trainer details
-    const trainerResult = await pgClient.query(getTrainerEmailQuery, [
-      trainerId
-    ]);
-    const trainerEmail = trainerResult.rows[0].email;
+    try {
+      const trainerResult = await pgClient.query(getTrainerEmailQuery, [
+        trainerId
+      ]);
+      trainerEmail = trainerResult.rows[0].email;
+      // Update batch status to confirmed on postgres table batch
+      await pgClient.query(updateBatchQuery, [batchId]);
+    } catch (err: any) {
+      console.log(err);
+      let displayError = '';
+      if (err.details) {
+        displayError = err.details;
+      } else {
+        displayError = 'Unknown Error';
+      }
+      return new HTTPResponse(400, {
+        error:
+          'Batch unable to be confirmed. Trainer or trainer email not found.',
+        db_error: displayError
+      });
+    }
 
     //Get curriculum name
     const curricNameResult = await pgClient.query(getCurricNameQuery, [

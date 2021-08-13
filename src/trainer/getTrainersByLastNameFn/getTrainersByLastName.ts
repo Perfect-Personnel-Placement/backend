@@ -3,7 +3,7 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 
 // Postgres query
-const text = 'SELECT * FROM trainer WHERE (trainerlast = $1) RETURNING *';
+const text = 'SELECT * FROM trainer WHERE (trainerlast = $1)';
 
 /**
  * Get Trainer By Last Name Handler - Gets a single trainer by last name.
