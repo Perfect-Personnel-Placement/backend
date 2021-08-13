@@ -483,6 +483,7 @@ Resources:
     Properties:
       FunctionName: p3-confirmBatch
       PackageType: Image
+      Timeout: 10
       ImageConfig:
         Command:
           - /p3/handler/confirmBatchFn/confirmBatch.default
@@ -491,7 +492,7 @@ Resources:
         ApiEvent:
           Type: Api
           Properties:
-            Path: /batch/{batchId}
+            Path: /batch/id/{batchId}
             Method: patch
             RequestParameters:
               - method.request.path.batchId
@@ -501,7 +502,9 @@ Resources:
         SubnetIds:
           - Ref: Subnet1
           - Ref: Subnet2
-      Policies: AmazonSNSFullAccess
+      Policies:
+        - AmazonSNSFullAccess
+        - AmazonSESFullAccess
     Metadata:
       Dockerfile: Dockerfile.batch
       DockerContext: ./
