@@ -1,8 +1,7 @@
 import handler from './getAllCurricula';
-jest.mock('../../global/postgres');
-
 import client from '../../global/postgres';
 import { sampleCurr } from '../../global/mockTable';
+jest.mock('../../global/postgres');
 
 describe('Get All Curriculua Handler', () => {
   it('should succeed with 200, from a valid input', async () => {

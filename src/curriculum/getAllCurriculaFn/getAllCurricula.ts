@@ -1,5 +1,7 @@
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
+
+// Postgres query
 const text = 'SELECT * FROM curriculum';
 
 /**

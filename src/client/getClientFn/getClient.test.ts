@@ -1,8 +1,7 @@
 import handler from './getClient';
-jest.mock('../../global/postgres');
-
 import client from '../../global/postgres';
 import { APIGatewayProxyEvent } from 'aws-lambda';
+jest.mock('../../global/postgres');
 const input: unknown = { pathParameters: { clientId: 1 } };
 const wronginput: unknown = { pathParameters: { clientId: 'no' } };
 

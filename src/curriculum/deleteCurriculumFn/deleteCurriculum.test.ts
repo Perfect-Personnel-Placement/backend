@@ -1,8 +1,7 @@
 import handler from './deleteCurriculum';
-jest.mock('../../global/postgres');
-
 import client from '../../global/postgres';
 import { APIGatewayProxyEvent } from 'aws-lambda';
+jest.mock('../../global/postgres');
 const input: unknown = { pathParameters: { curriculumId: 1 } };
 const wronginput: unknown = { pathParameters: { curriculumId: 'no' } };
 
