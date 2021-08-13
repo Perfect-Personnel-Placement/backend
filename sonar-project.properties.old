@@ -7,7 +7,7 @@ sonar.sources=src
 # sonar.exclusions=**/*.test.ts
 # sonar.language=ts
 # sonar.tests=src
-# **/*.tests.ts 
+# **/*.tests.ts  
 
 
 sonar.javascript.lcov.reportPaths=./coverage/lcov.info

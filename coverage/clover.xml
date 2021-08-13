@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1628819978740" clover="3.2.0">
-  <project timestamp="1628819978740" name="All files">
+<coverage generated="1628821875204" clover="3.2.0">
+  <project timestamp="1628821875204" name="All files">
     <metrics statements="15" coveredstatements="14" conditionals="9" coveredconditionals="8" methods="1" coveredmethods="1" elements="25" coveredelements="23" complexity="0" loc="15" ncloc="15" packages="1" files="1" classes="1"/>
     <file name="createTrainer.ts" path="C:\Users\MATTH\git\backend\src\trainer\createTrainerFn\createTrainer.ts">
       <metrics statements="15" coveredstatements="14" conditionals="9" coveredconditionals="8" methods="1" coveredmethods="1"/>
