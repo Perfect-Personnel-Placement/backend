@@ -10,15 +10,6 @@
     "build": "tsc",
     "start-ts": "ts-node"
   },
-  "jest": {
-    "testEnvironment": "node",
-    "collectCoverage": true,
-    "testResultsProcessor": "jest-sonar-reporter",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Perfect-Personnel-Placement/backend.git"
