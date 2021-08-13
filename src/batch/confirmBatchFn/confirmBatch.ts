@@ -28,6 +28,7 @@ let responseBody: any = {
  * @author Mohamed Hassan
  */
 export default async function handler(event: APIGatewayProxyEvent) {
+  console.log('Entering function!!!!!');
   // Pull data from event body after checking if the path parameters were null
   if (!event.pathParameters || !event.pathParameters.batchId) {
     return new HTTPResponse(
@@ -36,10 +37,10 @@ export default async function handler(event: APIGatewayProxyEvent) {
     );
   }
   const batchId = event.pathParameters.batchId;
-
+  console.log('We have assigned batchId: ' + batchId);
   // Make initial query to see if trainer exists
   const res = await pgClient.query(checkTrainerQuery, [batchId]);
-
+  console.log('We have assigned res: ' + res);
   if (res.rows[0] && !res.rows[0].confirmed) {
     const trainerId = res.rows[0].trainerid;
     const curriculumId = res.rows[0].curriculumid;
@@ -53,6 +54,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
         trainerId
       ]);
       trainerEmail = trainerResult.rows[0].email;
+      console.log('Trainer email has been assigned: ' + trainerEmail);
       // Update batch status to confirmed on postgres table batch
       await pgClient.query(updateBatchQuery, [batchId]);
     } catch (err: any) {
@@ -69,13 +71,14 @@ export default async function handler(event: APIGatewayProxyEvent) {
         db_error: displayError
       });
     }
-
+    console.log('Batch has been confirmed');
     //Get curriculum name
     const curricNameResult = await pgClient.query(getCurricNameQuery, [
       curriculumId
     ]);
     const curricName = curricNameResult.rows[0].curriculumname;
-
+    console.log('curricName is: ' + curricName);
+    console.log('Attempting to publish to SNS...');
     // SNS
     // SNS_TOPIC_ARN should be exported as a variable to the command line.
     // This will be determined by your AWS configuration.
@@ -90,7 +93,8 @@ export default async function handler(event: APIGatewayProxyEvent) {
     } catch (err) {
       responseBody.snsStatus = 'Failed to publish to SNS.';
     }
-
+    console.log(responseBody.snsStatus);
+    console.log('Attempting to send email...');
     // SES
     // Read AWS documentation on SES sandboxing b/c it's severely handicapped
     // prior to production. Only emails configured by 2106RNCN are:
@@ -123,6 +127,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     } catch (err) {
       responseBody.sesStatus = 'Failed to send email.';
     }
+    console.log(responseBody.sesStatus);
 
     return new HTTPResponse(200, responseBody);
   } else {
