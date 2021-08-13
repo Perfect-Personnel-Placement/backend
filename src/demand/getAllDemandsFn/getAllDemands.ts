@@ -1,21 +1,19 @@
 import { HTTPResponse } from '../../global/objects';
-import { APIGatewayProxyEvent } from 'aws-lambda';
-
 import client from '../../global/postgres';
+
+// Postgres query
 const text = 'SELECT * FROM demand';
 
 /**
  * Get All Demands Handler - Used to get all demands from the database.
- * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
  * @returns {HTTPResponse} - HTTP response with status code and body
- * @author Daguinson Fleurantin, Nick Wang
+ * @author Daguinson Fleurantin
+ * @author Nick Wang
  */
 export default async function handler() {
   // Assign data or return error provided by the database
-  let res;
   try {
-    res = await client.query(text);
-    //return the data
+    const res = await client.query(text);
     return new HTTPResponse(200, res.rows);
   } catch (err: any) {
     let displayError: string;

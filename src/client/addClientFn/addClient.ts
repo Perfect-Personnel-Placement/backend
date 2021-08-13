@@ -1,9 +1,12 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import pgClient from '../../global/postgres';
+
+// Postgres query
 const text = 'INSERT INTO client (clientname)' + ' VALUES ($1) RETURNING *';
 
-export interface createClient {
+//Expected input from HTTP Request Body
+export interface CreateClient {
   clientName: string;
 }
 
@@ -18,13 +21,14 @@ export default async function handler(event: APIGatewayProxyEvent) {
   // Return an error if no body provided
   if (!event.body) {
     return new HTTPResponse(400, {
-      error: 'No body was given; nothing to do. Body must be formatted as follows',
+      error:
+        'No body was given; nothing to do. Body must be formatted as follows',
       body: {
         clientName: 'string'
       }
     });
   }
-  const client: createClient = JSON.parse(event.body);
+  const client: CreateClient = JSON.parse(event.body);
 
   if (typeof client.clientName != 'string') {
     return new HTTPResponse(400, {

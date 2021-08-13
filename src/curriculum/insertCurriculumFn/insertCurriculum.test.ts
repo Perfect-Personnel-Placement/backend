@@ -1,9 +1,8 @@
 import handler from './insertCurriculum';
-jest.mock('../../global/postgres');
-
 import client from '../../global/postgres';
 import { curriculum } from '../../global/mockTable';
 import { APIGatewayProxyEvent } from 'aws-lambda';
+jest.mock('../../global/postgres');
 
 describe('Insert Curriculum Handler', () => {
   it('should succeed with 201, from a valid input', async () => {

@@ -1,43 +1,42 @@
-import { APIGatewayProxyEvent } from "aws-lambda";
-import { HTTPResponse } from "../../global/objects";
-import client from "../../global/postgres";
-const text = "SELECT * FROM clientdemand WHERE (clientdemandid = $1)";
+import { APIGatewayProxyEvent } from 'aws-lambda';
+import { HTTPResponse } from '../../global/objects';
+import client from '../../global/postgres';
+
+// Postgres query
+const text = 'SELECT * FROM demand WHERE (demandid = $1)';
 
 /**
- * Get Demand by Id Handler - Used to get the demand with the specified clientDemandId.
+ * Get Demand by Id Handler - Used to get the specified demand.
  * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
  * @returns {HTTPResponse} - HTTP response with status code and body
- * @author Brandon Kirsch, Nick Wang
+ * @author Brandon Kirsch
+ * @author Nick Wang
  */
 export default async function handler(event: APIGatewayProxyEvent) {
-  // Double-checks that neither pathParameters nor clientId are undefined
+  // Double-checks that neither pathParameters nor demandId are undefined
   //  If undefined, reject with code 400
-  if (!event.pathParameters || !event.pathParameters.clientId) {
+  if (!event.pathParameters || !event.pathParameters.demandId) {
     return new HTTPResponse(
       400,
-      "No path parameter was given; expected clientId."
+      'No path parameter was given; expected demandId.'
     );
   }
-  const demand = event.pathParameters.clientId;
+  const demand = [event.pathParameters.demandId];
 
-  const demandData = [demand];
-  let res;
-
-  // Attempts to retrieve rows using clientDemandId.
+  // Attempts to retrieve rows using demandId.
   try {
-    res = await client.query(text, demandData);
-    // If all went well, returns everything that the query retrieved
+    const res = await client.query(text, demand);
     return new HTTPResponse(200, res.rows);
   } catch (err: any) {
     let displayError: string;
     if (err.detail) {
       displayError = err.detail;
     } else {
-      displayError = "Unknown error.";
+      displayError = 'Unknown error.';
     }
     return new HTTPResponse(400, {
-      error: "The database has rejected the query.",
-      db_error: displayError,
+      error: 'The database has rejected the query.',
+      db_error: displayError
     });
   }
 }
