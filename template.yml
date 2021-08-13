@@ -113,6 +113,33 @@ Resources:
     Properties:
       TopicName: P3_ConfirmBatch
 
+  # VPC Endpoints
+  SNSEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      VpcEndpointType: Interface
+      VpcId:
+        Ref: VPC
+      ServiceName: com.amazonaws.us-east-1.sns
+      SubnetIds:
+        - Ref: Subnet1
+        - Ref: Subnet2
+      SecurityGroupIds:
+        - Ref: SecurityGroup
+
+  SESEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      VpcEndpointType: Interface
+      VpcId:
+        Ref: VPC
+      ServiceName: com.amazonaws.us-east-1.email-smtp
+      SubnetIds:
+        - Ref: Subnet1
+        - Ref: Subnet2
+      SecurityGroupIds:
+        - Ref: SecurityGroup
+
   # Cognito
 
   # Client lambdas
