@@ -55,12 +55,12 @@ export default async function handler(event: APIGatewayProxyEvent) {
 
   // Check that data has expected key-value pairs
   if (
-    typeof batch.batchSize != 'number' ||
-    typeof batch.curriculumId != 'number' ||
-    typeof batch.endDate != 'string' ||
-    typeof batch.startDate != 'string' ||
-    (typeof batch.trainerId != 'number' && typeof batch.trainerId != null) ||
-    (typeof batch.clientId != 'number' && typeof batch.clientId != null)
+    typeof batch.batchSize !== 'number' ||
+    typeof batch.curriculumId !== 'number' ||
+    typeof batch.endDate !== 'string' ||
+    typeof batch.startDate !== 'string' ||
+    (typeof batch.trainerId !== 'number' && batch.trainerId !== null) ||
+    (typeof batch.clientId !== 'number' && batch.clientId !== null)
   ) {
     return new HTTPResponse(400, {
       error: 'Body was missing information. Body must be formatted as follows:',
