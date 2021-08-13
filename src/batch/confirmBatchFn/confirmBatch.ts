@@ -6,6 +6,7 @@ import { snsClient } from "../../global/snsClient";
 import { SendEmailCommand, SendEmailCommandInput } from "@aws-sdk/client-ses";
 import { sesClient } from "../../global/sesClient";
 import { trainer } from 'src/global/mockTable';
+import { sendEmailToTrainer, sendMessageBySNS } from './SNS_SES'
 
 
 //Postgres queries
@@ -45,6 +46,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     const curriculumId = res.rows[0].curriculumid;
     const startDate = res.rows[0].startdate;
     const confirmed = res.rows[0].confirmed;
+    console.log(confirmed);
 
     if (res.rows && !confirmed) {
         //Update batch status to confirmed on postgres table batch
@@ -66,15 +68,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
         };
 
         //SNS 
-        try {
-            const publishedData = await snsClient.send(new PublishCommand(publishParams));
-            responseBody.snsStatus = "Successful SNS call."
-            console.log("Success.", publishedData);
-        } catch (err) {
-            responseBody.snsStatus = "Failed to publish to SNS.";
-            console.log("Error", err);
-            
-        }
+        sendMessageBySNS(publishParams);
 
         //SES
         const params: SendEmailCommandInput = {
@@ -103,15 +97,8 @@ export default async function handler(event: APIGatewayProxyEvent) {
             Source: "perfectpersonnelplacement@outlook.com", // SENDER_ADDRESS
         };
 
-        try {
-            const data = await sesClient.send(new SendEmailCommand(params));
-            responseBody.sesStatus = "Successfully sent email."
-            console.log("Success", data);
-          } catch (err) {
-            console.log("Error", err);
-            responseBody.sesStatus = "Failed to send SES email."
-          }
-
+        sendEmailToTrainer(params);
+        
 
 
 

@@ -9,30 +9,51 @@ import { sesClient } from '../../global/sesClient';
 
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { batch } from '../../global/mockTable';
+import { SendEmailCommandOutput } from '@aws-sdk/client-ses';
+import { PublishCommandOutput } from '@aws-sdk/client-sns';
 const input: unknown = { pathParameters: { batchId : 11210034 } }
 const wronginput: unknown = { pathParameters: { wrongProperty : "WrongPathParam" } }
 const wrongInput2: unknown = { pathParameters: { batchId : "11210034" } }
+const snsOutput: PublishCommandOutput = {
+    $metadata: {},
+    MessageId : "This is a SendEmailCommandOutput"
+};
+    
 
+
+beforeEach(() => {
+    (client.query as jest.Mock).mockReset();
+    //(client.query as jest.Mock).mockClear();
+    (sesClient.send as jest.Mock).mockReset();
+    //(snsClient.send as jest.Mock).mockClear();
+    (snsClient.send as jest.Mock).mockClear();
+
+});
 
 
 // Written by BWK
 describe('ConfirmBatch handler', () => {
+    
+
     it('should fail with 400, from an invalid path parameter', async () => {
         const res = await handler({} as APIGatewayProxyEvent);
         expect(res.statusCode).toEqual(400);
     })
 
-    it('should succeed with 200, from a valid input', async () => { 
-        (client.query as jest.Mock).mockResolvedValue({ rows: [{
+    it('should fail with 400, from a true confirmed', async () => { 
+        (client.query as jest.Mock).mockResolvedValueOnce({ 
+            rows: [{
             trainerid : 22,
             curriculumid : 33,
             startdate : "1/1/21",
             enddate : "3/3/23",
-            confirmed : false,
+            confirmed : true,
             email: "sample@test.com"
-        }] })
+        }] 
+    })
+
         const res = await handler(input as APIGatewayProxyEvent);
-        expect(res.statusCode).toEqual(200);
+        expect(res.statusCode).toEqual(400);
     })
 
     it('should fail with 400, from a database query error', async () => {
@@ -47,38 +68,69 @@ describe('ConfirmBatch handler', () => {
         const res = await handler(wronginput as APIGatewayProxyEvent);
         expect(res.statusCode).toEqual(400);
       });
-    
-    it('should pass with 200 but indicating snsError', async () => {
-        (snsClient.send as jest.Mock).mockResolvedValueOnce( () => {
-            throw "error";
-        })
-        const res = await handler(input as APIGatewayProxyEvent);
-        expect(res.statusCode).toEqual(200);
 
-    })
-
-    it('should pass with 400 but indicates sesError', async () => {
-        (sesClient.send as jest.Mock).mockResolvedValue( () => {
-            throw "error";
-        })
-        const res = await handler(input as APIGatewayProxyEvent);
-        expect(res.statusCode).toEqual(200);
-
-    })
-
-    it('should fail with 400, from a true confirmed', async () => { 
+      it('should pass with SNS module status code 200', async () => {
         (client.query as jest.Mock).mockResolvedValue({ rows: [{
             trainerid : 22,
             curriculumid : 33,
             startdate : "1/1/21",
             enddate : "3/3/23",
-            confirmed : true,
+            confirmed : false,
             email: "sample@test.com"
         }] })
+    
+        (snsClient.send as jest.Mock<any>);
         const res = await handler(input as APIGatewayProxyEvent);
-        expect(res.statusCode).toEqual(400);
+        expect(res.statusCode).toEqual(200);
+
     })
 
+    //Trigger SNS error
+    it('should pass with 200 but indicate snsError', async () => {
+        (client.query as jest.Mock).mockResolvedValue({ rows: [{
+            trainerid : 22,
+            curriculumid : 33,
+            startdate : "1/1/21",
+            enddate : "3/3/23",
+            confirmed : false,
+            email: "sample@test.com"
+        }] })
+        (snsClient.send as jest.Mock)
+        
+        const res = await handler(input as APIGatewayProxyEvent);
+        expect(res.statusCode).toEqual(200);
+
+    })
+ 
+
+    it('should pass with SNS module status code 200', async () => {
+        (client.query as jest.Mock).mockResolvedValue({ rows: [{
+            trainerid : 22,
+            curriculumid : 33,
+            startdate : "1/1/21",
+            enddate : "3/3/23",
+            confirmed : false,
+            email: "sample@test.com"
+        }] })
+    
+        (sesClient.send as jest.Mock<any>);
+        const res = await handler(input as APIGatewayProxyEvent);
+        expect(res.statusCode).toEqual(200);
+
+    })
+
+    //Trigger SES error
+    it('should fail with 400 indicating sesError', async () => {
+        (client.query as jest.Mock).mockRejectedValueOnce(
+            new Error('Async error')
+            );
+        (sesClient.send as jest.Mock).mockRejectedValueOnce(
+            new Error('Async error')
+            );
+        const res = await handler(wronginput as APIGatewayProxyEvent);
+        expect(res.statusCode).toEqual(400);
+
+    })
 
     it('should fail with 400, from a database query error', async () => {
         const err = { detail: 'normal error from testing' };
@@ -89,3 +141,25 @@ describe('ConfirmBatch handler', () => {
         expect(res.statusCode).toEqual(400);
       });
 })
+
+    beforeEach(()=> {
+
+    });
+
+describe("confirmBatch handler handed misrequest", () => {
+    
+    it('should succeed with 200, from a valid input', async () => { 
+        (client.query as jest.Mock).mockResolvedValue({ rows: [{
+            trainerid : 22,
+            curriculumid : 33,
+            startdate : "1/1/21",
+            enddate : "3/3/23",
+            confirmed : false,
+            email: "sample@test.com"
+        }] })
+        const res = await handler(input as APIGatewayProxyEvent);
+        expect(res.statusCode).toEqual(200);
+    })
+
+
+});
