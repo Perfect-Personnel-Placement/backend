@@ -1,6 +1,8 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
+
+// Postgres queries
 const text = 'SELECT * FROM curriculum WHERE curriculumid = $1';
 const skillQuery = 'SELECT * FROM curriculum_skill WHERE curriculumid = $1';
 

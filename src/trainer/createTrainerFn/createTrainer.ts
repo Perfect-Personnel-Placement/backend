@@ -1,30 +1,31 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
+
+// Postgres query
 const text =
   'INSERT INTO trainer (email, trainerfirst, trainerlast)' +
   ' VALUES ($1, $2, $3) RETURNING *';
 
-//All comments Written by Samuel Smetzer
-export interface createTrainer {
+//Expected input from HTTP Request Body
+export interface CreateTrainer {
   email: string;
   trainerfirst: string;
   trainerlast: string;
 }
 
 /**
- * Insert Trainer Handler - Used to create a new Trainer in the database.
+ * Insert Trainer Handler - Used to create a new trainer in the database.
  * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
  * @returns {HTTPResponse} - HTTP response with status code and body
  * @author Samuel Smetzer
- * @author Daguinson Fleurantin 
+ * @author Daguinson Fleurantin
  */
 export default async function handler(event: APIGatewayProxyEvent) {
   // Check if body is null
   if (!event.body) {
     return new HTTPResponse(400, {
-      error:
-        'No body was given; nothing to do. Body must formatted as follows',
+      error: 'No body was given; nothing to do. Body must formatted as follows',
       body: {
         email: 'string',
         trainerfirst: 'string',
@@ -32,7 +33,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
       }
     });
   }
-  const trainer: createTrainer = JSON.parse(event.body);
+  const trainer: CreateTrainer = JSON.parse(event.body);
 
   // Check that data has expected key-value pairs
   if (
@@ -56,14 +57,12 @@ export default async function handler(event: APIGatewayProxyEvent) {
     trainer.trainerfirst,
     trainer.trainerlast
   ];
-  let res;
+
   //Try the querying the Database
   try {
-    res = await client.query(text, trainerData);
+    const res = await client.query(text, trainerData);
     return new HTTPResponse(201, res.rows);
-
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
     let displayError: string;
     if (err.detail) {
       displayError = err.detail;
@@ -75,5 +74,4 @@ export default async function handler(event: APIGatewayProxyEvent) {
       db_error: displayError
     });
   }
-
 }

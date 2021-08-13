@@ -1,6 +1,8 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
+
+// Postgres query
 const text = 'SELECT * FROM trainer WHERE (trainerlast = $1) RETURNING *';
 
 /**
@@ -11,29 +13,29 @@ const text = 'SELECT * FROM trainer WHERE (trainerlast = $1) RETURNING *';
  * @author Daguinson Fleurantin
  */
 export default async function handler(event: APIGatewayProxyEvent) {
-    // Return error if no path parameters provided
-    if (!event.pathParameters || !event.pathParameters.trainerlast) {
-        return new HTTPResponse(400, "Missing expected path parameters. Please provide a value for trainer last name")
-    }
-    const trainer = event.pathParameters.trainerId
+  // Return error if no path parameters provided
+  if (!event.pathParameters || !event.pathParameters.trainerlast) {
+    return new HTTPResponse(
+      400,
+      'Missing expected path parameters. Please provide a value for trainer last name'
+    );
+  }
+  const trainer = [event.pathParameters.trainerId];
 
-    const trainerData = [trainer];
-    let res;
-    // Get the data from the db
-    try {
-        res = await client.query(text, trainerData)
-        return new HTTPResponse(200, res.rows)
-    } catch (err: any) {
-        console.log(err);
-        let displayError: string;
-        if (err.detail){
-            displayError = err.detail;
-        } else {
-            displayError = 'Unknown error.';
-        }
-        return new HTTPResponse(400, {
-            Message: 'The database rejected the query.',
-            db_error: displayError
-        });   
+  // Get the data from the db
+  try {
+    const res = await client.query(text, trainer);
+    return new HTTPResponse(200, res.rows);
+  } catch (err: any) {
+    let displayError: string;
+    if (err.detail) {
+      displayError = err.detail;
+    } else {
+      displayError = 'Unknown error.';
     }
-};
+    return new HTTPResponse(400, {
+      Message: 'The database rejected the query.',
+      db_error: displayError
+    });
+  }
+}

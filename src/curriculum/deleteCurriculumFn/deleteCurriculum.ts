@@ -1,6 +1,8 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
+
+// Postgres query
 const text = 'DELETE FROM curriculum WHERE curriculumid = $1';
 
 /**

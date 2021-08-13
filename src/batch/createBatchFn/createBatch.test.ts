@@ -1,17 +1,19 @@
 import handler from './createBatch';
-jest.mock('../../global/postgres');
 import client from '../../global/postgres';
 import { batch2 } from '../../global/mockTable';
 import { APIGatewayProxyEvent } from 'aws-lambda';
+jest.mock('../../global/postgres');
 
 describe('Create the Batch Handler', () => {
   it('should succeed with 201, from a valid input', async () => {
     (client.query as jest.Mock).mockImplementationOnce(() => {
-        return { batch2 } // look into mockReturn
-    })
-    const res = await handler({ body: JSON.stringify(batch2) } as APIGatewayProxyEvent);
+      return { batch2 }; // look into mockReturn
+    });
+    const res = await handler({
+      body: JSON.stringify(batch2)
+    } as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(201);
-})
+  });
 
   it('should fail with 400, from a null body', async () => {
     const res = await handler({} as APIGatewayProxyEvent);

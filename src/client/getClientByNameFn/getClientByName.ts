@@ -1,11 +1,9 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import pgClient from '../../global/postgres';
-const text = 'SELECT * FROM client WHERE clientname = $1';
 
-export interface createClient {
-  clientName: string;
-}
+// Postgres query
+const text = 'SELECT * FROM client WHERE clientname = $1';
 
 /**
  * Get Client by Name Handler - Gets a single client by name
@@ -17,7 +15,10 @@ export interface createClient {
 export default async function handler(event: APIGatewayProxyEvent) {
   // Return error if no path parameters provided
   if (!event.pathParameters || !event.pathParameters.clientName)
-    return new HTTPResponse(400, 'Missing expected path parameters. Please provide a value for clientName');
+    return new HTTPResponse(
+      400,
+      'Missing expected path parameters. Please provide a value for clientName'
+    );
   const data = [event.pathParameters.clientName];
 
   // Get the data from the db

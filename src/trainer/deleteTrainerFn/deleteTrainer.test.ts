@@ -1,7 +1,7 @@
-jest.mock('../../global/postgres')
 import client from '../../global/postgres';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import handler from './deleteTrainer';
+jest.mock('../../global/postgres');
 const input: unknown = { pathParameters: { trainerId: 1 } };
 const wronginput: unknown = { pathParameters: { trainerId: 'no' } };
 
@@ -39,4 +39,3 @@ describe('Delete Trainer handler', () => {
     expect(res.statusCode).toEqual(400);
   });
 });
-
