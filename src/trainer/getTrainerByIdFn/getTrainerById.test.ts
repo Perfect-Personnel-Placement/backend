@@ -1,17 +1,16 @@
 import client from '../../global/postgres';
-import { trainer } from '../../global/mockTable';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import handler from './getTrainerById';
 jest.mock('../../global/postgres');
-const input: unknown = { pathParameters: trainer };
+const input: unknown = { pathParameters: { trainerId: 1 } };
 
 describe('Testing GetTrainerById  Handler', () => {
   it('should succeed with status code 200', async () => {
     (client.query as jest.Mock).mockImplementationOnce(() => {
-      return { rows: [{ curriculaIdArr: [1] }] }; // look into mockReturn
+      return { rows: {} };
     });
     (client.query as jest.Mock).mockImplementationOnce(() => {
-      return { rows: {} }; // look into mockReturn
+      return { rows: [{ curriculaIdArr: [{ curriculumid: 1 }] }] };
     });
     const res = await handler(input as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(200);
