@@ -11,6 +11,14 @@ describe('Test GetAllTrainers', () => {
         expect(res.statusCode).toEqual(200);
     })
 
+    it('should fail with 400, from an unknown database query error', async () => {
+        (client.query as jest.Mock).mockImplementationOnce(() => {
+          throw 'error';
+        });
+        const res = await handler({} as APIGatewayProxyEvent);
+        expect(res.statusCode).toEqual(400);
+      });
+
 
     it('should fail with 400, from a database query error', async () => {
         (client.query as jest.Mock).mockImplementationOnce(() => {
