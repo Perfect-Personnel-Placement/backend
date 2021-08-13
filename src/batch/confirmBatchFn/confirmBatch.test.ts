@@ -13,11 +13,6 @@ const input: unknown = { pathParameters: { batchId: 11210034 } };
 const wronginput: unknown = {
   pathParameters: { wrongProperty: 'WrongPathParam' }
 };
-const wrongInput2: unknown = { pathParameters: { batchId: '11210034' } };
-const snsOutput: PublishCommandOutput = {
-  $metadata: {},
-  MessageId: 'This is a SendEmailCommandOutput'
-};
 
 beforeEach(() => {
   (client.query as jest.Mock).mockReset();

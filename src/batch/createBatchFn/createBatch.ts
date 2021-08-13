@@ -69,8 +69,8 @@ export default async function handler(event: APIGatewayProxyEvent) {
         curriculumId: 'number',
         endDate: 'string in ISO 8601 format',
         startDate: 'string in ISO 8601 format',
-        trainerId: 'number',
-        clientId: 'number'
+        trainerId: 'number | null',
+        clientId: 'number | null'
       }
     });
   }

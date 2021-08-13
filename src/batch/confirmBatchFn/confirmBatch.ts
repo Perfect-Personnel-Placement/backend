@@ -40,7 +40,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
   // Make initial query to see if trainer exists
   const res = await pgClient.query(checkTrainerQuery, [batchId]);
 
-  if (res.rows && !res.rows[0].confirmed) {
+  if (res.rows[0] && !res.rows[0].confirmed) {
     const trainerId = res.rows[0].trainerid;
     const curriculumId = res.rows[0].curriculumid;
     const startDate = res.rows[0].startdate;
