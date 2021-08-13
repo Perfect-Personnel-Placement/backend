@@ -3,7 +3,7 @@ import client from '../../global/postgres';
 import { trainer } from '../../global/mockTable';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import handler from './getTrainersByFirstName';
-const input: unknown = { pathParameters: trainer };
+const input: unknown = { pathParameters: { trainerFN: 'Robert' } };
 
 describe('Testing GetTrainerByFirstName  Handler', () => {
   it('should succeed with status code 200', async () => {

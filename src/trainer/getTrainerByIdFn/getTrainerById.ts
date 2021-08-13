@@ -23,10 +23,13 @@ export default async function handler(event: APIGatewayProxyEvent) {
   //Try querying the DataBase
   try {
     const res = await client.query(text, trainer);
-    const curriculumArray = await client.query(curriculumQuery, [trainer]);
-    res.rows[0].curriculaIdArr = curriculumArray.rows;
+    const curriculumArray = await client.query(curriculumQuery, trainer);
+    if (res.rows[0]) {
+      res.rows[0].curriculaIdArr = curriculumArray.rows;
+    }
     return new HTTPResponse(200, res.rows);
   } catch (err: any) {
+    console.log(err);
     let displayError: string;
     if (err.detail) {
       displayError = err.detail;
