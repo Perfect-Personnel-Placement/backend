@@ -3,9 +3,8 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { snsClient } from '../../global/snsClient';
 import { HTTPResponse } from '../../global/objects';
 import pgClient from '../../global/postgres';
-import { SendEmailCommand, SendEmailCommandInput } from '@aws-sdk/client-ses';
-import { sesClient } from '../../global/sesClient';
-import { HttpHandlerOptions } from '@aws-sdk/types';
+import mailTransport from '../../global/nodemailer';
+import Mail from 'nodemailer/lib/mailer';
 
 // Postgres queries
 const selectQuery =
@@ -88,56 +87,28 @@ export default async function handler(event: APIGatewayProxyEvent) {
     Message: confirmMsg,
     TopicArn: process.env.SNS_TOPIC_ARN,
   };
-  // We were having timeout issues, so this should force SNS and SES to time out
-  // before the lambda itself times out.
-  // I don't know which HTTP handler is used by default, so I just included
-  // all of the timeout properties for every handler. ¯\_(ツ)_/¯
-  const handlerOptions: unknown = {
-    connectionTimeout: 5000,
-    socketTimeout: 5000,
-    requestTimeout: 5000,
-    sessionTimeout: 5000,
-  };
   try {
-    await snsClient.send(
-      new PublishCommand(snsParams),
-      handlerOptions as HttpHandlerOptions
-    );
+    await snsClient.send(new PublishCommand(snsParams));
     responseBody.snsStatus = 'Success';
   } catch (err) {
     console.log('SNS error:\n', err);
     responseBody.snsStatus = 'Failed to publish to SNS topic';
   }
 
-  // Send confirmation email to trainer using SES
+  // Send confirmation email to trainer using SMTP through SES
   // Read AWS documentation on SES sandboxing b/c it's severely handicapped
   // prior to production. Only emails configured by 2106RNCN are:
   // perfectpersonnelplacement@outlook.com for sending messages
   // perfectpersonnelplacement@gmail.com for receiving messages
   // DO NOT ATTEMPT TO USE GMAIL TO SEND. IT'S A BAD TIME. WE SPENT DAYS.
-  const sesParams: SendEmailCommandInput = {
-    Destination: {
-      ToAddresses: [trainerEmail],
-    },
-    Message: {
-      Body: {
-        Text: {
-          Charset: 'UTF-8',
-          Data: confirmMsg,
-        },
-      },
-      Subject: {
-        Charset: 'UTF-8',
-        Data: 'New batch confirmed.',
-      },
-    },
-    Source: 'perfectpersonnelplacement@outlook.com',
+  const nodemailerParams: Mail.Options = {
+    from: 'perfectpersonnelplacement@outlook.com',
+    to: trainerEmail,
+    subject: 'New batch confirmed.',
+    text: confirmMsg,
   };
   try {
-    await sesClient.send(
-      new SendEmailCommand(sesParams),
-      handlerOptions as HttpHandlerOptions
-    );
+    await mailTransport.sendMail(nodemailerParams);
     responseBody.emailStatus = 'Success';
   } catch (err) {
     console.log('SES error:\n', err);

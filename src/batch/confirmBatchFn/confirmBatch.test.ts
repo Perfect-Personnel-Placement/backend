@@ -1,13 +1,12 @@
 import handler from './confirmBatch';
 import client from '../../global/postgres';
 import { snsClient } from '../../global/snsClient';
-import { sesClient } from '../../global/sesClient';
+import transporter from '../../global/nodemailer';
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { PublishCommandOutput } from '@aws-sdk/client-sns';
 
 jest.mock('../../global/postgres');
 jest.mock('../../global/snsClient');
-jest.mock('../../global/sesClient');
+jest.mock('../../global/nodemailer');
 
 const input: unknown = { pathParameters: { batchId: 11210034 } };
 const wronginput: unknown = {
@@ -16,7 +15,7 @@ const wronginput: unknown = {
 
 beforeEach(() => {
   (client.query as jest.Mock).mockReset();
-  (sesClient.send as jest.Mock).mockReset();
+  (transporter.sendMail as jest.Mock).mockReset();
   (snsClient.send as jest.Mock).mockClear();
 });
 
@@ -97,7 +96,7 @@ describe('Confirm Batch Handler', () => {
 
   //Trigger SES error
   it('should pass with 200 even with sesError', async () => {
-    (sesClient.send as jest.Mock).mockRejectedValueOnce(
+    (transporter.sendMail as jest.Mock).mockRejectedValueOnce(
       new Error('Different Async error')
     );
     (client.query as jest.Mock).mockResolvedValue({
@@ -137,7 +136,7 @@ describe('Confirm Batch Handler', () => {
           email: 'sample@test.com',
         },
       ],
-    })(sesClient.send as jest.Mock<any>);
+    })(transporter.sendMail as jest.Mock<any>);
     const res = await handler(input as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(200);
   });
