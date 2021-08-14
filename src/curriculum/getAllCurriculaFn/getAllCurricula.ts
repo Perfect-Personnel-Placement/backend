@@ -2,7 +2,12 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 
 // Postgres query
-const text = 'SELECT * FROM curriculum';
+const text =
+  'SELECT c.*, json_agg(s.skillid) as skillIdArr, json_agg(s.skillname) as skillNameArr ' +
+  'FROM curriculum c ' +
+  'JOIN curriculum_skill cs ON cs.curriculumid = c.curriculumid ' +
+  'JOIN skill s ON s.skillid = cs.skillid ' +
+  'GROUP BY c.curriculumid';
 
 /**
  * Get All Curicula Handler - Gets the complete list of curricula in the table
@@ -23,7 +28,7 @@ export default async function handler() {
     }
     return new HTTPResponse(400, {
       Message: 'The database rejected the query.',
-      db_error: displayError
+      db_error: displayError,
     });
   }
 }
