@@ -60,8 +60,8 @@ export default async function handler(event: APIGatewayProxyEvent) {
     return new HTTPResponse(400, {
       error: 'Batch was ineligible for confirmation. All must be true.',
       batchExists: !!batchData.rows[0],
-      batchHasTrainer: batchData.rows[0] && batchData.rows[0].email,
-      batchNotConfirmed: batchData.rows[0] && batchData.rows[0].confirmed,
+      batchHasTrainer: !!batchData.rows[0] && !!batchData.rows[0].email,
+      batchNotConfirmed: !!batchData.rows[0] && !batchData.rows[0].confirmed,
     });
   }
 
