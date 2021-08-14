@@ -11,7 +11,7 @@ jest.mock('../../global/sesClient');
 
 const input: unknown = { pathParameters: { batchId: 11210034 } };
 const wronginput: unknown = {
-  pathParameters: { wrongProperty: 'WrongPathParam' }
+  pathParameters: { wrongProperty: 'WrongPathParam' },
 };
 
 beforeEach(() => {
@@ -36,9 +36,9 @@ describe('Confirm Batch Handler', () => {
           startdate: '1/1/21',
           enddate: '3/3/23',
           confirmed: true,
-          email: 'sample@test.com'
-        }
-      ]
+          email: 'sample@test.com',
+        },
+      ],
     });
     const res = await handler(input as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(400);
@@ -66,9 +66,9 @@ describe('Confirm Batch Handler', () => {
           startdate: '1/1/21',
           enddate: '3/3/23',
           confirmed: false,
-          email: 'sample@test.com'
-        }
-      ]
+          email: 'sample@test.com',
+        },
+      ],
     })(snsClient.send as jest.Mock<any>);
     const res = await handler(input as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(200);
@@ -87,9 +87,9 @@ describe('Confirm Batch Handler', () => {
           startdate: '1/1/21',
           enddate: '3/3/23',
           confirmed: false,
-          email: 'sample@test.com'
-        }
-      ]
+          email: 'sample@test.com',
+        },
+      ],
     })();
     const res = await handler(input as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(200);
@@ -108,9 +108,9 @@ describe('Confirm Batch Handler', () => {
           startdate: '1/1/21',
           enddate: '3/3/23',
           confirmed: false,
-          email: 'sample@test.com'
-        }
-      ]
+          email: 'sample@test.com',
+        },
+      ],
     })(snsClient.send as jest.Mock<any>);
     const res = await handler(input as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(200);
@@ -121,7 +121,7 @@ describe('Confirm Batch Handler', () => {
     (client.query as jest.Mock).mockImplementationOnce(() => {
       throw err;
     });
-    const res = await handler({} as APIGatewayProxyEvent);
+    const res = await handler(input as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(400);
   });
 
@@ -134,9 +134,9 @@ describe('Confirm Batch Handler', () => {
           startdate: '1/1/21',
           enddate: '3/3/23',
           confirmed: false,
-          email: 'sample@test.com'
-        }
-      ]
+          email: 'sample@test.com',
+        },
+      ],
     })(sesClient.send as jest.Mock<any>);
     const res = await handler(input as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(200);
@@ -151,11 +151,57 @@ describe('Confirm Batch Handler', () => {
           startdate: '1/1/21',
           enddate: '3/3/23',
           confirmed: false,
-          email: 'sample@test.com'
-        }
-      ]
+          email: 'sample@test.com',
+        },
+      ],
     });
     const res = await handler(input as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(200);
+  });
+
+  it('should fail with 400, from an unkown database query error', async () => {
+    (client.query as jest.Mock).mockImplementationOnce(() => {
+      throw 'Unkown Error';
+    });
+    const res = await handler(input as APIGatewayProxyEvent);
+    expect(res.statusCode).toEqual(400);
+  });
+
+  it('should fail with 400, from database update query error', async () => {
+    (client.query as jest.Mock).mockResolvedValueOnce({
+      rows: [
+        {
+          trainerid: 22,
+          curriculumid: 33,
+          startdate: '1/1/21',
+          enddate: '3/3/23',
+          confirmed: false,
+          email: 'sample@test.com',
+        },
+      ],
+    });
+    (client.query as jest.Mock).mockRejectedValueOnce({
+      detail: 'normal error from testing',
+    });
+    const res = await handler(input as APIGatewayProxyEvent);
+    expect(res.statusCode).toEqual(400);
+  });
+
+  it('should fail with 400, from unkown database update query error', async () => {
+    (client.query as jest.Mock).mockResolvedValueOnce({
+      rows: [
+        {
+          trainerid: 22,
+          curriculumid: 33,
+          startdate: '1/1/21',
+          enddate: '3/3/23',
+          confirmed: false,
+          email: 'sample@test.com',
+        },
+      ],
+    });
+    (client.query as jest.Mock).mockRejectedValueOnce('oops');
+    const res = await handler(input as APIGatewayProxyEvent);
+    expect(res.statusCode).toEqual(400);
   });
 });

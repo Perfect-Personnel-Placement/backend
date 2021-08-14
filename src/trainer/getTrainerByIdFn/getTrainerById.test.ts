@@ -37,4 +37,15 @@ describe('Testing GetTrainerById  Handler', () => {
     const res = await handler(input as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(400);
   });
+
+  it('should succeed with status code 200, if first query is formatted', async () => {
+    (client.query as jest.Mock).mockImplementationOnce(() => {
+      return { rows: [{}] };
+    });
+    (client.query as jest.Mock).mockImplementationOnce(() => {
+      return { rows: [{ curriculaIdArr: [{ curriculumid: 1 }] }] };
+    });
+    const res = await handler(input as APIGatewayProxyEvent);
+    expect(res.statusCode).toEqual(200);
+  });
 });
