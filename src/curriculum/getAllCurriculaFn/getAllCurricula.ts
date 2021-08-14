@@ -12,7 +12,7 @@ const text =
 /**
  * Get All Curicula Handler - Gets the complete list of curricula in the table
  * @returns {HTTPResponse} - HTTP response with status code and body
- * @author Marc Skwarczynski
+ * @author Marc Skwarczynski, Jared Burkamper
  */
 export default async function handler() {
   // Return data or error provided by the database

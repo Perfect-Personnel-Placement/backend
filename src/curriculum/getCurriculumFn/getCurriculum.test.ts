@@ -20,9 +20,6 @@ describe('Get Curriculum handler', () => {
     (client.query as jest.Mock).mockImplementationOnce(() => {
       return { rows: [{ skillIdArr: [1, 2] }] }; // look into mockReturn
     });
-    (client.query as jest.Mock).mockImplementationOnce(() => {
-      return { rows: {} }; // look into mockReturn
-    });
     const res = await handler(input as APIGatewayProxyEvent);
     expect(res.statusCode).toEqual(200);
   });
