@@ -8,20 +8,20 @@ const inputWithoutDates: unknown = { pathParameters: { curriculumId: 1 } };
 const inputWithDates: unknown = {
   pathParameters: {
     curriculumId: 1,
-    startDate: testDate,
-    endDate: testDate
+    start: testDate,
+    end: testDate
   }
 };
 const inputWithStartDate: unknown = {
   pathParameters: {
     curriculumId: 1,
-    startDate: testDate
+    start: testDate
   }
 };
 const inputWithEndDate: unknown = {
   pathParameters: {
     curriculumId: 1,
-    endDate: testDate
+    end: testDate
   }
 };
 

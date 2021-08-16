@@ -1,34 +1,15 @@
 # Startup Guide for Developers
 
-## Setup CodePipline
+## Setup SES SMTP credentials for email sending in the Confirm Batch Handler
 
-- Create a new pipeline in AWS. Accept defaults except as indicated below.
-  Side Note: Configure as it makes sense for YOU. This document only outlines
-  what we did.
-
-### Choose Pipeline Settings
-
-- Setup service role with necessary permissions.
-
-### Add Source Stage
-
-- Set the source provider to GitHub v2, connect to your PERSONAL GitHub, and
-  manually type the account/repo-name. AWS will NOT autocomplete this for you.
-- Select the main branch.
-
-### Add Build Stage
-
-- Build provider: AWS CodeBuild
-- Region: we used US East (N. Virginia) - may vary
-- Click "Create Project" and follow the prompts.
-
-### Add Deploy Stage
-
-- Skip
+- Go to the AWS console (in the web browser)
+- Go to the Simple Email Service (SES) dashboard
+- Set up a verified identity w/ email you can send from, follow prompts
+- Go to Account Dashboard, scroll down and click "Create SMTP Credentials"
+- Replace the SMTP_USER and SMTP_PASS in the SAM Template with your new
+  credentials
 
 ## Deploy SAM script
-
-_Not needed if CodePipeline is already set up._
 
 The SAM script is named `template.yml`.
 This script will create the database, API Gateway, and Lambda functions.
@@ -64,11 +45,65 @@ NOTE: Once the pipeline is set up, this setup will no longer be necessary.
 
 ## Setup the Database
 
-- All scripts are in the folder `SQL Scripts`.
-- Using a PostgreSQL client (such as DBeaver), connect to the created RDS.
-- Run `Project 3 Backend Tables.sql` to create tables.
-- Optionally run `Project 3 Backend Data.sql` put in dummy data for development.
+- Use the newly created endpoint `/database/init`
+- Sending a `POST` request with no additional information runs
+  the `createTables.sql` script.
+- Sending a `POST` request with the following body resets the table by running
+  the `dropTables.sql` script followed by the `createTables.sql` script:
+  ```JSON
+  {
+    refresh: true
+  }
+  ```
+- Sending a `POST` request with the following body runs the `sampleData.sql`
+  script after running the `createTables.sql` script:
+  ```JSON
+  {
+    sampleData: true
+  }
+  ```
+- Sending a `POST` request with the following body resets the table by running
+  the `dropTables.sql` script followed by the `createTables.sql` script, then
+  running the `sampleData.sql` script:
+  ```JSON
+  {
+    refresh: true,
+    sampleData: true
+  }
+  ```
+
+Additional information:
+
+- All scripts are in the folder `SQLScripts`.
+- `createTables.sql` creates all of the tables needed in the database
+- `sampleData.sql` puts in dummy data for development.
 - Database should end up looking like the SQL Diagram in the SQL Scripts folder.
 
-NOTE: There is also a `Project 3 Backend Drop Tables.sql` if you need to reset
-the database. **_Use with caution._**
+NOTE: There is also a `dropTables.sql` if you need to reset the database.
+**_Use with caution._**
+
+## Setup CodePipline
+
+- Create a new pipeline in AWS. Accept defaults except as indicated below.
+  Side Note: Configure as it makes sense for YOU. This document only outlines
+  what we did.
+
+### Choose Pipeline Settings
+
+- Setup service role with necessary permissions.
+
+### Add Source Stage
+
+- Set the source provider to GitHub v2, connect to your PERSONAL GitHub, and
+  manually type the account/repo-name. AWS will NOT autocomplete this for you.
+- Select the main branch.
+
+### Add Build Stage
+
+- Build provider: AWS CodeBuild
+- Region: we used US East (N. Virginia) - may vary
+- Click "Create Project" and follow the prompts.
+
+### Add Deploy Stage
+
+- Skip

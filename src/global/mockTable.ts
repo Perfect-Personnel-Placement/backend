@@ -65,4 +65,4 @@ export const updateTrainerData = {
   trainerfirst: 'paul',
   trainerlast: 'smith',
   curriculaIdArr: [3, 9]
-}
+};
