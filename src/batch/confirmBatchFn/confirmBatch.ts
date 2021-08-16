@@ -65,8 +65,8 @@ export default async function handler(event: APIGatewayProxyEvent) {
     // SNS_TOPIC_ARN should be exported as a variable to the command line.
     // This will be determined by your AWS configuration.
     const publishParams = {
-      Message: `A batch for ${curricName} has been confirmed. ' +
-       'Planned start date: ${startDate}`,
+      Message: `A batch for ${curricName} has been confirmed. ` +
+       `Planned start date: ${startDate}`,
       TopicArn: process.env.SNS_TOPIC_ARN
     };
     try {

@@ -60,7 +60,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     typeof batch.endDate != 'string' ||
     typeof batch.startDate != 'string' ||
     (typeof batch.trainerId != 'number' && typeof batch.trainerId != null) ||
-    (typeof batch.clientId != 'number' && typeof batch.trainerId != null)
+    (typeof batch.clientId != 'number' && typeof batch.clientId != null)
   ) {
     return new HTTPResponse(400, {
       error: 'Body was missing information. Body must be formatted as follows:',

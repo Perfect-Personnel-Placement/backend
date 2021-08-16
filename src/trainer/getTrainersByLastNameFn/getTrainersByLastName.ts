@@ -14,13 +14,13 @@ const text = 'SELECT * FROM trainer WHERE (trainerlast = $1) RETURNING *';
  */
 export default async function handler(event: APIGatewayProxyEvent) {
   // Return error if no path parameters provided
-  if (!event.pathParameters || !event.pathParameters.trainerlast) {
+  if (!event.pathParameters || !event.pathParameters.trainerLast) {
     return new HTTPResponse(
       400,
       'Missing expected path parameters. Please provide a value for trainer last name'
     );
   }
-  const trainer = [event.pathParameters.trainerId];
+  const trainer = [event.pathParameters.trainerLast];
 
   // Get the data from the db
   try {
