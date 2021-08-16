@@ -2,6 +2,12 @@ Transform: AWS::Serverless-2016-10-31
 
 Globals:
   Function:
+    VpcConfig:
+      SecurityGroupIds:
+        - Ref: SecurityGroup
+      SubnetIds:
+        - Ref: Subnet1
+        - Ref: Subnet2
     Environment:
       Variables:
         RDS_URL:
@@ -13,6 +19,8 @@ Globals:
         RDS_NAME: P3_Database
         SNS_TOPIC_ARN:
           Ref: SNSTopic
+        SMTP_USER: AKIAZDHVQCN3S3DURXOO # These will have to be changed based on the SES credentials you set up
+        SMTP_PASS: BF+CKWeOZR1Tpls1S2kFlacTIEC+/Z4lfcQizNpjBmiN # ^
 
 Description: Serverless backend for Revature Perfect Personnel Placement.
 
@@ -22,6 +30,8 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: 10.192.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
 
   # Security group
   SecurityGroup:
@@ -35,9 +45,9 @@ Resources:
   SecurityGroupInboundRule:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
-      Description: All traffic originating within the VPC security group
-      FromPort: 5432
-      ToPort: 5432
+      Description: Allow all traffic
+      FromPort: -1
+      ToPort: -1
       IpProtocol: -1
       GroupId:
         Ref: SecurityGroup
@@ -52,7 +62,7 @@ Resources:
         Ref: VPC
       CidrBlock: 10.192.10.0/24
       MapPublicIpOnLaunch: false
-      AvailabilityZone: !Select [0, !GetAZs ""]
+      AvailabilityZone: !Select [0, !GetAZs '']
 
   Subnet2:
     Type: AWS::EC2::Subnet
@@ -61,7 +71,7 @@ Resources:
         Ref: VPC
       CidrBlock: 10.192.11.0/24
       MapPublicIpOnLaunch: false
-      AvailabilityZone: !Select [1, !GetAZs ""]
+      AvailabilityZone: !Select [1, !GetAZs '']
 
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
@@ -113,7 +123,36 @@ Resources:
     Properties:
       TopicName: P3_ConfirmBatch
 
-  # Cognito
+  # VPC Endpoints
+  SNSEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PrivateDnsEnabled: true
+      VpcEndpointType: Interface
+      VpcId:
+        Ref: VPC
+      ServiceName: !Join ['', [com.amazonaws., !Ref AWS::Region, .sns]]
+      SubnetIds:
+        - Ref: Subnet1
+        - Ref: Subnet2
+      SecurityGroupIds:
+        - Ref: SecurityGroup
+
+  SESEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PrivateDnsEnabled: true
+      VpcEndpointType: Interface
+      VpcId:
+        Ref: VPC
+      ServiceName: !Join ['', [com.amazonaws., !Ref AWS::Region, .email-smtp]]
+      SubnetIds:
+        - Ref: Subnet1
+        - Ref: Subnet2
+      SecurityGroupIds:
+        - Ref: SecurityGroup
+
+  # Cognito???
 
   # Client lambdas
   getAllClients:
