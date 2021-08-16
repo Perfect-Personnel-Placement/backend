@@ -31,12 +31,12 @@ export default async function handler(event: APIGatewayProxyEvent) {
     );
 
     // If defined, but only a partial date range is found
-  } else if (!event.pathParameters.startDate && event.pathParameters.endDate) {
+  } else if (!event.pathParameters.start && event.pathParameters.end) {
     return new HTTPResponse(
       400,
       'Only end date was given; expected both start and end date, or neither.'
     );
-  } else if (event.pathParameters.startDate && !event.pathParameters.endDate) {
+  } else if (event.pathParameters.start && !event.pathParameters.end) {
     return new HTTPResponse(
       400,
       'Only start date was given; expected both start and end date, or neither.'
@@ -45,17 +45,19 @@ export default async function handler(event: APIGatewayProxyEvent) {
 
   const demand: GetDemandByCurriculum = {
     curriculumId: event.pathParameters.curriculumId,
-    startDate: event.pathParameters.startDate,
-    endDate: event.pathParameters.endDate
+    startDate: event.pathParameters.start,
+    endDate: event.pathParameters.end
   };
-  const demandData = [demand.curriculumId, demand.startDate, demand.endDate];
 
+  let demandData;
   let text;
   // Appends second half of the query to the first, but only if dates are provided
   if (demand.startDate && demand.endDate) {
     text = baseText + optionalText;
+    demandData = [demand.curriculumId, demand.startDate, demand.endDate];
   } else {
     text = baseText;
+    demandData = [demand.curriculumId];
   }
 
   // Attempts to retrieve rows using curriculumId.
@@ -63,6 +65,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     const res = await client.query(text, demandData);
     return new HTTPResponse(200, res.rows);
   } catch (err: any) {
+    console.log(err);
     let displayError: string;
     if (err.detail) {
       displayError = err.detail;

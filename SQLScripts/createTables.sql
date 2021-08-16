@@ -10,13 +10,13 @@
 --//////////////////////////////////////////////////////////////////////////
 
 -- creating table skills
-CREATE Table skill (
+CREATE Table IF NOT EXISTS skill (
 	skillid serial NOT null primary key,
-	skillname varchar NOT NULL
+	skillname varchar UNIQUE NOT NULL
 );
 
 -- creating a table for curriculum
-CREATE Table curriculum (
+CREATE Table IF NOT EXISTS curriculum (
 	curriculumid serial PRIMARY KEY,
 	createdby varchar NOT NULL,
 	createdon date NOT null default CURRENT_DATE,
@@ -26,7 +26,7 @@ CREATE Table curriculum (
 );
 
 -- create table for trainer
-CREATE Table trainer(
+CREATE Table IF NOT EXISTS trainer(
 	trainerid serial not null primary key,
 	email varchar UNIQUE not null,
 	trainerfirst varchar not null,
@@ -34,12 +34,13 @@ CREATE Table trainer(
 );
 
 -- creating table client
-CREATE Table client (
+CREATE Table IF NOT EXISTS client (
 	clientid serial not null primary key,
-	clientname varchar not null);
+	clientname varchar not null
+);
 
 -- creating table for batch
-CREATE Table batch ( 
+CREATE Table IF NOT EXISTS batch ( 
 	batchid serial PRIMARY KEY NOT NULL,
 	batchsize int NOT NULL,
 	enddate date NOT NULL,
@@ -51,10 +52,10 @@ CREATE Table batch (
 	constraint batch_curriculum_fk1 foreign key (curriculumid) references curriculum(curriculumid),
 	constraint batch_trainer_fk1 foreign key (trainerid) references trainer(trainerid),
 	constraint batch_client_fk1 foreign key (clientid) references client(clientid)
- );
+);
 
 -- creating a table for client demand
-CREATE Table demand (
+CREATE Table IF NOT EXISTS demand (
 	demandid serial not null primary key,
 	clientid int not null,
 	curriculumid int not null,
@@ -62,14 +63,14 @@ CREATE Table demand (
 	quantitydemanded int not null,
 	constraint demand_client_fk1 foreign key (clientid) references client(clientid),
 	constraint demand_curriculum_fk1 foreign key (curriculumid) references curriculum(curriculumid)
-	);
+);
 
 --//////////////////////////////////////////////////////////////////////////
 -- creating join tables
 --//////////////////////////////////////////////////////////////////////////
 
 -- creating a table for curriculum_skills
-CREATE Table curriculum_skill (
+CREATE Table IF NOT EXISTS curriculum_skill (
 	skillid int NOT NULL,
 	curriculumid int NOT NULL,
 	CONSTRAINT skill_fk FOREIGN KEY (skillid) REFERENCES skill(skillid),
@@ -77,7 +78,7 @@ CREATE Table curriculum_skill (
 );
 
 -- creating a table for trainer_skills
-CREATE Table trainer_skill (
+CREATE Table IF NOT EXISTS trainer_skill (
 	trainerid int not null,
 	skillid int not null,
 	CONSTRAINT trainer_fk FOREIGN KEY (trainerid) REFERENCES trainer(trainerid),
@@ -85,7 +86,7 @@ CREATE Table trainer_skill (
 );
 
 -- creating a table for trainer_curriculum
-CREATE Table trainer_curriculum (
+CREATE Table IF NOT EXISTS trainer_curriculum (
 	trainerid int not null,
 	curriculumid int NOT NULL,
 	CONSTRAINT trainer_fk FOREIGN KEY (trainerid) REFERENCES trainer(trainerid),
