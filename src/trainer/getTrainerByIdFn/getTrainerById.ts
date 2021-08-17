@@ -3,8 +3,9 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 
 // Postgres queries
-const text = 'SELECT * FROM trainer WHERE (trainerid = $1) RETURNING *';
-const curriculumQuery = 'SELECT * FROM trainer_curriculum WHERE trainerid = $1';
+const text = 'SELECT * FROM trainer WHERE (trainerid = $1)';
+const curriculumQuery =
+  'SELECT curriculumid FROM trainer_curriculum WHERE trainerid = $1';
 
 /**
  * Get Trainer By ID Handler - Gets a single trainer by ID.
@@ -23,10 +24,17 @@ export default async function handler(event: APIGatewayProxyEvent) {
   //Try querying the DataBase
   try {
     const res = await client.query(text, trainer);
-    const curriculumArray = await client.query(curriculumQuery, [trainer]);
-    res.rows[0].curriculaIdArr = curriculumArray.rows;
+    const curriculumArray = await client.query(curriculumQuery, trainer);
+    if (res.rows[0]) {
+      res.rows[0].curriculaIdArr = [];
+      curriculumArray.rows.forEach((elem) => {
+        res.rows[0].curriculaIdArr.push(elem.curriculumid);
+      });
+      // res.rows[0].curriculaIdArr = curriculumArray.rows;
+    }
     return new HTTPResponse(200, res.rows);
   } catch (err: any) {
+    console.log(err);
     let displayError: string;
     if (err.detail) {
       displayError = err.detail;

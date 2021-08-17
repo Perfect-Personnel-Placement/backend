@@ -3,7 +3,7 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 
 // Postgres query
-const text = 'SELECT * FROM demand WHERE needby BETWEEN $1 AND $2 RETURNING *';
+const text = 'SELECT * FROM demand WHERE needby BETWEEN $1 AND $2';
 
 /**
  * Get Demand by Date Handler

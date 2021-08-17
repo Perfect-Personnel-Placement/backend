@@ -2,15 +2,20 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 
-// Postgres queries
-const text = 'SELECT * FROM curriculum WHERE curriculumid = $1';
-const skillQuery = 'SELECT * FROM curriculum_skill WHERE curriculumid = $1';
+// Postgres query
+const text =
+  'SELECT c.*, json_agg(s.skillid) as skillIdArr, json_agg(s.skillname) as skillNameArr ' +
+  'FROM curriculum c ' +
+  'JOIN curriculum_skill cs ON cs.curriculumid = c.curriculumid ' +
+  'JOIN skill s ON s.skillid = cs.skillid ' +
+  'WHERE c.curriculumid = $1 ' +
+  'GROUP BY c.curriculumid';
 
 /**
  * Get Curriculum Handler - Gets a single curriculum by id
  * @param {APIGatewayProxyEvent} event - HTTP request from API Gateway
  * @returns {HTTPResponse} - HTTP response with status code and body
- * @author Marc Skwarczynski
+ * @author Marc Skwarczynski, Jared Burkamper
  */
 export default async function handler(event: APIGatewayProxyEvent) {
   // Check that parameters were given, then assign to variable
@@ -31,8 +36,6 @@ export default async function handler(event: APIGatewayProxyEvent) {
   // Return data or error from database
   try {
     const res = await client.query(text, [currId]);
-    const skillArray = await client.query(skillQuery, [currId]);
-    res.rows[0].skillIdArr = skillArray.rows;
     return new HTTPResponse(200, res.rows);
   } catch (err: any) {
     let displayError: string;
@@ -43,7 +46,7 @@ export default async function handler(event: APIGatewayProxyEvent) {
     }
     return new HTTPResponse(400, {
       error: 'The database rejected the query.',
-      db_error: displayError
+      db_error: displayError,
     });
   }
 }
