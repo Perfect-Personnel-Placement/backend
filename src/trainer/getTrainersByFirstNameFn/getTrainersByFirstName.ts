@@ -3,7 +3,7 @@ import { HTTPResponse } from '../../global/objects';
 import client from '../../global/postgres';
 
 // Postgres query
-const text = 'SELECT * FROM trainer WHERE (trainerfirst = $1) RETURNING *';
+const text = 'SELECT * FROM trainer WHERE (trainerfirst = $1)';
 
 /**
  * Get Trainer By First Name Handler - Gets a single trainer by first name.
@@ -14,13 +14,13 @@ const text = 'SELECT * FROM trainer WHERE (trainerfirst = $1) RETURNING *';
  */
 export default async function handler(event: APIGatewayProxyEvent) {
   // Return error if no path parameters provided
-  if (!event.pathParameters || !event.pathParameters.trainerfirst) {
+  if (!event.pathParameters || !event.pathParameters.trainerFN) {
     return new HTTPResponse(
       400,
       'Missing expected path parameters. Please provide a value for trainer first name'
     );
   }
-  const trainer = [event.pathParameters.trainerId];
+  const trainer = [event.pathParameters.trainerFN];
 
   // Get the data from the db
   try {
