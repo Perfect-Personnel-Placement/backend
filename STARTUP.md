@@ -98,6 +98,13 @@ NOTE: There is also a `dropTables.sql` if you need to reset the database.
   manually type the account/repo-name. AWS will NOT autocomplete this for you.
 - Select the main branch.
 
+### Add Test Stage
+
+- Build provider: AWS CodeBuild
+- Region: we used US East (N. Virginia) - may vary
+- Click "Create Project" and follow the prompts.
+  - When creating this, change buildspec name to `buildspec-test.yml`
+
 ### Add Build Stage
 
 - Build provider: AWS CodeBuild
@@ -107,3 +114,9 @@ NOTE: There is also a `dropTables.sql` if you need to reset the database.
 ### Add Deploy Stage
 
 - Skip
+
+## Sonar Cloud Setup, Postman Documentation, and TypeDoc
+
+- Sonar Cloud Settings are PDFS in the docs2 folder
+- Postman documentation is available as a JSON in the docs2 folder
+- The TypeDoc (JSDoc) generated HTML documentation is in the docs folder
