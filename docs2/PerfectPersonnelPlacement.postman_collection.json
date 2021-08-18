@@ -1,0 +1,1566 @@
+{
+	"info": {
+		"_postman_id": "361b3433-8cd8-4d8b-8ffb-0969f64c482a",
+		"name": "PerfectPersonnelPlacement",
+		"description": "The Serverless Training planner is a serverless mobile app that Revature\nmanagers can use to look at important information regarding clientele demands\nand batch output for the company. This service visualizes all current\nbatches planned along with any associated information. It also visualizes that\nbatch output alongside the client demand for associates. Managers may input\ninformation for clients, their demands, and batches which consist of a\ncurriculum composed of skills, the number of associates, a trainer, and the\ndates for the batch. This service helps ease the management of supply and demand\nfor the company and is an organizational aid.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "batch",
+			"item": [
+				{
+					"name": "id/{batch Id}",
+					"item": [
+						{
+							"name": "/batch/id/:batchId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response must be valid and have a body\", function () {\r",
+											"    pm.response.to.not.be.error;\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"    console.log(pm.response)\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/batch/id/:batchId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"batch",
+										"id",
+										":batchId"
+									],
+									"variable": [
+										{
+											"key": "batchId",
+											"value": "0",
+											"description": "(Required) integer data type; must match existing batchId"
+										}
+									]
+								},
+								"description": "This request will get the batch with the specified ID."
+							},
+							"response": []
+						},
+						{
+							"name": "/batch/id/:batchId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response must be valid and have a body\", function () {\r",
+											"    pm.response.to.not.be.error;\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/batch/id/:batchId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"batch",
+										"id",
+										":batchId"
+									],
+									"variable": [
+										{
+											"key": "batchId",
+											"value": "1",
+											"description": "(Required) integer data type; must match existing batchId; batch must have trainer assigned"
+										}
+									]
+								},
+								"description": "This request will confirm the batch with the specified ID.\nNOTE: Batch MUST have a trainer assigned in order to be confirmed as trainers will have an email sent to them with the Batch information."
+							},
+							"response": []
+						},
+						{
+							"name": "/batch/id/:batchId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/batch/id/:batchId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"batch",
+										"id",
+										":batchId"
+									],
+									"variable": [
+										{
+											"key": "batchId",
+											"value": "0",
+											"description": "(Required) integer data type; must match existing batchId"
+										}
+									]
+								},
+								"description": "This request will delete the batch with the specified ID."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/batch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/batch",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"batch"
+							]
+						},
+						"description": "This request will get all of the batches in the database."
+					},
+					"response": []
+				},
+				{
+					"name": "/batch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"batchSize\": 19,\n  \"curriculumId\": 1,\n  \"endDate\": \"2021-08-20\",\n  \"startDate\": \"2021-06-07\",\n  \"trainerId\": null,\n  \"clientId\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/batch",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"batch"
+							]
+						},
+						"description": "This request will create a new unconfirmed batch. Requires the following JSON body:\n```JSON\n{\n  \"batchSize\": number,\n  \"curriculumId\": number,\n  \"endDate\": string,\n  \"startDate\": string,\n  \"trainerId\": number | null,\n  \"clientId\": number | null,\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "/batch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"batchSize\": 19,\n  \"batchId\": 2,\n  \"curriculumId\": 1,\n  \"endDate\": \"2020-08-20\",\n  \"startDate\": \"2020-06-07\",\n  \"trainerId\": null,\n  \"clientId\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/batch",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"batch"
+							]
+						},
+						"description": "This request will update an existing batch. Requires the following JSON body:\n```JSON\n{\n  \"batchSize\": number,\n  \"batchId\": number,\n  \"curriculumId\": number,\n  \"endDate\": string,\n  \"startDate\": string,\n  \"trainerId\": number | null,\n  \"clientId\": number | null\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "/batch/curriculum/:curriculumId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/batch/curriculum/:curriculumId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"batch",
+								"curriculum",
+								":curriculumId"
+							],
+							"variable": [
+								{
+									"key": "curriculumId",
+									"value": "0",
+									"description": "(Required) integer data type; must match existing curriculumId"
+								}
+							]
+						},
+						"description": "This request will get all batches with the specified curriculum."
+					},
+					"response": []
+				},
+				{
+					"name": "/batch/trainer/:trainerId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/batch/trainer/:trainerId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"batch",
+								"trainer",
+								":trainerId"
+							],
+							"variable": [
+								{
+									"key": "trainerId",
+									"value": "0",
+									"description": "(Required) integer data type; must match existing trainerId"
+								}
+							]
+						},
+						"description": "This request will get all the batches assigned to a specified trainer."
+					},
+					"response": []
+				}
+			],
+			"description": "This endpoint handles all operations dealing with individual batches."
+		},
+		{
+			"name": "client",
+			"item": [
+				{
+					"name": "/client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/client",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"client"
+							]
+						},
+						"description": "This request will get all clients."
+					},
+					"response": []
+				},
+				{
+					"name": "/client",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"clientName\": \"Cognizant\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/client",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"client"
+							]
+						},
+						"description": "This request will create a new client. Requires the following JSON body:\n```JSON\n{\n    \"clientName\": string\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "/client/id/:clientId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/client/id/:clientId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"client",
+								"id",
+								":clientId"
+							],
+							"variable": [
+								{
+									"key": "clientId",
+									"value": "2"
+								}
+							]
+						},
+						"description": "This request will get the client with the specified ID."
+					},
+					"response": []
+				},
+				{
+					"name": "/client/name/:clientName",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/client/name/:clientName",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"client",
+								"name",
+								":clientName"
+							],
+							"variable": [
+								{
+									"key": "clientName",
+									"value": "Cognizant",
+									"description": "(Required) string data type; must match a registered client"
+								}
+							]
+						},
+						"description": "This request will search for a client with the specified name and return the client's info."
+					},
+					"response": []
+				}
+			],
+			"description": "This endpoint handles all operations dealing with individual clients."
+		},
+		{
+			"name": "curriculum",
+			"item": [
+				{
+					"name": "id/{curriculum Id}",
+					"item": [
+						{
+							"name": "/curriculum/id/:curriculumId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response must be valid and have a body\", function () {\r",
+											"    pm.response.to.not.be.error;\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/curriculum/id/:curriculumId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"curriculum",
+										"id",
+										":curriculumId"
+									],
+									"variable": [
+										{
+											"key": "curriculumId",
+											"value": "2",
+											"description": "(Required) integer data type; must match existing curriculumId"
+										}
+									]
+								},
+								"description": "This request will get the specified curriculum."
+							},
+							"response": []
+						},
+						{
+							"name": "/curriculum/id/:curriculumId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/curriculum/id/:curriculumId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"curriculum",
+										"id",
+										":curriculumId"
+									],
+									"variable": [
+										{
+											"key": "curriculumId",
+											"value": "2",
+											"description": "(Required) integer data type; must match existing curriculumId"
+										}
+									]
+								},
+								"description": "This request will delete the specified curriculum."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/curriculum",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/curriculum",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"curriculum"
+							]
+						},
+						"description": "This request will get all curricula."
+					},
+					"response": []
+				},
+				{
+					"name": "/curriculum",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"createdby\": \"2106RNCN\",\n  \"createdon\": \"2021-08-09\",\n  \"curriculumname\": \"React Native Cloud Native\",\n  \"skillIdArr\": [1,2]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/curriculum",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"curriculum"
+							]
+						},
+						"description": "This request will create a new curriculum. Requires the following JSON body:\n```JSON\n{\n  \"createdby\": string,\n  \"createdon\": string (in ISO 8601 format),\n  \"curriculumname\": string,\n  \"skillIdArr\": number[]\n}\n```"
+					},
+					"response": []
+				}
+			],
+			"description": "This endpoint handles all operations dealing with curricula."
+		},
+		{
+			"name": "demand",
+			"item": [
+				{
+					"name": "curriculum/{curriculum Id}",
+					"item": [
+						{
+							"name": "/demand/curriculum/:curriculumId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response must be valid and have a body\", function () {\r",
+											"    pm.response.to.not.be.error;\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/demand/curriculum/:curriculumId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"demand",
+										"curriculum",
+										":curriculumId"
+									],
+									"variable": [
+										{
+											"key": "curriculumId",
+											"value": "2",
+											"description": "(Required) integer data type; must match existing curriculumId"
+										}
+									]
+								},
+								"description": "This request will get all demand for a specific curriculum."
+							},
+							"response": []
+						},
+						{
+							"name": "/demand/curriculum/:curriculumId/:start/:end",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response must be valid and have a body\", function () {\r",
+											"    pm.response.to.not.be.error;\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/demand/curriculum/:curriculumId/:start/:end",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"demand",
+										"curriculum",
+										":curriculumId",
+										":start",
+										":end"
+									],
+									"variable": [
+										{
+											"key": "curriculumId",
+											"value": "1",
+											"description": "(Required) integer data type; must match existing curriculumId"
+										},
+										{
+											"key": "start",
+											"value": "2021-06-07",
+											"description": "(Required) string data type in ISO 8601 format"
+										},
+										{
+											"key": "end",
+											"value": "2021-08-20",
+											"description": "(Required) string data type in ISO 8601 format"
+										}
+									]
+								},
+								"description": "This request will get all demand for a specific curriculum within the specified date range."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/demand",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/demand",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"demand"
+							]
+						},
+						"description": "This request will get all demands."
+					},
+					"response": []
+				},
+				{
+					"name": "/demand",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"clientid\": 1,\n    \"curriculumid\": 2,\n    \"needby\": \"2021-08-20\",\n    \"quantitydemanded\": 19\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/demand",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"demand"
+							]
+						},
+						"description": "This request will create a new demand; requires the following JSON body:\n```JSON\n{\n  \"clientid\": number,\n  \"curriculumid\": number,\n  \"needby\": string in ISO 8601 format,\n  \"quantitydemanded\": number\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "/demand/client/:clientId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/demand/client/:clientId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"demand",
+								"client",
+								":clientId"
+							],
+							"variable": [
+								{
+									"key": "clientId",
+									"value": "0",
+									"description": "(Required) integer data type; must match existing clientId"
+								}
+							]
+						},
+						"description": "This request will get all demand from a specific client."
+					},
+					"response": []
+				},
+				{
+					"name": "/demand/date/:start/:end",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/demand/date/:start/:end",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"demand",
+								"date",
+								":start",
+								":end"
+							],
+							"variable": [
+								{
+									"key": "start",
+									"value": "2021-06-07",
+									"description": "(Required) string in ISO 8601 format"
+								},
+								{
+									"key": "end",
+									"value": "2021-08-20",
+									"description": "(Required) string in ISO 8601 format"
+								}
+							]
+						},
+						"description": "This request will get all demand within the specified date range."
+					},
+					"response": []
+				},
+				{
+					"name": "/demand/id/:demandId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/demand/id/:demandId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"demand",
+								"id",
+								":demandId"
+							],
+							"variable": [
+								{
+									"key": "demandId",
+									"value": "0",
+									"description": "(Required) integer data type; must match existing demandId"
+								}
+							]
+						},
+						"description": "This request will get a specific demand."
+					},
+					"response": []
+				}
+			],
+			"description": "This endpoint handles all the information dealing with client demand (number of associates requested per curriculum)."
+		},
+		{
+			"name": "skill",
+			"item": [
+				{
+					"name": "id/{skill Id}",
+					"item": [
+						{
+							"name": "/skill/id/:skillId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response must be valid and have a body\", function () {\r",
+											"    pm.response.to.not.be.error;\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/skill/id/:skillId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"skill",
+										"id",
+										":skillId"
+									],
+									"variable": [
+										{
+											"key": "skillId",
+											"value": "0",
+											"description": "(Required) integer data type; must match existing skillId"
+										}
+									]
+								},
+								"description": "This request will get a specific skill by ID."
+							},
+							"response": []
+						},
+						{
+							"name": "/skill/id/:skillId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/skill/id/:skillId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"skill",
+										"id",
+										":skillId"
+									],
+									"variable": [
+										{
+											"key": "skillId",
+											"value": "0",
+											"description": "(Required) integer data type; must match existing skillId"
+										}
+									]
+								},
+								"description": "This request will delete a specific skill."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/skill",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"skill"
+							]
+						},
+						"description": "This will get all skills."
+					},
+					"response": []
+				},
+				{
+					"name": "/skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"skillName\": \"JavaScript\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/skill",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"skill"
+							]
+						},
+						"description": "This request will create a new skills; requires the following JSON body:\n```JSON\n{\n  \"skillName\": string\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "/skill/name/:skillName",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/skill/name/:skillName",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"skill",
+								"name",
+								":skillName"
+							],
+							"variable": [
+								{
+									"key": "skillName",
+									"value": "JavaScript",
+									"description": "(Required) string data type; must match existing skillName"
+								}
+							]
+						},
+						"description": "This request will get a specific skill by name."
+					},
+					"response": []
+				}
+			],
+			"description": "This endpoint handles all skill data."
+		},
+		{
+			"name": "trainer",
+			"item": [
+				{
+					"name": "id/{trainer Id}",
+					"item": [
+						{
+							"name": "/trainer/id/:trainerid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response must be valid and have a body\", function () {\r",
+											"    pm.response.to.not.be.error;\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/trainer/id/:trainerid",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"trainer",
+										"id",
+										":trainerid"
+									],
+									"variable": [
+										{
+											"key": "trainerid",
+											"value": "1"
+										}
+									]
+								},
+								"description": "This request will get the information about a specific trainer."
+							},
+							"response": []
+						},
+						{
+							"name": "/trainer/id/:trainerId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/trainer/id/:trainerId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"trainer",
+										"id",
+										":trainerId"
+									],
+									"variable": [
+										{
+											"key": "trainerId",
+											"value": "0",
+											"description": "(Required) integer data type; must match existing trainerId"
+										}
+									]
+								},
+								"description": "This request will delete a specific trainer."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/trainer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trainer",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trainer"
+							]
+						},
+						"description": "This request will get all trainers."
+					},
+					"response": []
+				},
+				{
+					"name": "/trainer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"nobody@yahoo.com\",\n  \"trainerfirst\": \"Robert\",\n  \"trainerlast\": \"Connell\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trainer",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trainer"
+							]
+						},
+						"description": "This request will create a new trainer; requires the following JSON body:\n```JSON\n{\n  \"email\": string,\n  \"trainerfirst\": string,\n  \"trainerlast\": string\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "/trainer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"trainerid\": 1,\n  \"email\": \"nobody@mail.com\",\n  \"trainerfirst\": \"Robert\",\n  \"trainerlast\": \"Connell\",\n  \"curriculaIdArr\": [1, 2]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trainer",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trainer"
+							]
+						},
+						"description": "This request will update a trainer's information (including skill set); requires the following JSON body: \n```JSON\n{\n  \"trainerid\": number,\n  \"email\": string,\n  \"trainerfirst\": string,\n  \"trainerlast\": string,\n  \"curriculaIdArr\": number[]\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "/trainer/firstname/:trainerFN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trainer/firstname/:trainerFN",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trainer",
+								"firstname",
+								":trainerFN"
+							],
+							"variable": [
+								{
+									"key": "trainerFN",
+									"value": "Robert",
+									"description": "(Required) string data type; must match existing trainer's first name"
+								}
+							]
+						},
+						"description": "This request will get all trainers with the requested first name."
+					},
+					"response": []
+				},
+				{
+					"name": "/trainer/lastname/:trainerLN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trainer/lastname/:trainerLN",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trainer",
+								"lastname",
+								":trainerLN"
+							],
+							"variable": [
+								{
+									"key": "trainerLN",
+									"value": "Connell",
+									"description": "(Required) string data type; must match existing trainer's last name"
+								}
+							]
+						},
+						"description": "This request will get all trainers with the requested last name."
+					},
+					"response": []
+				}
+			],
+			"description": "This endpoint handles all the data for trainers."
+		},
+		{
+			"name": "/database/init",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/database/init",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"database",
+						"init"
+					]
+				},
+				"description": "Only run immediately after running the SAM template for the first time to create the tables. Can only be run once."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://dcox0bl0me.execute-api.us-east-1.amazonaws.com/Prod"
+		}
+	]
+}
