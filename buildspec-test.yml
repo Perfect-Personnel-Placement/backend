@@ -13,7 +13,7 @@ phases:
 
   build:
     commands:
-      - npm run test:jest
+      - npm run test
 
 cache:
   paths:
